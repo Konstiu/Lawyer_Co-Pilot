@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Co-Pilot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f3ee;
+  --surface: #ffffff;
+  --border: #e2ded7;
+  --border-strong: #c8c3ba;
+  --text: #1a1916;
+  --text-2: #6b6760;
+  --text-3: #9e9a94;
+  --accent: #1a1916;
+  --ok: #2d6a4f;
+  --ok-bg: #d8f3dc;
+  --dev: #9c4a00;
+  --dev-bg: #ffe8cc;
+  --mis: #7b2d2d;
+  --mis-bg: #fde8e8;
+  --unc: #3d5a80;
+  --unc-bg: #dceefb;
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 14px; }
+
+/* Layout */
+.app { display: flex; height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  width: 240px; min-width: 240px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  padding: 0;
+}
+.brand {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.brand strong { color: var(--text); font-weight: 500; }
+
+.nav { padding: 10px 8px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-2);
+  transition: all 0.1s;
+  margin-bottom: 2px;
+}
+.nav-item:hover { background: var(--bg); color: var(--text); }
+.nav-item.active { background: var(--text); color: white; }
+.nav-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  width: 18px; height: 18px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+.nav-item:not(.active) .nav-num { background: var(--border); color: var(--text-2); }
+
+.sidebar-docs { margin-top: auto; border-top: 1px solid var(--border); padding: 12px 8px; }
+.sidebar-docs-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 0 8px 8px;
+}
+.doc-entry {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.doc-entry:hover { background: var(--bg); }
+.doc-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border-strong);
+  flex-shrink: 0;
+}
+.doc-dot.ready { background: var(--ok); }
+.doc-entry .doc-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.upload-btn {
+  width: 100%; margin-top: 8px;
+  padding: 7px 10px;
+  border: 1px dashed var(--border-strong);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-3);
+  font-size: 12px;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.upload-btn:hover { border-color: var(--text); color: var(--text); background: var(--bg); }
+
+/* Main area */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-left h1 { font-size: 15px; font-weight: 500; }
+.topbar-left p { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+.run-btn {
+  background: var(--text);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--sans);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  transition: opacity 0.15s;
+}
+.run-btn:hover { opacity: 0.8; }
+.run-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.run-btn .spinner {
+  width: 12px; height: 12px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: none;
+}
+.run-btn.loading .spinner { display: block; }
+.run-btn.loading .btn-text { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.content { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+
+/* Panels */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.panel-head {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.panel-head-title { font-size: 12px; font-weight: 500; }
+.panel-head-hint { font-size: 11px; color: var(--text-3); font-family: var(--mono); }
+
+textarea.field-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  resize: none;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text);
+  padding: 14px 16px;
+  outline: none;
+  line-height: 1.7;
+  min-height: 120px;
+}
+textarea.field-input::placeholder { color: var(--text-3); }
+
+/* Table output */
+.result-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.result-table th {
+  padding: 9px 14px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text-2);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.result-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.result-table tr:last-child td { border-bottom: none; }
+.result-table tr:hover td { background: #faf9f7; }
+.doc-cell { color: var(--text-2); font-family: var(--mono); font-size: 11px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.cite { font-size: 11px; color: #1e6bb8; cursor: pointer; font-family: var(--mono); margin-left: 4px; }
+.cite:hover { text-decoration: underline; }
+
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  font-family: var(--mono);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.badge-found     { background: var(--ok-bg);  color: var(--ok); }
+.badge-missing   { background: var(--mis-bg); color: var(--mis); }
+.badge-uncertain { background: var(--unc-bg); color: var(--unc); }
+.badge-ok        { background: var(--ok-bg);  color: var(--ok); }
+.badge-deviation { background: var(--dev-bg); color: var(--dev); }
+
+/* Review output */
+.review-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 90px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.review-row:last-child { border-bottom: none; }
+.review-row > div { padding: 10px 14px; }
+.review-row > div:not(:last-child) { border-right: 1px solid var(--border); }
+.review-head { background: var(--bg); font-family: var(--mono); font-size: 11px; color: var(--text-2); font-weight: 500; }
+
+/* Q&A chat */
+.chat-body { padding: 16px; flex: 1; overflow-y: auto; min-height: 300px; display: flex; flex-direction: column; gap: 16px; }
+.msg { display: flex; gap: 10px; }
+.av {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 500; flex-shrink: 0;
+  font-family: var(--mono);
+  margin-top: 2px;
+}
+.av-u { background: var(--bg); border: 1px solid var(--border); color: var(--text-2); }
+.av-a { background: var(--text); color: white; }
+.msg-body { flex: 1; }
+.msg-text { font-size: 13px; line-height: 1.7; color: var(--text); }
+.msg-sources { margin-top: 8px; }
+.source-chip {
+  display: inline-block;
+  font-size: 10px;
+  font-family: var(--mono);
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: #1e6bb8;
+  cursor: pointer;
+  margin: 2px 3px 2px 0;
+}
+.source-chip:hover { background: #dceefb; border-color: #b8d9f5; }
+
+.chat-input-row {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 8px; align-items: flex-end;
+}
+.chat-input-row textarea {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  font-family: var(--sans);
+  font-size: 13px;
+  resize: none;
+  outline: none;
+  line-height: 1.5;
+  max-height: 120px;
+  color: var(--text);
+}
+.chat-input-row textarea:focus { border-color: var(--border-strong); }
+.send-btn {
+  width: 36px; height: 36px;
+  background: var(--text);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+.send-btn:hover { opacity: 0.8; }
+
+.empty-hint {
+  text-align: center;
+  color: var(--text-3);
+  font-size: 13px;
+  padding: 40px 16px;
+  font-family: var(--mono);
+}
+.loading-row {
+  text-align: center;
+  color: var(--text-3);
+  font-size: 12px;
+  padding: 20px;
+  font-family: var(--mono);
+}
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--text);
+  color: white;
+  font-size: 12px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  z-index: 999;
+  font-family: var(--mono);
+}
+.toast.show { opacity: 1; }
+
+input[type=file] { display: none; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="brand"><strong>legal</strong> co-pilot</div>
+    <nav class="nav">
+      <div class="nav-item active" data-mode="extract" onclick="setMode('extract')">
+        <span class="nav-num">1</span> Extraction
+      </div>
+      <div class="nav-item" data-mode="review" onclick="setMode('review')">
+        <span class="nav-num">2</span> Rule Review
+      </div>
+      <div class="nav-item" data-mode="qa" onclick="setMode('qa')">
+        <span class="nav-num">3</span> Q&A
+      </div>
+    </nav>
+
+    <div class="sidebar-docs">
+      <div class="sidebar-docs-label">Documents</div>
+      <div id="doc-list"></div>
+      <button class="upload-btn" onclick="document.getElementById('file-input').click()">
+        + Upload document
+      </button>
+      <input type="file" id="file-input" accept=".pdf,.txt,.md" multiple onchange="uploadFiles(this.files)">
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1 id="mode-title">Extraction</h1>
+        <p id="mode-desc">Define fields — get a structured table with exact source links</p>
+      </div>
+      <button class="run-btn" id="run-btn" onclick="runCurrent()">
+        <div class="spinner"></div>
+        <span class="btn-text">Run ↗</span>
+      </button>
+    </div>
+    <div class="content" id="main-content"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = "";  // same origin; change to http://localhost:8000 if running separately
+let currentMode = "extract";
+let documents = [];
+let qaHistory = [];
+
+const MODES = {
+  extract: {
+    title: "Extraction",
+    desc: "Define fields — get a structured table with exact source links",
+    placeholder: "One field per line, e.g.:\nNotice period\nGoverning law\nLiability cap\nTermination for convenience\nConfidentiality period",
+  },
+  review: {
+    title: "Rule Review",
+    desc: "Define your playbook — the system flags every deviation",
+    placeholder: "One rule per line, e.g.:\nGoverning law must be Germany\nLiability cap must be at least 2× annual fees\nNotice period must be at least 30 days\nNo unilateral amendment rights for counterparty",
+  },
+  qa: {
+    title: "Q&A",
+    desc: "Ask a question across all documents — answer with exact citations",
+    placeholder: null,
+  },
+};
+
+// ── Mode switching ──────────────────────────────────────────────────────────
+function setMode(m) {
+  currentMode = m;
+  document.querySelectorAll(".nav-item").forEach(el =>
+    el.classList.toggle("active", el.dataset.mode === m)
+  );
+  document.getElementById("mode-title").textContent = MODES[m].title;
+  document.getElementById("mode-desc").textContent = MODES[m].desc;
+  document.getElementById("run-btn").style.display = m === "qa" ? "none" : "flex";
+  renderContent();
+}
+
+function renderContent() {
+  const el = document.getElementById("main-content");
+  if (currentMode === "qa") {
+    el.innerHTML = renderQA();
+    return;
+  }
+  el.innerHTML = `
+    <div class="panel">
+      <div class="panel-head">
+        <span class="panel-head-title">${currentMode === "extract" ? "Fields to extract" : "Playbook rules"}</span>
+        <span class="panel-head-hint">one per line</span>
+      </div>
+      <textarea class="field-input" id="main-input" placeholder="${MODES[currentMode].placeholder}"></textarea>
+    </div>
+    <div id="output-panel"></div>
+  `;
+}
+
+// ── Run ─────────────────────────────────────────────────────────────────────
+async function runCurrent() {
+  const input = document.getElementById("main-input").value.trim();
+  if (!input) { showToast("Enter at least one field or rule"); return; }
+  const lines = input.split("\n").map(l => l.trim()).filter(Boolean);
+
+  setLoading(true);
+
+  try {
+    if (currentMode === "extract") {
+      const data = await post("/api/extract", { fields: lines });
+      renderExtractionResult(data);
+    } else {
+      const data = await post("/api/review", { rules: lines });
+      renderReviewResult(data);
+    }
+  } catch(e) {
+    showToast("Error: " + e.message);
+  } finally {
+    setLoading(false);
+  }
+}
+
+function setLoading(on) {
+  const btn = document.getElementById("run-btn");
+  btn.classList.toggle("loading", on);
+  btn.disabled = on;
+}
+
+// ── Extraction result ────────────────────────────────────────────────────────
+function renderExtractionResult(data) {
+  const panel = document.getElementById("output-panel");
+  if (!data.rows || data.rows.length === 0) {
+    panel.innerHTML = `<div class="empty-hint">No documents ingested yet.</div>`;
+    return;
+  }
+
+  let thead = `<tr><th>Document</th>` + data.fields.map(f => `<th>${f}</th>`).join("") + `</tr>`;
+  let tbody = data.rows.map(row => {
+    const cells = data.fields.map(f => {
+      const c = row.cells[f];
+      if (!c) return `<td>—</td>`;
+      const badge = `<span class="badge badge-${c.status}">${c.status}</span>`;
+      const loc = c.location_hint || (c.page ? `p. ${c.page}` : null);
+      const cite = loc ? `<span class="cite" onclick="showQuote('${esc(row.filename)}','${esc(c.quote||'')}','${esc(loc)}')">${loc}</span>` : "";
+      const val = c.value ? `<span>${esc(c.value)}</span>` : `<span style="color:var(--text-3)">—</span>`;
+      return `<td>${val} ${cite}<br>${badge}</td>`;
+    }).join("");
+    return `<tr><td class="doc-cell" title="${esc(row.filename)}">${esc(row.filename)}</td>${cells}</tr>`;
+  }).join("");
+
+  panel.innerHTML = `
+    <div class="panel" style="overflow-x:auto;">
+      <div class="panel-head">
+        <span class="panel-head-title">Results — ${data.rows.length} documents × ${data.fields.length} fields</span>
+      </div>
+      <table class="result-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>
+    </div>`;
+}
+
+// ── Review result ─────────────────────────────────────────────────────────────
+function renderReviewResult(data) {
+  const panel = document.getElementById("output-panel");
+  const s = data.summary;
+  const summary = `
+    <div style="display:flex;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border);">
+      <span class="badge badge-ok">✓ ${s.ok} ok</span>
+      <span class="badge badge-deviation">⚠ ${s.deviation} deviations</span>
+      <span class="badge badge-missing">✗ ${s.missing} missing</span>
+    </div>`;
+
+  const rows = data.findings.map(f => {
+    const loc = f.location_hint || (f.page ? `p. ${f.page}` : null);
+    const cite = loc ? `<span class="cite" onclick="showQuote('${esc(f.filename)}','${esc(f.quote||'')}','${esc(loc)}')">${loc}</span>` : "";
+    return `
+      <div class="review-row">
+        <div class="doc-cell" style="padding:10px 14px;" title="${esc(f.filename)}">${esc(f.filename)}</div>
+        <div>${esc(f.rule)}<br><span style="color:var(--text-2);font-size:11px;margin-top:3px;display:block;">${esc(f.explanation||'')} ${cite}</span></div>
+        <div style="text-align:center;padding-top:12px;"><span class="badge badge-${f.status}">${f.status}</span></div>
+      </div>`;
+  }).join("");
+
+  panel.innerHTML = `
+    <div class="panel">
+      <div class="panel-head">
+        <span class="panel-head-title">Review results — ${data.findings.length} checks</span>
+      </div>
+      ${summary}
+      <div class="review-row review-head">
+        <div>Document</div><div>Rule / finding</div><div style="text-align:center">Status</div>
+      </div>
+      ${rows}
+    </div>`;
+}
+
+// ── Q&A ────────────────────────────────────────────────────────────────────
+function renderQA() {
+  const msgs = qaHistory.map(m => renderMessage(m)).join("");
+  return `
+    <div class="panel" style="flex:1;display:flex;flex-direction:column;">
+      <div class="chat-body" id="chat-body">
+        ${msgs || `<div class="empty-hint">Ask a question across your documents.</div>`}
+      </div>
+      <div class="chat-input-row">
+        <textarea id="qa-input" placeholder="e.g. In which contracts can the landlord terminate without cause?" rows="1"
+          onkeydown="qaKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" onclick="sendQA()">↑</button>
+      </div>
+    </div>`;
+}
+
+function renderMessage(m) {
+  if (m.role === "user") {
+    return `<div class="msg"><div class="av av-u">U</div><div class="msg-body"><div class="msg-text">${esc(m.content)}</div></div></div>`;
+  }
+  const sources = (m.sources || []).map(s => {
+    const loc = s.location_hint || (s.page ? `p.${s.page}` : "");
+    return `<span class="source-chip" onclick="showQuote('${esc(s.filename)}','${esc(s.quote||'')}','${esc(loc)}')">${esc(s.filename)}${loc ? ' · '+loc : ''}</span>`;
+  }).join("");
+  return `
+    <div class="msg">
+      <div class="av av-a">AI</div>
+      <div class="msg-body">
+        <div class="msg-text">${m.content}</div>
+        ${sources ? `<div class="msg-sources">${sources}</div>` : ""}
+      </div>
+    </div>`;
+}
+
+async function sendQA() {
+  const inp = document.getElementById("qa-input");
+  const q = inp.value.trim();
+  if (!q) return;
+  inp.value = "";
+  autoResize(inp);
+
+  qaHistory.push({ role: "user", content: q });
+  const body = document.getElementById("chat-body");
+  body.innerHTML = qaHistory.map(renderMessage).join("") +
+    `<div class="msg"><div class="av av-a">AI</div><div class="msg-body"><div class="loading-row">thinking…</div></div></div>`;
+  body.scrollTop = body.scrollHeight;
+
+  try {
+    const data = await post("/api/qa", {
+      question: q,
+      history: qaHistory.slice(-10).filter(m => m.role === "user").map(m => ({ role: "user", content: m.content })),
+    });
+    qaHistory.push({ role: "assistant", content: data.answer, sources: data.sources });
+  } catch(e) {
+    qaHistory.push({ role: "assistant", content: "Error: " + e.message, sources: [] });
+  }
+
+  const el = document.getElementById("main-content");
+  el.innerHTML = renderQA();
+  document.getElementById("chat-body").scrollTop = 9999;
+}
+
+function qaKey(e) { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendQA(); } }
+function autoResize(el) { el.style.height = "auto"; el.style.height = Math.min(el.scrollHeight, 120) + "px"; }
+
+// ── Documents ────────────────────────────────────────────────────────────────
+async function loadDocs() {
+  try {
+    documents = await get("/api/documents");
+    renderDocList();
+  } catch(e) { /* backend not running */ }
+}
+
+function renderDocList() {
+  const el = document.getElementById("doc-list");
+  if (!documents.length) {
+    el.innerHTML = `<div style="font-size:11px;color:var(--text-3);padding:4px 8px;">No documents yet</div>`;
+    return;
+  }
+  el.innerHTML = documents.map(d => `
+    <div class="doc-entry" title="${esc(d.filename)}">
+      <div class="doc-dot ready"></div>
+      <span class="doc-name">${esc(d.filename)}</span>
+    </div>`).join("");
+}
+
+async function uploadFiles(files) {
+  for (const file of files) {
+    const fd = new FormData();
+    fd.append("file", file);
+    try {
+      await fetch(API + "/api/documents/upload", { method: "POST", body: fd });
+      showToast("Uploaded: " + file.name);
+    } catch(e) {
+      showToast("Upload failed: " + e.message);
+    }
+  }
+  await loadDocs();
+}
+
+// ── Quote modal ───────────────────────────────────────────────────────────────
+function showQuote(filename, quote, loc) {
+  if (!quote) { showToast(`${filename} · ${loc}`); return; }
+  alert(`${filename}\n${loc}\n\n"${quote}"`);
+}
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function esc(s) {
+  if (!s) return "";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+async function get(path) {
+  const r = await fetch(API + path);
+  if (!r.ok) throw new Error(r.statusText);
+  return r.json();
+}
+async function post(path, body) {
+  const r = await fetch(API + path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) { const t = await r.text(); throw new Error(t); }
+  return r.json();
+}
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 3000);
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+renderContent();
+loadDocs();
+</script>
+</body>
+</html>
