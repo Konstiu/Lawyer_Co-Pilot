@@ -11,6 +11,7 @@ import json
 import asyncio
 import os
 import re
+import logging
 from typing import Optional
 
 import httpx
@@ -25,7 +26,9 @@ LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai").lower()
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_CHAT_MODEL = os.getenv("OLLAMA_CHAT_MODEL", "llama3.1:8b")
+OLLAMA_CHAT_TIMEOUT = float(os.getenv("OLLAMA_CHAT_TIMEOUT", "300"))
 client = AsyncOpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
+logger = logging.getLogger("legal_copilot")
 
 REVIEW_SYSTEM = """\
 You are a strict legal compliance reviewer. You receive text passages from a contract
@@ -145,7 +148,8 @@ def _local_review(rule: str, chunks: list[dict]) -> dict:
 
 async def _ollama_chat_json(system: str, user: str) -> dict | None:
     try:
-        async with httpx.AsyncClient(timeout=90.0) as http:
+        timeout = httpx.Timeout(connect=10.0, read=OLLAMA_CHAT_TIMEOUT, write=30.0, pool=30.0)
+        async with httpx.AsyncClient(timeout=timeout) as http:
             resp = await http.post(
                 f"{OLLAMA_BASE_URL}/api/chat",
                 json={
@@ -163,6 +167,11 @@ async def _ollama_chat_json(system: str, user: str) -> dict | None:
             content = resp.json().get("message", {}).get("content", "{}")
             return json.loads(content)
     except Exception:
+        logger.exception(
+            "Ollama review JSON failed (base_url=%s, model=%s)",
+            OLLAMA_BASE_URL,
+            OLLAMA_CHAT_MODEL,
+        )
         return None
 
 

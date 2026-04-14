@@ -13,6 +13,7 @@ import math
 import os
 import re
 import sqlite3
+import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -20,13 +21,14 @@ from typing import Any
 import chromadb
 import httpx
 from openai import OpenAI
+from chromadb.config import Settings
 
 # ── Config ──────────────────────────────────────────────────────────────────
 DATA_DIR = Path(os.getenv("DATA_DIR", "./data"))
 DATA_DIR.mkdir(exist_ok=True)
 
-CHUNK_SIZE    = int(os.getenv("CHUNK_SIZE", 800))     # characters
-CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", 150))
+CHUNK_SIZE    = int(os.getenv("CHUNK_SIZE", 1500))     # characters
+CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", 200))
 EMBED_MODEL   = os.getenv("EMBED_MODEL", "text-embedding-3-small")
 LOCAL_EMBED_DIM = int(os.getenv("LOCAL_EMBED_DIM", "1536"))
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai").lower()
@@ -35,8 +37,12 @@ OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
+logger = logging.getLogger("legal_copilot")
 
-chroma = chromadb.PersistentClient(path=str(DATA_DIR / "chroma"))
+chroma = chromadb.PersistentClient(
+    path=str(DATA_DIR / "chroma"),
+    settings=Settings(anonymized_telemetry=False),
+)
 collection = chroma.get_or_create_collection(
     name="legal_docs",
     metadata={"hnsw:space": "cosine"},
@@ -161,8 +167,11 @@ def _ollama_embed(text: str) -> list[float]:
         if isinstance(embedding, list) and embedding:
             return embedding
     except Exception:
-        # Keep app usable even if Ollama is not reachable or not pulled yet.
-        pass
+        logger.exception(
+            "Ollama embedding failed (base_url=%s, model=%s)",
+            OLLAMA_BASE_URL,
+            OLLAMA_EMBED_MODEL,
+        )
     return _local_embed(text)
 
 

@@ -9,6 +9,7 @@ Q&A pipeline
 import json
 import os
 import re
+import logging
 from typing import Optional
 
 import httpx
@@ -23,7 +24,10 @@ LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai").lower()
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_CHAT_MODEL = os.getenv("OLLAMA_CHAT_MODEL", "llama3.1:8b")
+OLLAMA_CHAT_TIMEOUT = float(os.getenv("OLLAMA_CHAT_TIMEOUT", "300"))
+QA_TOP_K = int(os.getenv("QA_TOP_K", "6"))
 client = AsyncOpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
+logger = logging.getLogger("legal_copilot")
 
 QA_SYSTEM = """\
 You are a precise legal research assistant. You receive passages retrieved from a set
@@ -31,15 +35,18 @@ of legal documents and must answer the user's question.
 
 Rules:
 - Answer only from the provided passages. Do not speculate beyond them.
+- Reply in the same language as the user's question.
+- Start with a direct answer sentence to exactly what was asked.
+- Keep it short by default: max 3 sentences unless the user explicitly asks for detail.
+- Do not summarize the full document if the question is narrow (e.g., "What is X?").
 - Every claim must be supported by a citation in the format [DOC: filename, p. N, clause X].
 - If the answer is not in the passages, say so explicitly.
-- If multiple documents have relevant information, synthesize across them.
-- Be concise and precise. Lawyers prefer facts over padding.
 
 After your answer, output a JSON block (fenced with ```json ... ```) listing all cited sources:
 [
   {"filename": "...", "page": N, "location_hint": "...", "quote": "..."}
 ]
+Use only the minimal set of sources needed (typically 1-3).
 """
 
 QA_USER = """\
@@ -47,6 +54,8 @@ Question: {question}
 
 Retrieved passages:
 {passages}
+
+Answer mode: {answer_mode}
 """
 
 
@@ -62,7 +71,7 @@ async def run_qa(
       "sources": [{"filename", "page", "location_hint", "quote"}, ...]
     }
     """
-    chunks = retrieve_chunks(query=question, doc_ids=doc_ids, n=12)
+    chunks = retrieve_chunks(query=question, doc_ids=doc_ids, n=QA_TOP_K)
 
     if not chunks:
         return {
@@ -97,7 +106,14 @@ async def run_qa(
     messages = [
         {"role": "system", "content": QA_SYSTEM},
         *history,
-        {"role": "user", "content": QA_USER.format(question=question, passages=passages)},
+        {
+            "role": "user",
+            "content": QA_USER.format(
+                question=question,
+                passages=passages,
+                answer_mode=_answer_mode(question),
+            ),
+        },
     ]
 
     if client:
@@ -133,9 +149,25 @@ def _short_quote(text: str, max_len: int = 220) -> str:
     return compact[: max_len - 3] + "..."
 
 
+def _answer_mode(question: str) -> str:
+    q = (question or "").strip().lower()
+    definition_patterns = [
+        r"^what is\b",
+        r"^what does\b",
+        r"^define\b",
+        r"^was ist\b",
+        r"^wie ist .*definiert\b",
+        r"^was gilt als\b",
+    ]
+    if any(re.search(p, q) for p in definition_patterns):
+        return "concise_definition (1-2 sentences, no broad summary)"
+    return "concise_general (max 3 sentences unless detail requested)"
+
+
 async def _ollama_chat_text(messages: list[dict]) -> str:
     try:
-        async with httpx.AsyncClient(timeout=120.0) as http:
+        timeout = httpx.Timeout(connect=10.0, read=OLLAMA_CHAT_TIMEOUT, write=30.0, pool=30.0)
+        async with httpx.AsyncClient(timeout=timeout) as http:
             resp = await http.post(
                 f"{OLLAMA_BASE_URL}/api/chat",
                 json={
@@ -148,7 +180,9 @@ async def _ollama_chat_text(messages: list[dict]) -> str:
             resp.raise_for_status()
             return resp.json().get("message", {}).get("content", "")
     except Exception:
-        return (
-            "Ollama ist als Provider gesetzt, aber nicht erreichbar oder das Modell fehlt. "
-            "Prüfe `OLLAMA_BASE_URL` und `ollama pull`."
+        logger.exception(
+            "Ollama chat failed (base_url=%s, model=%s)",
+            OLLAMA_BASE_URL,
+            OLLAMA_CHAT_MODEL,
         )
+        raise RuntimeError("Ollama chat failed")
