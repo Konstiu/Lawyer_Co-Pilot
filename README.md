@@ -85,6 +85,49 @@ export GOOGLE_CLOUD_LOCATION="us-central1"
 gcloud auth application-default login
 ```
 
+### 2.1 Export presets (copy/paste)
+
+Use one preset at a time. The first block is the full Gemini + Vertex setup
+used with GCP credits.
+
+```bash
+# --- Gemini + Vertex AI (recommended for GCP credits) ---
+export LLM_PROVIDER="gemini"
+export GEMINI_MODEL="gemini-2.5-flash-lite"
+export GEMINI_EMBED_MODEL="text-embedding-004"
+export GOOGLE_GENAI_USE_VERTEXAI="true"
+export GOOGLE_CLOUD_PROJECT="appliedgenai-494416"
+export GOOGLE_CLOUD_LOCATION="europe-west4"
+
+# --- App/runtime defaults ---
+export DATA_DIR="./data"
+export CHUNK_SIZE="1500"
+export CHUNK_OVERLAP="200"
+export MIN_CHUNK_CHARS="80"
+export EMBED_BATCH_SIZE="64"
+export EMBED_MAX_RETRIES="3"
+export EMBED_RETRY_BASE_SECONDS="1.0"
+export EXTRACT_MAX_CONCURRENCY="6"
+export REVIEW_MAX_CONCURRENCY="6"
+export QA_TOP_K="6"
+```
+
+Optional overrides for other providers:
+
+```bash
+# --- OpenAI override ---
+export LLM_PROVIDER="openai"
+export OPENAI_API_KEY="sk-..."
+export OPENAI_MODEL="gpt-4o"
+
+# --- Ollama override ---
+export LLM_PROVIDER="ollama"
+export OLLAMA_BASE_URL="http://localhost:11434"
+export OLLAMA_CHAT_MODEL="llama3.1:8b"
+export OLLAMA_EMBED_MODEL="nomic-embed-text"
+export OLLAMA_CHAT_TIMEOUT="300"
+```
+
 Or create a `.env` file and load with `python-dotenv`.
 
 If provider credentials are missing:
