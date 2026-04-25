@@ -29,14 +29,31 @@ logging.basicConfig(
 )
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("httpcore").setLevel(logging.WARNING)
+logging.getLogger("chromadb.telemetry.product.posthog").setLevel(logging.CRITICAL)
+logging.getLogger("chromadb.segment.impl.vector.local_persistent_hnsw").setLevel(logging.ERROR)
 
 app = FastAPI(title="Legal Co-Pilot")
 logger = logging.getLogger("legal_copilot")
 
 
 def _internal_error(op: str) -> HTTPException:
-    logger.error("API error in %s", op, exc_info=False)
+    logger.exception("API error in %s", op)
     return HTTPException(status_code=500, detail="Internal server error. Check server logs.")
+
+
+@app.on_event("startup")
+async def _log_runtime_config():
+    provider = os.getenv("LLM_PROVIDER", "openai").lower()
+    openai_model = os.getenv("OPENAI_MODEL", "gpt-4o")
+    ollama_model = os.getenv("OLLAMA_CHAT_MODEL", "llama3.1:8b")
+    has_openai_key = bool(os.getenv("OPENAI_API_KEY"))
+    logger.info(
+        "Runtime config: LLM_PROVIDER=%s OPENAI_MODEL=%s OLLAMA_CHAT_MODEL=%s OPENAI_API_KEY_set=%s",
+        provider,
+        openai_model,
+        ollama_model,
+        has_openai_key,
+    )
 
 app.add_middleware(
     CORSMiddleware,
@@ -100,6 +117,8 @@ async def extract(req: ExtractionRequest):
     """Extract structured fields from documents. Returns a table."""
     try:
         return await run_extraction(fields=req.fields, doc_ids=req.doc_ids)
+    except RuntimeError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception:
         raise _internal_error("extract")
 
@@ -114,6 +133,8 @@ async def review(req: ReviewRequest):
     """Check documents against a playbook. Returns flagged deviations."""
     try:
         return await run_review(rules=req.rules, doc_ids=req.doc_ids)
+    except RuntimeError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception:
         raise _internal_error("review")
 
@@ -133,5 +154,7 @@ async def qa(req: QARequest):
             doc_ids=req.doc_ids,
             history=req.history or []
         )
+    except RuntimeError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception:
         raise _internal_error("qa")

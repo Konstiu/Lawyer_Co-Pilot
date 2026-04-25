@@ -1,0 +1,15 @@
+Welcher Vertrag enthält die strengste Haftungsbegrenzung und wie genau ist sie formuliert?
+In welchen Dokumenten ist die Haftung für grobe Fahrlässigkeit ausdrücklich unbeschränkt?
+Welche Verträge erlauben Preisanpassungen, und an welche Trigger sind sie gebunden?
+Gibt es einen Vertrag, der Service Credits erwähnt, aber keine Berechnungslogik enthält?
+In welchen Dokumenten ist das Zahlungsziel unter 30 Tagen?
+Welche Dokumente enthalten widersprüchliche Aussagen zur Vertragslaufzeit oder Verlängerung?
+Wo wird Subunternehmer-Einsatz geregelt und welche Kontrollrechte hat der Kunde dabei?
+Welche Verträge nennen konkret RTO und RPO, und sind diese Werte playbook-konform?
+Welche Dokumente regeln Drittlandtransfer personenbezogener Daten explizit?
+In welchem Vertrag fehlt trotz Verarbeitung personenbezogener Daten eine explizite AVV/DPA-Regelung?
+Welche Rechtsordnungen sind über alle Dokumente verteilt vereinbart?
+Gibt es Dokumente mit Gerichtsstandsklauseln außerhalb Deutschlands?
+In welchen Verträgen ist die Rangfolge zwischen Hauptvertrag, SLA und DPA explizit geregelt?
+Welche Klauseln deuten auf ungewöhnlich einseitige Risiken zulasten des Kunden hin?
+Nenne pro Dokument genau eine potenziell kritische Abweichung vom Playbook mit Quelle.

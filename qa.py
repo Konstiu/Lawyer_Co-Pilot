@@ -29,6 +29,14 @@ QA_TOP_K = int(os.getenv("QA_TOP_K", "6"))
 client = AsyncOpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
 logger = logging.getLogger("legal_copilot")
 
+
+def _llm_mode() -> str:
+    if client:
+        return f"openai:{OPENAI_MODEL}"
+    if LLM_PROVIDER == "ollama":
+        return f"ollama:{OLLAMA_CHAT_MODEL}"
+    return "local_fallback"
+
 QA_SYSTEM = """\
 You are a precise legal research assistant. You receive passages retrieved from a set
 of legal documents and must answer the user's question.
@@ -72,6 +80,13 @@ async def run_qa(
     }
     """
     chunks = retrieve_chunks(query=question, doc_ids=doc_ids, n=QA_TOP_K)
+    logger.info(
+        "Q&A request: llm_mode=%s docs_filter=%s history_messages=%s top_k=%s",
+        _llm_mode(),
+        len(doc_ids) if doc_ids else 0,
+        len(history or []),
+        QA_TOP_K,
+    )
 
     if not chunks:
         return {

@@ -1,0 +1,6 @@
+Welche Dokumente erlauben eine ordentliche Kündigung mit weniger als 90 Tagen Frist?
+In welchem Vertrag ist die Haftung auf 200% der Jahresvergütung begrenzt?
+Welche Rechtsordnungen kommen in den drei Dokumenten vor?
+Gibt es ein Dokument ohne ausdrückliche Regelung zum Zahlungsziel?
+Welcher Vertrag nennt eine konkrete SLA-Verfügbarkeit und wie hoch ist sie?
+In welchem Dokument ist eine AVV explizit erwähnt?

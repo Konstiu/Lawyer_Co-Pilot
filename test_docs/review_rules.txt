@@ -1,0 +1,7 @@
+Ordentliche Kündigung muss mindestens 90 Tage Frist haben.
+Zahlungsziel muss mindestens 30 Tage betragen.
+Haftungsobergrenze darf maximal 100% der Jahresvergütung betragen.
+Es muss deutsches Recht vereinbart sein.
+Gerichtsstand muss München sein.
+Eine Auftragsverarbeitungsvereinbarung (AVV) muss ausdrücklich vorgesehen sein.
+SLA-Verfügbarkeit muss mindestens 99.5% pro Monat betragen.

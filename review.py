@@ -12,6 +12,7 @@ import asyncio
 import os
 import re
 import logging
+import time
 from typing import Optional
 
 import httpx
@@ -27,8 +28,17 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_CHAT_MODEL = os.getenv("OLLAMA_CHAT_MODEL", "llama3.1:8b")
 OLLAMA_CHAT_TIMEOUT = float(os.getenv("OLLAMA_CHAT_TIMEOUT", "300"))
+REVIEW_MAX_CONCURRENCY = int(os.getenv("REVIEW_MAX_CONCURRENCY", "6"))
 client = AsyncOpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
 logger = logging.getLogger("legal_copilot")
+
+
+def _llm_mode() -> str:
+    if client:
+        return f"openai:{OPENAI_MODEL}"
+    if LLM_PROVIDER == "ollama":
+        return f"ollama:{OLLAMA_CHAT_MODEL}"
+    return "local_fallback"
 
 REVIEW_SYSTEM = """\
 You are a strict legal compliance reviewer. You receive text passages from a contract
@@ -195,12 +205,39 @@ async def run_review(rules: list[str], doc_ids: Optional[list[str]] = None) -> d
     if doc_ids:
         docs = [d for d in docs if d["id"] in doc_ids]
 
-    tasks = [
-        _review_one(doc["id"], doc["filename"], rule)
+    logger.info(
+        "Review request: llm_mode=%s docs=%s rules=%s max_concurrency=%s",
+        _llm_mode(),
+        len(docs),
+        len(rules),
+        REVIEW_MAX_CONCURRENCY,
+    )
+
+    semaphore = asyncio.Semaphore(max(1, REVIEW_MAX_CONCURRENCY))
+    pairs = [
+        (doc["id"], doc["filename"], rule)
         for doc in docs
         for rule in rules
     ]
-    findings = await asyncio.gather(*tasks)
+    total = len(pairs)
+    started_at = time.perf_counter()
+
+    async def _bounded_review(pair: tuple[str, str, str]) -> dict:
+        doc_id, filename, rule = pair
+        async with semaphore:
+            return await _review_one(doc_id, filename, rule)
+
+    tasks = [asyncio.create_task(_bounded_review(pair)) for pair in pairs]
+    findings: list[dict] = []
+    completed = 0
+    progress_every = max(1, min(10, total // 5 if total > 0 else 1))
+
+    for task in asyncio.as_completed(tasks):
+        findings.append(await task)
+        completed += 1
+        if completed % progress_every == 0 or completed == total:
+            elapsed = time.perf_counter() - started_at
+            logger.info("Review progress: %s/%s completed (%.1fs)", completed, total, elapsed)
 
     summary = {"ok": 0, "deviation": 0, "missing": 0}
     for f in findings:

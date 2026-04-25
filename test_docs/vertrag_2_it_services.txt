@@ -1,0 +1,30 @@
+IT Services Agreement
+Zwischen: Delta Consulting GmbH (Dienstleister) und Orion Retail GmbH (Auftraggeber)
+Datum: 2026-02-20
+
+Clause 1 - Scope
+The provider delivers implementation and support services for ERP modules.
+
+Clause 2 - Term and termination
+2.1 The agreement has an initial term of 12 months.
+2.2 Either party may terminate for convenience with 30 days' written notice.
+
+Clause 3 - Fees and payment
+3.1 The project fee is EUR 180,000 plus VAT.
+3.2 Invoices are payable within 14 days from receipt.
+
+Clause 4 - Liability
+4.1 Total aggregate liability of the provider is capped at 50% of the total fees paid under this agreement.
+4.2 Liability for intent and personal injury remains unaffected.
+
+Clause 5 - Data processing
+The parties may exchange personal data where necessary for project execution.
+No separate data processing agreement is referenced.
+
+Clause 6 - Governing law and venue
+This agreement is governed by the laws of Austria.
+Place of jurisdiction is Vienna.
+
+Clause 7 - SLA
+Target service availability is 98.0% per calendar month.
+No service credits are specified.

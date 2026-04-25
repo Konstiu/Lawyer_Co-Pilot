@@ -12,6 +12,7 @@ import asyncio
 import os
 import re
 import logging
+import time
 from typing import Optional
 
 import httpx
@@ -27,8 +28,17 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_CHAT_MODEL = os.getenv("OLLAMA_CHAT_MODEL", "llama3.1:8b")
 OLLAMA_CHAT_TIMEOUT = float(os.getenv("OLLAMA_CHAT_TIMEOUT", "300"))
+EXTRACT_MAX_CONCURRENCY = int(os.getenv("EXTRACT_MAX_CONCURRENCY", "6"))
 client = AsyncOpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
 logger = logging.getLogger("legal_copilot")
+
+
+def _llm_mode() -> str:
+    if client:
+        return f"openai:{OPENAI_MODEL}"
+    if LLM_PROVIDER == "ollama":
+        return f"ollama:{OLLAMA_CHAT_MODEL}"
+    return "local_fallback"
 
 EXTRACT_SYSTEM = """\
 You are a precise legal analyst. You will receive text passages from a legal document
@@ -191,13 +201,40 @@ async def run_extraction(fields: list[str], doc_ids: Optional[list[str]] = None)
     if doc_ids:
         docs = [d for d in docs if d["id"] in doc_ids]
 
-    # Run all (doc × field) pairs concurrently
-    tasks = [
-        _extract_one(doc["id"], doc["filename"], field)
+    logger.info(
+        "Extraction request: llm_mode=%s docs=%s fields=%s max_concurrency=%s",
+        _llm_mode(),
+        len(docs),
+        len(fields),
+        EXTRACT_MAX_CONCURRENCY,
+    )
+
+    # Run all (doc × field) pairs with bounded concurrency and progress logs.
+    semaphore = asyncio.Semaphore(max(1, EXTRACT_MAX_CONCURRENCY))
+    pairs = [
+        (doc["id"], doc["filename"], field)
         for doc in docs
         for field in fields
     ]
-    results = await asyncio.gather(*tasks)
+    total = len(pairs)
+    started_at = time.perf_counter()
+
+    async def _bounded_extract(pair: tuple[str, str, str]) -> dict:
+        doc_id, filename, field = pair
+        async with semaphore:
+            return await _extract_one(doc_id, filename, field)
+
+    tasks = [asyncio.create_task(_bounded_extract(pair)) for pair in pairs]
+    results: list[dict] = []
+    completed = 0
+    progress_every = max(1, min(10, total // 5 if total > 0 else 1))
+
+    for task in asyncio.as_completed(tasks):
+        results.append(await task)
+        completed += 1
+        if completed % progress_every == 0 or completed == total:
+            elapsed = time.perf_counter() - started_at
+            logger.info("Extraction progress: %s/%s completed (%.1fs)", completed, total, elapsed)
 
     # Pivot into rows
     rows_map: dict[str, dict] = {}

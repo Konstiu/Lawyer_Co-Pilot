@@ -1,0 +1,30 @@
+Definition von Change of Control
+Ordentliche Kündigungsfrist Kunde
+Ordentliche Kündigungsfrist Anbieter
+Außerordentliche Kündigungsgründe
+Automatische Vertragsverlängerung
+Preisänderungsklausel (Bedingungen)
+Indexierung / Inflationsanpassung
+Zahlungsziel
+Verzugszins-Regelung
+Haftungsobergrenze (direkte Schäden)
+Ausschluss indirekter Schäden
+Unbegrenzte Haftungstatbestände
+Freistellung (IP-Infringement)
+SLA-Verfügbarkeit (Monat)
+Service Credits (Mechanik)
+RTO (Recovery Time Objective)
+RPO (Recovery Point Objective)
+Subunternehmer erlaubt
+Datenstandort / Drittlandtransfer
+AVV/DPA explizit erwähnt
+Audit-Rechte Kunde
+Informationssicherheit (ISO 27001/SOC2)
+Vertraulichkeit Laufzeit nach Vertragsende
+Abtretungsverbot
+Change-Request-Verfahren
+Rechtswahl
+Gerichtsstand
+Schriftformklausel
+Salvatorische Klausel
+Rangfolge Vertragsdokumente

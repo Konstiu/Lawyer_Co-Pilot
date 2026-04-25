@@ -22,6 +22,7 @@ import chromadb
 import httpx
 from openai import OpenAI
 from chromadb.config import Settings
+from chromadb.errors import InvalidDimensionException
 
 # ── Config ──────────────────────────────────────────────────────────────────
 DATA_DIR = Path(os.getenv("DATA_DIR", "./data"))
@@ -38,6 +39,7 @@ OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
 logger = logging.getLogger("legal_copilot")
+_EMBED_MODE_LOGGED = False
 
 chroma = chromadb.PersistentClient(
     path=str(DATA_DIR / "chroma"),
@@ -131,6 +133,16 @@ def _chunk_pages(pages: list[dict]) -> list[dict]:
 
 # ── Embeddings ────────────────────────────────────────────────────────────────
 def _embed(texts: list[str]) -> list[list[float]]:
+    global _EMBED_MODE_LOGGED
+    if not _EMBED_MODE_LOGGED:
+        if client:
+            logger.info("Embedding backend: openai (model=%s)", EMBED_MODEL)
+        elif LLM_PROVIDER == "ollama":
+            logger.info("Embedding backend: ollama (model=%s)", OLLAMA_EMBED_MODEL)
+        else:
+            logger.info("Embedding backend: local_fallback (dim=%s)", LOCAL_EMBED_DIM)
+        _EMBED_MODE_LOGGED = True
+
     if client:
         resp = client.embeddings.create(model=EMBED_MODEL, input=texts)
         return [d.embedding for d in resp.data]
@@ -188,6 +200,12 @@ def ingest_document(filename: str, content: bytes) -> dict[str, Any]:
     pages = _extract_text(filename, content)
     chunks = _chunk_pages(pages)
     full_text = "\n".join(p["text"] for p in pages)
+    logger.info(
+        "Ingesting document: filename=%s pages=%s chunks=%s",
+        filename,
+        len(pages),
+        len(chunks),
+    )
 
     # Embed in batches of 100
     chunk_texts = [c["text"] for c in chunks]
@@ -257,14 +275,35 @@ def retrieve_chunks(query: str, doc_ids: list[str] | None = None, n: int = 8) ->
     Optionally filtered to specific doc_ids.
     """
     [query_emb] = _embed([query])
+    total_indexed = collection.count()
+    if total_indexed <= 0:
+        logger.info("Retrieve: empty index, no chunks returned")
+        return []
+    n_results = min(n, total_indexed)
     where = {"doc_id": {"$in": doc_ids}} if doc_ids else None
-
-    results = collection.query(
-        query_embeddings=[query_emb],
-        n_results=n,
-        where=where,
-        include=["documents", "metadatas", "distances"],
+    logger.debug(
+        "Retrieve: requested=%s effective=%s indexed=%s filter_docs=%s",
+        n,
+        n_results,
+        total_indexed,
+        len(doc_ids) if doc_ids else 0,
     )
+
+    try:
+        results = collection.query(
+            query_embeddings=[query_emb],
+            n_results=n_results,
+            where=where,
+            include=["documents", "metadatas", "distances"],
+        )
+    except InvalidDimensionException as e:
+        # Typical when switching embedding backend/model on an existing Chroma index.
+        msg = (
+            "Embedding dimension mismatch in Chroma index. "
+            "You likely switched embedding provider/model after documents were ingested. "
+            "Fix: delete ./data/chroma and re-ingest all documents with one consistent embedding setup."
+        )
+        raise RuntimeError(msg) from e
 
     chunks = []
     for text, meta, dist in zip(

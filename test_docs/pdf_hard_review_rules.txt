@@ -1,0 +1,20 @@
+Ordentliche Kündigung darf nicht kürzer als 60 Tage sein.
+Automatische Verlängerung darf höchstens 12 Monate betragen.
+Zahlungsziel muss mindestens 30 Tage betragen.
+Preisänderungen müssen an objektive Kriterien (z. B. CPI) geknüpft sein.
+Haftungscap für direkte Schäden darf 100% der Jahresvergütung nicht überschreiten.
+Haftung für Vorsatz, grobe Fahrlässigkeit, Tod/Körperverletzung darf nicht begrenzt werden.
+Indirekte/Folgeschäden müssen ausgeschlossen sein.
+SLA-Verfügbarkeit muss mindestens 99.5% pro Monat betragen.
+Service Credits müssen bei SLA-Verstoß ausdrücklich vorgesehen sein.
+RTO muss <= 24 Stunden sein.
+RPO muss <= 4 Stunden sein.
+AVV/DPA muss ausdrücklich vereinbart sein.
+Drittlandtransfer personenbezogener Daten muss mit geeigneten Garantien geregelt sein.
+Subunternehmer dürfen nur mit vertraglicher Weitergabe der Datenschutzpflichten eingesetzt werden.
+Audit-Recht des Kunden muss mindestens einmal jährlich vorgesehen sein.
+Informationssicherheitsstandard ISO 27001 oder gleichwertig muss genannt sein.
+Vertraulichkeitspflichten müssen mindestens 3 Jahre nach Vertragsende gelten.
+Rechtswahl muss deutsches Recht sein.
+Gerichtsstand muss München sein.
+Rangfolge der Vertragsdokumente muss explizit geregelt sein.

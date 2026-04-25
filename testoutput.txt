@@ -1,0 +1,2435 @@
+fedora➜  Lawyer_Co-Pilot : main ✘ :✹✭ ᐅ  ./test_docs/run_docx_batch.sh
+Using BASE_URL=http://127.0.0.1:8000
+Using DOCX_DIR=test_docs/files(1)
+Using WORK_DIR=/tmp/legal_copilot_docx_texts
+converted: 01_Softwarelizenz_Wartungsvertrag.docx -> 01_Softwarelizenz_Wartungsvertrag.txt (7181 chars)
+converted: 02_Arbeitsvertrag_Senior_Developer.docx -> 02_Arbeitsvertrag_Senior_Developer.txt (5695 chars)
+converted: 03_Gewerbemietvertrag.docx -> 03_Gewerbemietvertrag.txt (5226 chars)
+converted: 04_Geheimhaltungsvereinbarung_NDA.docx -> 04_Geheimhaltungsvereinbarung_NDA.txt (6620 chars)
+converted: 05_Dienstleistungsrahmenvertrag.docx -> 05_Dienstleistungsrahmenvertrag.txt (6833 chars)
+[1/4] Upload converted documents
+  -> /tmp/legal_copilot_docx_texts/01_Softwarelizenz_Wartungsvertrag.txt
+{
+  "doc_id": "9722aa9bd729820b",
+  "status": "ingested",
+  "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+  "pages": 1,
+  "chunks": 6
+}
+  -> /tmp/legal_copilot_docx_texts/02_Arbeitsvertrag_Senior_Developer.txt
+{
+  "doc_id": "aa41f1f69b2eff1e",
+  "status": "ingested",
+  "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+  "pages": 1,
+  "chunks": 5
+}
+  -> /tmp/legal_copilot_docx_texts/03_Gewerbemietvertrag.txt
+{
+  "doc_id": "21860c7b3643ed0f",
+  "status": "ingested",
+  "filename": "03_Gewerbemietvertrag.txt",
+  "pages": 1,
+  "chunks": 4
+}
+  -> /tmp/legal_copilot_docx_texts/04_Geheimhaltungsvereinbarung_NDA.txt
+{
+  "doc_id": "3426415ec32790e1",
+  "status": "ingested",
+  "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+  "pages": 1,
+  "chunks": 6
+}
+  -> /tmp/legal_copilot_docx_texts/05_Dienstleistungsrahmenvertrag.txt
+{
+  "doc_id": "8bae476fad14976a",
+  "status": "ingested",
+  "filename": "05_Dienstleistungsrahmenvertrag.txt",
+  "pages": 1,
+  "chunks": 6
+}
+[2/4] List indexed docs
+[
+  {
+    "id": "8bae476fad14976a",
+    "filename": "05_Dienstleistungsrahmenvertrag.txt",
+    "page_count": 1,
+    "chunk_count": 6,
+    "ingested_at": "2026-04-19T14:16:22.547707"
+  },
+  {
+    "id": "3426415ec32790e1",
+    "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+    "page_count": 1,
+    "chunk_count": 6,
+    "ingested_at": "2026-04-19T14:16:18.295984"
+  },
+  {
+    "id": "21860c7b3643ed0f",
+    "filename": "03_Gewerbemietvertrag.txt",
+    "page_count": 1,
+    "chunk_count": 4,
+    "ingested_at": "2026-04-19T14:16:14.107107"
+  },
+  {
+    "id": "aa41f1f69b2eff1e",
+    "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+    "page_count": 1,
+    "chunk_count": 5,
+    "ingested_at": "2026-04-19T14:16:10.959552"
+  },
+  {
+    "id": "9722aa9bd729820b",
+    "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+    "page_count": 1,
+    "chunk_count": 6,
+    "ingested_at": "2026-04-19T14:16:07.359451"
+  }
+]
+[3/4] Extraction hard set
+{
+  "fields": [
+    "Definition von Change of Control",
+    "Ordentliche Kündigungsfrist Kunde",
+    "Ordentliche Kündigungsfrist Anbieter",
+    "Außerordentliche Kündigungsgründe",
+    "Automatische Vertragsverlängerung",
+    "Preisänderungsklausel (Bedingungen)",
+    "Indexierung / Inflationsanpassung",
+    "Zahlungsziel",
+    "Verzugszins-Regelung",
+    "Haftungsobergrenze (direkte Schäden)",
+    "Ausschluss indirekter Schäden",
+    "Unbegrenzte Haftungstatbestände",
+    "Freistellung (IP-Infringement)",
+    "SLA-Verfügbarkeit (Monat)",
+    "Service Credits (Mechanik)",
+    "RTO (Recovery Time Objective)",
+    "RPO (Recovery Point Objective)",
+    "Subunternehmer erlaubt",
+    "Datenstandort / Drittlandtransfer",
+    "AVV/DPA explizit erwähnt",
+    "Audit-Rechte Kunde",
+    "Informationssicherheit (ISO 27001/SOC2)",
+    "Vertraulichkeit Laufzeit nach Vertragsende",
+    "Abtretungsverbot",
+    "Change-Request-Verfahren",
+    "Rechtswahl",
+    "Gerichtsstand",
+    "Schriftformklausel",
+    "Salvatorische Klausel",
+    "Rangfolge Vertragsdokumente"
+  ],
+  "rows": [
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "cells": {
+        "Ordentliche Kündigungsfrist Kunde": {
+          "value": "6 Monate",
+          "status": "found",
+          "quote": "Dieser Rahmenvertrag tritt mit Unterzeichnung in Kraft und läuft auf unbestimmte Zeit. Er kann von beiden Parteien mit einer Frist von 6 Monaten zum Ende eines Kalenderquartals gekündigt werden.",
+          "page": 1,
+          "location_hint": "§ 8.1"
+        },
+        "Ordentliche Kündigungsfrist Anbieter": {
+          "value": "6 Monate",
+          "status": "found",
+          "quote": "Dieser Rahmenvertrag tritt mit Unterzeichnung in Kraft und läuft auf unbestimmte Zeit. Er kann von beiden Parteien mit einer Frist von 6 Monaten zum Ende eines Kalenderquartals gekündigt werden.",
+          "page": 1,
+          "location_hint": "clause 8.1"
+        },
+        "Außerordentliche Kündigungsgründe": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Definition von Change of Control": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Zahlungsziel": {
+          "value": "30 Tage",
+          "status": "found",
+          "quote": "Rechnungen sind monatlich zu stellen und innerhalb von 30 Tagen nach Eingang beim AG zahlbar.",
+          "page": 1,
+          "location_hint": "§ 5.4"
+        },
+        "Automatische Vertragsverlängerung": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Indexierung / Inflationsanpassung": {
+          "value": "4% p.a.",
+          "status": "found",
+          "quote": "Die Tagessätze gemäß Punkt 5.1 werden jährlich zum 1. Jänner an den VPI 2020-Index angepasst, maximal um 4% p.a.",
+          "page": 1,
+          "location_hint": "clause 5.5"
+        },
+        "Preisänderungsklausel (Bedingungen)": {
+          "value": "jährlich zum 1. Jänner an den VPI 2020-Index angepasst, maximal um 4% p.a.",
+          "status": "found",
+          "quote": "5.5 Die Tagessätze gemäß Punkt 5.1 werden jährlich zum 1. Jänner an den VPI 2020-Index angepasst, maximal um 4% p.a.",
+          "page": 1,
+          "location_hint": "§ 5.5"
+        },
+        "Ausschluss indirekter Schäden": {
+          "value": "indirekte Schäden ausgeschlossen, außer bei Vorsatz",
+          "status": "found",
+          "quote": "Für mittelbare Schäden, Folgeschäden und entgangenen Gewinn haftet der AN nur bei Vorsatz.",
+          "page": 1,
+          "location_hint": "§ 9.2"
+        },
+        "Haftungsobergrenze (direkte Schäden)": {
+          "value": "EUR 2.000.000,--",
+          "status": "found",
+          "quote": "Die Gesamthaftung des AN aus diesem Rahmenvertrag und allen Projektverträgen ist auf den Wert des betreffenden Projektvertrages, maximal jedoch EUR 2.000.000,--, begrenzt.",
+          "page": 1,
+          "location_hint": "clause 9.1"
+        },
+        "Verzugszins-Regelung": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Unbegrenzte Haftungstatbestände": {
+          "value": "Personenschäden, Schäden durch grobe Fahrlässigkeit oder vorsätzliches Verhalten",
+          "status": "found",
+          "quote": "Diese Haftungsbegrenzung gilt nicht für Personenschäden, Schäden durch grobe Fahrlässigkeit oder vorsätzliches Verhalten.",
+          "page": 1,
+          "location_hint": "clause 9.3"
+        },
+        "Freistellung (IP-Infringement)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "SLA-Verfügbarkeit (Monat)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "RTO (Recovery Time Objective)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Service Credits (Mechanik)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "AVV/DPA explizit erwähnt": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Subunternehmer erlaubt": {
+          "value": "Ja",
+          "status": "found",
+          "quote": "Die Hinzuziehung von Subunternehmern bedarf der vorherigen schriftlichen Zustimmung des AG.",
+          "page": 1,
+          "location_hint": "§4.3"
+        },
+        "RPO (Recovery Point Objective)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Datenstandort / Drittlandtransfer": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Informationssicherheit (ISO 27001/SOC2)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": "Der AN haftet für die Leistungen seiner Subunternehmer wie für eigene Leistungen. Die Subunternehmer sind auf dieselben Datenschutz- und Geheimhaltungspflichten zu verpflichten wie der AN selbst.",
+          "page": 1,
+          "location_hint": "clause 4.3"
+        },
+        "Audit-Rechte Kunde": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Vertraulichkeit Laufzeit nach Vertragsende": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": "§ 4.3"
+        },
+        "Abtretungsverbot": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Change-Request-Verfahren": {
+          "value": "schriftliche Vereinbarung in einem Change-Request-Dokument mit gegenseitiger Zustimmung",
+          "status": "found",
+          "quote": "Änderungen des vereinbarten Leistungsumfangs (\"Change Requests\") bedürfen der schriftlichen Vereinbarung in einem Change-Request-Dokument. Der AN ist berechtigt, Änderungsbegehren des AG zu bewerten und die zusätzlichen Kosten und Zeitwirkungen zu kommunizieren. Ohne schriftliche Zustimmung beider Parteien werden keine Mehrkosten anerkannt",
+          "page": 1,
+          "location_hint": "clause 3.3"
+        },
+        "Gerichtsstand": {
+          "value": "Wien",
+          "status": "found",
+          "quote": "Auf diesen Vertrag findet österreichisches Recht Anwendung. Gerichtsstand ist Wien.",
+          "page": 1,
+          "location_hint": "§ 10.1"
+        },
+        "Schriftformklausel": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Rechtswahl": {
+          "value": "österreichisches Recht",
+          "status": "found",
+          "quote": "Auf diesen Vertrag findet österreichisches Recht Anwendung. Gerichtsstand ist Wien.",
+          "page": 1,
+          "location_hint": "§ 10 Schlussbestimmungen"
+        },
+        "Salvatorische Klausel": {
+          "value": "Salvatorische Klausel",
+          "status": "found",
+          "quote": "Sollten einzelne Bestimmungen dieses Vertrages unwirksam sein, berührt dies die Wirksamkeit der übrigen Bestimmungen nicht. Die unwirksame Bestimmung ist durch eine rechtlich wirksame Regelung zu ersetzen, die dem wirtschaftlichen Zweck der unwirksamen Bestimmung möglichst nahekommt",
+          "page": 1,
+          "location_hint": "§ 10 Schlussbestimmungen"
+        },
+        "Rangfolge Vertragsdokumente": {
+          "value": "Projektverträge haben Vorrang vor Rahmenvertrag",
+          "status": "found",
+          "quote": "Im Zweifelsfall haben die Regelungen des Projektvertrages Vorrang vor diesem Rahmenvertrag",
+          "page": 1,
+          "location_hint": "clause 2.2"
+        }
+      }
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "cells": {
+        "Ordentliche Kündigungsfrist Kunde": {
+          "value": null,
+          "status": "not_specified",
+          "quote": "Jede Partei kann die Gespräche jederzeit ohne Angabe von Gründen beenden.",
+          "page": 1,
+          "location_hint": "clause 9.1"
+        },
+        "Definition von Change of Control": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Ordentliche Kündigungsfrist Anbieter": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": "clause 9.1"
+        },
+        "Preisänderungsklausel (Bedingungen)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Automatische Vertragsverlängerung": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Außerordentliche Kündigungsgründe": {
+          "value": null,
+          "status": "not_specified",
+          "quote": "Diese NDA begründet keine Verpflichtung einer Partei, Verhandlungen fortzuführen oder eine Transaktion abzuschließen. Jede Partei kann die Gespräche jederzeit ohne Angabe von Gründen beenden.",
+          "page": 1,
+          "location_hint": "clause 9.1"
+        },
+        "Haftungsobergrenze (direkte Schäden)": {
+          "value": "EUR 500.000,--",
+          "status": "found",
+          "quote": "Für jeden Fall einer schuldhaften Verletzung der Geheimhaltungspflichten hat der Empfänger eine Vertragsstrafe von EUR 500.000,-- an den Offenlegenden zu zahlen.",
+          "page": 1,
+          "location_hint": "§ 8.1"
+        },
+        "Verzugszins-Regelung": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Indexierung / Inflationsanpassung": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Zahlungsziel": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Unbegrenzte Haftungstatbestände": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Ausschluss indirekter Schäden": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "SLA-Verfügbarkeit (Monat)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Freistellung (IP-Infringement)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Subunternehmer erlaubt": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Service Credits (Mechanik)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "RPO (Recovery Point Objective)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "RTO (Recovery Time Objective)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Informationssicherheit (ISO 27001/SOC2)": {
+          "value": "angemessene Sorgfalt und passwordgeschützter VDR",
+          "status": "found",
+          "quote": "alle Vertraulichen Informationen streng vertraulich zu behandeln und mindestens den gleichen Schutz anzuwenden wie für eigene vertrauliche Informationen vergleichbarer Bedeutung, mindestens aber angemessene Sorgfalt",
+          "page": 1,
+          "location_hint": "clause 4.1"
+        },
+        "Audit-Rechte Kunde": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "AVV/DPA explizit erwähnt": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Datenstandort / Drittlandtransfer": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": "clause 5.1"
+        },
+        "Vertraulichkeit Laufzeit nach Vertragsende": {
+          "value": "24 Monate",
+          "status": "found",
+          "quote": "Diese NDA tritt mit Unterzeichnung in Kraft und gilt für die Dauer der Transaktionsgespräche, mindestens jedoch für 24 Monate ab Unterzeichnung.",
+          "page": 1,
+          "location_hint": "§ 7 Laufzeit"
+        },
+        "Rechtswahl": {
+          "value": "österreichisches Recht",
+          "status": "found",
+          "quote": "Diese NDA unterliegt österreichischem Recht. Ausschließlicher Gerichtsstand ist Wien.",
+          "page": 1,
+          "location_hint": "§ 10"
+        },
+        "Change-Request-Verfahren": {
+          "value": "Change-Request-Verfahren ist nicht explizit definiert",
+          "status": "not_specified",
+          "quote": "Änderungen bedürfen der Schriftform und müssen von beiden Parteien unterzeichnet werden.",
+          "page": 1,
+          "location_hint": "clause 10.2"
+        },
+        "Abtretungsverbot": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Salvatorische Klausel": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Rangfolge Vertragsdokumente": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Gerichtsstand": {
+          "value": "Wien",
+          "status": "found",
+          "quote": "Diese NDA unterliegt österreichischem Recht. Ausschließlicher Gerichtsstand ist Wien.",
+          "page": 1,
+          "location_hint": "clause 10.1"
+        },
+        "Schriftformklausel": {
+          "value": "Änderungen bedürfen der Schriftform und müssen von beiden Parteien unterzeichnet werden",
+          "status": "found",
+          "quote": "Änderungen bedürfen der Schriftform und müssen von beiden Parteien unterzeichnet werden",
+          "page": 1,
+          "location_hint": "clause 10.2"
+        }
+      }
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "cells": {
+        "Außerordentliche Kündigungsgründe": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Ordentliche Kündigungsfrist Anbieter": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Definition von Change of Control": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Ordentliche Kündigungsfrist Kunde": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Automatische Vertragsverlängerung": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Indexierung / Inflationsanpassung": {
+          "value": "jährlich zum 1. April an die Entwicklung des Verbraucherpreisindex 2020 (VPI 2020) der Statistik Austria angepasst",
+          "status": "found",
+          "quote": "Der Mietzins ist wertgesichert und wird jährlich zum 1. April an die Entwicklung des Verbraucherpreisindex 2020 (VPI 2020) der Statistik Austria angepasst",
+          "page": 1,
+          "location_hint": "§ 5.3"
+        },
+        "Zahlungsziel": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Preisänderungsklausel (Bedingungen)": {
+          "value": "jährlich zum 1. April an den Verbraucherpreisindex 2020 angepasst",
+          "status": "found",
+          "quote": "Der Mietzins ist wertgesichert und wird jährlich zum 1. April an die Entwicklung des Verbraucherpreisindex 2020 (VPI 2020) der Statistik Austria angepasst.",
+          "page": 1,
+          "location_hint": "clause 5.3"
+        },
+        "Haftungsobergrenze (direkte Schäden)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Ausschluss indirekter Schäden": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Verzugszins-Regelung": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Unbegrenzte Haftungstatbestände": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Freistellung (IP-Infringement)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Service Credits (Mechanik)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "SLA-Verfügbarkeit (Monat)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "RTO (Recovery Time Objective)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "AVV/DPA explizit erwähnt": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Subunternehmer erlaubt": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": "clause 3.2"
+        },
+        "Datenstandort / Drittlandtransfer": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "RPO (Recovery Point Objective)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Audit-Rechte Kunde": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Abtretungsverbot": {
+          "value": null,
+          "status": "not_specified",
+          "quote": "Jede andere Nutzung, insbesondere Einzelhandel, Lagerung gefährlicher Stoffe oder Wohnzwecke, ist ohne schriftliche Zustimmung des Vermieters untersagt.",
+          "page": 1,
+          "location_hint": "clause 3.1"
+        },
+        "Vertraulichkeit Laufzeit nach Vertragsende": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Informationssicherheit (ISO 27001/SOC2)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Change-Request-Verfahren": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Rechtswahl": {
+          "value": "österreichisches Recht",
+          "status": "found",
+          "quote": "Dieser Vertrag unterliegt österreichischem Recht unter Ausschluss des UN-Kaufrechts.",
+          "page": 1,
+          "location_hint": "clause 9.1"
+        },
+        "Schriftformklausel": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Gerichtsstand": {
+          "value": "Wien",
+          "status": "found",
+          "quote": "Der Gerichtsstand ist Wien.",
+          "page": 1,
+          "location_hint": "clause 9.1"
+        },
+        "Rangfolge Vertragsdokumente": {
+          "value": "Dieser Vertrag ersetzt alle früheren mündlichen oder schriftlichen Vereinbarungen",
+          "status": "found",
+          "quote": "Dieser Vertrag ersetzt alle früheren mündlichen oder schriftlichen Vereinbarungen bezüglich des Mietgegenstandes.",
+          "page": 1,
+          "location_hint": "clause 9.2"
+        },
+        "Salvatorische Klausel": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        }
+      }
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "cells": {
+        "Definition von Change of Control": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Ordentliche Kündigungsfrist Kunde": {
+          "value": null,
+          "status": "not_specified",
+          "quote": "Das Arbeitsverhältnis kann von beiden Seiten unter Einhaltung der gesetzlichen Kündigungsfristen und -termine (§ 20 AngG) aufgelöst werden.",
+          "page": 1,
+          "location_hint": "clause 8.1"
+        },
+        "Außerordentliche Kündigungsgründe": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Ordentliche Kündigungsfrist Anbieter": {
+          "value": null,
+          "status": "not_specified",
+          "quote": "Das Arbeitsverhältnis kann von beiden Seiten unter Einhaltung der gesetzlichen Kündigungsfristen und -termine (§ 20 AngG) aufgelöst werden.",
+          "page": 1,
+          "location_hint": "clause 8.1"
+        },
+        "Automatische Vertragsverlängerung": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Preisänderungsklausel (Bedingungen)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Haftungsobergrenze (direkte Schäden)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Indexierung / Inflationsanpassung": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Verzugszins-Regelung": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Zahlungsziel": {
+          "value": "letzten Werktag eines jeden Kalendermonats",
+          "status": "found",
+          "quote": "zahlbar am letzten Werktag eines jeden Kalendermonats",
+          "page": 1,
+          "location_hint": "clause 5.1"
+        },
+        "Unbegrenzte Haftungstatbestände": {
+          "value": "Unbegrenzte Haftungstatbestände",
+          "status": "not_specified",
+          "quote": "Die Arbeitnehmerin verpflichtet sich, während und nach Beendigung des Arbeitsverhältnisses über sämtliche ihr im Rahmen ihrer Tätigkeit bekannt gewordenen Geschäfts- und Betriebsgeheimnisse Stillschweigen zu bewahren. Diese Verpflichtung gilt zeitlich unbegrenzt.",
+          "page": 1,
+          "location_hint": "clause 7.1"
+        },
+        "SLA-Verfügbarkeit (Monat)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Ausschluss indirekter Schäden": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Freistellung (IP-Infringement)": {
+          "value": "Arbeitgeber erhält exklusives Nutzungsrecht an Werken und Erfindungen",
+          "status": "found",
+          "quote": "Die Arbeitnehmerin ist verpflichtet, sämtliche während des Arbeitsverhältnisses im Zusammenhang mit ihrer dienstlichen Tätigkeit erstellten Werke und Erfindungen ausschließlich dem Arbeitgeber zur Verfügung zu stellen. Das umfassende Nutzungsrecht daran wird hiermit dem Arbeitgeber eingeräumt.",
+          "page": 1,
+          "location_hint": "clause 7.2"
+        },
+        "RPO (Recovery Point Objective)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Subunternehmer erlaubt": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "RTO (Recovery Time Objective)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Service Credits (Mechanik)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Datenstandort / Drittlandtransfer": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Informationssicherheit (ISO 27001/SOC2)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Audit-Rechte Kunde": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "AVV/DPA explizit erwähnt": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Rechtswahl": {
+          "value": "Österreichisches Recht",
+          "status": "found",
+          "quote": "gilt österreichisches Arbeitsrecht, insbesondere das Angestelltengesetz (AngG), das Urlaubsgesetz (UrlG) und das AVRAG",
+          "page": 1,
+          "location_hint": "§ 9.2"
+        },
+        "Abtretungsverbot": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Change-Request-Verfahren": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Vertraulichkeit Laufzeit nach Vertragsende": {
+          "value": "unbegrenzt",
+          "status": "found",
+          "quote": "Die Arbeitnehmerin verpflichtet sich, während und nach Beendigung des Arbeitsverhältnisses über sämtliche ihr im Rahmen ihrer Tätigkeit bekannt gewordenen Geschäfts- und Betriebsgeheimnisse Stillschweigen zu bewahren. Diese Verpflichtung gilt zeitlich unbegrenzt.",
+          "page": 1,
+          "location_hint": "§ 7.1"
+        },
+        "Rangfolge Vertragsdokumente": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Salvatorische Klausel": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Schriftformklausel": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Gerichtsstand": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        }
+      }
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "cells": {
+        "Ordentliche Kündigungsfrist Anbieter": {
+          "value": "6 Monate",
+          "status": "found",
+          "quote": "Nach Ablauf der Mindestlaufzeit verlängert sich der Vertrag automatisch um jeweils 12 Monate, sofern er nicht von einer Vertragspartei mit einer Frist von 6 Monaten zum Laufzeitende schriftlich gekündigt wird.",
+          "page": 1,
+          "location_hint": "§ 8.2"
+        },
+        "Außerordentliche Kündigungsgründe": {
+          "value": "Verletzung wesentlicher Vertragspflichten nach schriftlicher Abmahnung und 30-tägiger Nachfrist",
+          "status": "found",
+          "quote": "Ein wichtiger Grund liegt insbesondere vor, wenn eine Vertragspartei trotz schriftlicher Abmahnung und Nachfristsetzung von 30 Tagen wesentliche Vertragspflichten verletzt",
+          "page": 1,
+          "location_hint": "clause 8.3"
+        },
+        "Ordentliche Kündigungsfrist Kunde": {
+          "value": "6 Monate",
+          "status": "found",
+          "quote": "sofern er nicht von einer Vertragspartei mit einer Frist von 6 Monaten zum Laufzeitende schriftlich gekündigt wird",
+          "page": 1,
+          "location_hint": "§8.2"
+        },
+        "Definition von Change of Control": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Automatische Vertragsverlängerung": {
+          "value": "automatisch um jeweils 12 Monate",
+          "status": "found",
+          "quote": "Nach Ablauf der Mindestlaufzeit verlängert sich der Vertrag automatisch um jeweils 12 Monate, sofern er nicht von einer Vertragspartei mit einer Frist von 6 Monaten zum Laufzeitende schriftlich gekündigt wird.",
+          "page": 1,
+          "location_hint": "clause 8.2"
+        },
+        "Zahlungsziel": {
+          "value": "30 Tage nach Rechnungsstellung",
+          "status": "found",
+          "quote": "Rechnungen sind innerhalb von 30 Tagen nach Rechnungsstellung zahlbar.",
+          "page": 1,
+          "location_hint": "clause 5.2"
+        },
+        "Indexierung / Inflationsanpassung": {
+          "value": "VPI-Index (Verbraucherpreisindex) der Statistik Austria",
+          "status": "found",
+          "quote": "Der Lizenzgeber ist berechtigt, die Vergütung einmal jährlich um maximal 5% oder den offiziell veröffentlichten VPI-Index ... anzupassen.",
+          "page": 1,
+          "location_hint": "clause 5.4"
+        },
+        "Preisänderungsklausel (Bedingungen)": {
+          "value": "jährlich um maximal 5% oder den VPI-Index, je nachdem, welcher Wert höher ist",
+          "status": "found",
+          "quote": "Der Lizenzgeber ist berechtigt, die Vergütung einmal jährlich um maximal 5% oder den offiziell veröffentlichten VPI-Index ... anzupassen. Die Ankündigung hat mindestens 3 Monate vor Inkrafttreten zu erfolgen.",
+          "page": 1,
+          "location_hint": "clause 5.4"
+        },
+        "Unbegrenzte Haftungstatbestände": {
+          "value": "Verletzung wesentlicher Vertragspflichten (Kardinalpflichten)",
+          "status": "found",
+          "quote": "Die Haftung des Lizenzgebers für Schäden aus leichter Fahrlässigkeit ist auf den durchschnittlichen jährlichen Vertragswert begrenzt, es sei denn, es handelt sich um Personenschäden oder Schäden aus der Verletzung wesentlicher Vertragspflichten (Kardinalpflichten).",
+          "page": 1,
+          "location_hint": "§ 7.2"
+        },
+        "Haftungsobergrenze (direkte Schäden)": {
+          "value": "durchschnittlichen jährlichen Vertragswert",
+          "status": "found",
+          "quote": "Die Haftung des Lizenzgebers für Schäden aus leichter Fahrlässigkeit ist auf den durchschnittlichen jährlichen Vertragswert begrenzt",
+          "page": 1,
+          "location_hint": "§ 7.2"
+        },
+        "Verzugszins-Regelung": {
+          "value": "9,2% über dem jeweiligen Basiszinssatz der Europäischen Zentralbank",
+          "status": "found",
+          "quote": "Bei Zahlungsverzug werden Verzugszinsen in Höhe von 9,2% über dem jeweiligen Basiszinssatz der Europäischen Zentralbank berechnet.",
+          "page": 1,
+          "location_hint": "5.2"
+        },
+        "Ausschluss indirekter Schäden": {
+          "value": "nur bei Vorsatz oder grober Fahrlässigkeit",
+          "status": "found",
+          "quote": "Für mittelbare Schäden, entgangenen Gewinn und Datenverluste haftet der Lizenzgeber nur bei Vorsatz oder grober Fahrlässigkeit.",
+          "page": 1,
+          "location_hint": "§ 7.3 Gewährleistung und Haftung"
+        },
+        "RTO (Recovery Time Objective)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Service Credits (Mechanik)": {
+          "value": "99.5% Systemverfügbarkeit",
+          "status": "found",
+          "quote": "Der Lizenzgeber garantiert eine Systemverfügbarkeit von mindestens 99,5% im Monatsdurchschnitt, gemessen außerhalb der geplanten Wartungsfenster (\"SLA\").",
+          "page": 1,
+          "location_hint": "§ 4.3"
+        },
+        "Freistellung (IP-Infringement)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "SLA-Verfügbarkeit (Monat)": {
+          "value": "99,5%",
+          "status": "found",
+          "quote": "Der Lizenzgeber garantiert eine Systemverfügbarkeit von mindestens 99,5% im Monatsdurchschnitt, gemessen außerhalb der geplanten Wartungsfenster (\"SLA\").",
+          "page": 1,
+          "location_hint": "clause 4.3"
+        },
+        "AVV/DPA explizit erwähnt": {
+          "value": null,
+          "status": "not_specified",
+          "quote": "Im Rahmen der Vertragserfüllung verarbeitet der Lizenzgeber personenbezogene Daten des Lizenznehmers als Auftragsverbeiter im Sinne von Art. 28 DSGVO.",
+          "page": 1,
+          "location_hint": "§ 6 Datenschutz und Datensicherheit"
+        },
+        "Datenstandort / Drittlandtransfer": {
+          "value": "Daten werden ausschließlich in der Europäischen Union gespeichert, bevorzugt in Österreich oder Deutschland",
+          "status": "found",
+          "quote": "6.3 Der Lizenzgeber betreibt seine Server ausschließlich in ISO 27001-zertifizierten Rechenzentren innerhalb der Europäischen Union, bevorzugt in Österreich oder Deutschland.",
+          "page": 1,
+          "location_hint": "clause 6.3"
+        },
+        "RPO (Recovery Point Objective)": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": "clause 6.2"
+        },
+        "Subunternehmer erlaubt": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Vertraulichkeit Laufzeit nach Vertragsende": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Abtretungsverbot": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Informationssicherheit (ISO 27001/SOC2)": {
+          "value": "ISO 27001",
+          "status": "found",
+          "quote": "Der Lizenzgeber betreibt seine Server ausschließlich in ISO 27001-zertifizierten Rechenzentren innerhalb der Europäischen Union",
+          "page": 1,
+          "location_hint": "clause 6.3"
+        },
+        "Audit-Rechte Kunde": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Rechtswahl": {
+          "value": "österreichisches Recht",
+          "status": "found",
+          "quote": "Auf diesen Vertrag findet österreichisches Recht Anwendung. Der Gerichtsstand für alle Streitigkeiten ist Wien.",
+          "page": 1,
+          "location_hint": "§ 9.2"
+        },
+        "Gerichtsstand": {
+          "value": "Wien",
+          "status": "found",
+          "quote": "Der Gerichtsstand für alle Streitigkeiten ist Wien.",
+          "page": 1,
+          "location_hint": "clause 9.2"
+        },
+        "Schriftformklausel": {
+          "value": "schriftliche Form",
+          "status": "found",
+          "quote": "Änderungen und Ergänzungen dieses Vertrages bedürfen der Schriftform und müssen von beiden Vertragsparteien unterzeichnet werden.",
+          "page": 1,
+          "location_hint": "§9.1"
+        },
+        "Change-Request-Verfahren": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        },
+        "Salvatorische Klausel": {
+          "value": "Salvatorische Klausel",
+          "status": "found",
+          "quote": "Sollten einzelne Bestimmungen dieses Vertrages unwirksam sein oder werden, berührt dies die Wirksamkeit der übrigen Bestimmungen nicht.",
+          "page": 1,
+          "location_hint": "clause 9.3"
+        },
+        "Rangfolge Vertragsdokumente": {
+          "value": null,
+          "status": "not_specified",
+          "quote": null,
+          "page": 1,
+          "location_hint": null
+        }
+      }
+    }
+  ]
+}
+[4/4] Review + Q&A hard set
+{
+  "rules": [
+    "Ordentliche Kündigung darf nicht kürzer als 60 Tage sein.",
+    "Automatische Verlängerung darf höchstens 12 Monate betragen.",
+    "Zahlungsziel muss mindestens 30 Tage betragen.",
+    "Preisänderungen müssen an objektive Kriterien (z. B. CPI) geknüpft sein.",
+    "Haftungscap für direkte Schäden darf 100% der Jahresvergütung nicht überschreiten.",
+    "Haftung für Vorsatz, grobe Fahrlässigkeit, Tod/Körperverletzung darf nicht begrenzt werden.",
+    "Indirekte/Folgeschäden müssen ausgeschlossen sein.",
+    "SLA-Verfügbarkeit muss mindestens 99.5% pro Monat betragen.",
+    "Service Credits müssen bei SLA-Verstoß ausdrücklich vorgesehen sein.",
+    "RTO muss <= 24 Stunden sein.",
+    "RPO muss <= 4 Stunden sein.",
+    "AVV/DPA muss ausdrücklich vereinbart sein.",
+    "Drittlandtransfer personenbezogener Daten muss mit geeigneten Garantien geregelt sein.",
+    "Subunternehmer dürfen nur mit vertraglicher Weitergabe der Datenschutzpflichten eingesetzt werden.",
+    "Audit-Recht des Kunden muss mindestens einmal jährlich vorgesehen sein.",
+    "Informationssicherheitsstandard ISO 27001 oder gleichwertig muss genannt sein.",
+    "Vertraulichkeitspflichten müssen mindestens 3 Jahre nach Vertragsende gelten.",
+    "Rechtswahl muss deutsches Recht sein.",
+    "Gerichtsstand muss München sein.",
+    "Rangfolge der Vertragsdokumente muss explizit geregelt sein."
+  ],
+  "findings": [
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Ordentliche Kündigung darf nicht kürzer als 60 Tage sein.",
+      "status": "ok",
+      "explanation": "Der Vertrag sieht eine Kündigungsfrist von 6 Monaten vor, was länger als die 60-Tage-Frist der Regelung ist.",
+      "quote": "Dieser Rahmenvertrag tritt mit Unterzeichnung in Kraft und läuft auf unbestimmte Zeit. Er kann von beiden Parteien mit einer Frist von 6 Monaten zum Ende eines Kalenderquartals gekündigt werden.",
+      "page": 1,
+      "location_hint": "§ 8 Laufzeit des Rahmenvertrages"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Automatische Verlängerung darf höchstens 12 Monate betragen.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Klausel zur automatischen Verlängerung, die mit der Regel kompatibel wäre.",
+      "quote": "Dieser Rahmenvertrag tritt mit Unterzeichnung in Kraft und läuft auf unbestimmte Zeit. Er kann von beiden Parteien mit einer Frist von 6 Monaten zum Ende eines Kalenderquartals gekündigt werden.",
+      "page": 1,
+      "location_hint": "§ 8 Laufzeit des Rahmenvertrages"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Preisänderungen müssen an objektive Kriterien (z. B. CPI) geknüpft sein.",
+      "status": "ok",
+      "explanation": "Der Vertrag regelt Preisänderungen durch jährliche Anpassung an den VPI 2020-Index, was objektive Kriterien entspricht.",
+      "quote": "Die Tagessätze gemäß Punkt 5.1 werden jährlich zum 1. Jänner an den VPI 2020-Index angepasst, maximal um 4% p.a.",
+      "page": 1,
+      "location_hint": "§ 5 Vergütung, Punkt 5.5"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Zahlungsziel muss mindestens 30 Tage betragen.",
+      "status": "ok",
+      "explanation": "Der Vertrag enthält ein Zahlungsziel von genau 30 Tagen, was der Mindestanforderung aus dem Playbook entspricht.",
+      "quote": "Rechnungen sind monatlich zu stellen und innerhalb von 30 Tagen nach Eingang beim AG zahlbar.",
+      "page": 1,
+      "location_hint": "§ 5.4"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Haftung für Vorsatz, grobe Fahrlässigkeit, Tod/Körperverletzung darf nicht begrenzt werden.",
+      "status": "ok",
+      "explanation": "The contract explicitly excludes liability limitations for personal injuries, gross negligence, and intentional acts in §9.3, aligning with the playbook rule.",
+      "quote": "Diese Haftungsbegrenzung gilt nicht für Personenschäden, Schäden durch grobe Fahrlässigkeit oder vorsätzliches Verhalten.",
+      "page": 1,
+      "location_hint": "§ 9 Haftungsbegrenzung"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Indirekte/Folgeschäden müssen ausgeschlossen sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag begrenzt die Haftung für mittelbare Schäden, Folgeschäden und entgangenen Gewinn nur auf den Fall von Vorsatz, was die vollständige Ausschlusspflicht der indirekten Schäden nicht erfüllt.",
+      "quote": "Für mittelbare Schäden, Folgeschäden und entgangenen Gewinn haftet der AN nur bei Vorsatz.",
+      "page": 1,
+      "location_hint": "§ 9 Haftungsbegrenzung"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "SLA-Verfügbarkeit muss mindestens 99.5% pro Monat betragen.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine SLA-Verfügbarkeitsvorgaben oder Messkriterien für Systemverfügbarkeit.",
+      "quote": null,
+      "page": 1,
+      "location_hint": "§ 6 Abnahme und Gewährleistung / § 7 Geistiges Eigentum"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Haftungscap für direkte Schäden darf 100% der Jahresvergütung nicht überschreiten.",
+      "status": "deviation",
+      "explanation": "Die Haftungsbegrenzung ist auf einen feste Betrag begrenzt, nicht auf 100% der Jahresvergütung.",
+      "quote": "Die Gesamthaftung des AN aus diesem Rahmenvertrag und allen Projektverträgen ist auf den Wert des betreffenden Projektvertrages, maximal jedoch EUR 2.000.000,--, begrenzt.",
+      "page": 1,
+      "location_hint": "§ 9 Haftungsbegrenzung"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Service Credits müssen bei SLA-Verstoß ausdrücklich vorgesehen sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag erwähnt keine expliziten Service Credits für SLA-Verstöße, stattdessen nur Korrekturmaßnahmen.",
+      "quote": "Bei begründeter Mängelrüge hat der AN innerhalb von 5 Werktagen einen Korrekturplan vorzulegen und die Mängel in einem angemessenen Zeitraum, maximal jedoch 30 Werktage, zu beheben.",
+      "page": 1,
+      "location_hint": "§ 6 Abnahme und Gewährleistung"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "RPO muss <= 4 Stunden sein.",
+      "status": "missing",
+      "explanation": "The document does not specify a Response Time (RPO) limit, which is required by the playbook rule.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "AVV/DPA muss ausdrücklich vereinbart sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag erwähnt keine explizite Vereinbarung zur AVV/DPA, obwohl Datenschutzobligationen für Subunternehmer genannt werden.",
+      "quote": "Die Subunternehmer sind auf dieselben Datenschutz- und Geheimhaltungspflichten zu verpflichten wie der AN selbst.",
+      "page": 1,
+      "location_hint": "§ 4.3"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "RTO muss <= 24 Stunden sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine Regelungen zum Recovery Time Objective (RTO) oder verwandte KPIs.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Drittlandtransfer personenbezogener Daten muss mit geeigneten Garantien geregelt sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag erwähnt keine spezifischen Garantien für den Drittlandtransfer personenbezogener Daten, obwohl Subunternehmer auf Datenschutzpflichten verpflichtet werden.",
+      "quote": "Die Subunternehmer sind auf dieselben Datenschutz- und Geheimhaltungspflichten zu verpflichten wie der AN selbst.",
+      "page": 1,
+      "location_hint": "§ 4"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Informationssicherheitsstandard ISO 27001 oder gleichwertig muss genannt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine konkrete Informationssicherheitsstandard wie ISO 27001 oder gleichwertige Regelungen.",
+      "quote": "Die Subunternehmer sind auf dieselben Datenschutz- und Geheimhaltungspflichten zu verpflichten wie der AN selbst.",
+      "page": 1,
+      "location_hint": "§ 4 Personal und Unterbeauftragung"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Audit-Recht des Kunden muss mindestens einmal jährlich vorgesehen sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Regelung zur jährlichen Prüfung der Rechte des Kunden (Audit-Recht des Kunden).",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Subunternehmer dürfen nur mit vertraglicher Weitergabe der Datenschutzpflichten eingesetzt werden.",
+      "status": "ok",
+      "explanation": "The contract explicitly requires sub-contractors to comply with the same data protection obligations as the AN itself.",
+      "quote": "Die Subunternehmer sind auf dieselben Datenschutz- und Geheimhaltungspflichten zu verpflichten wie der AN selbst.",
+      "page": 1,
+      "location_hint": "§ 4 Personal und Unterbeauftragung 4.3"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Gerichtsstand muss München sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag nennt Wien als Gerichtsstand, während die Spielregel München vorschreibt.",
+      "quote": "Auf diesen Vertrag findet österreichisches Recht Anwendung. Gerichtsstand ist Wien.",
+      "page": 1,
+      "location_hint": "§ 10 Schlussbestimmungen 10.1"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Vertraulichkeitspflichten müssen mindestens 3 Jahre nach Vertragsende gelten.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Regelung zur Dauer der Vertraulichkeitspflichten nach Vertragsende.",
+      "quote": null,
+      "page": 1,
+      "location_hint": "§ 10 Schlussbestimmungen (ohne relevante Regelung)"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Rechtswahl muss deutsches Recht sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag wählt österreichisches Recht statt deutsches Recht, was der Regel widerspricht.",
+      "quote": "Auf diesen Vertrag findet österreichisches Recht Anwendung. Gerichtsstand ist Wien.",
+      "page": 1,
+      "location_hint": "§ 10.1"
+    },
+    {
+      "doc_id": "8bae476fad14976a",
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "rule": "Rangfolge der Vertragsdokumente muss explizit geregelt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine explizite Regelung zur Rangfolge der Vertragsdokumente, was die Playbook-Vorschrift verletzt.",
+      "quote": "Eine Kündigung des Rahmenvertrages berührt nicht die Gültigkeit und Wirksamkeit bereits abgeschlossener Projektverträge...",
+      "page": 1,
+      "location_hint": "§ 8 Laufzeit des Rahmenvertrages / § 8.2"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Preisänderungen müssen an objektive Kriterien (z. B. CPI) geknüpft sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag behandelt keine Preisänderungsregelungen oder objektive Kriterien wie CPI.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Automatische Verlängerung darf höchstens 12 Monate betragen.",
+      "status": "ok",
+      "explanation": "Die Vertragslaufzeit ist festgelegt und keine automatische Verlängerung über 12 Monate wird vereinbart.",
+      "quote": "Diese NDA tritt mit Unterzeichnung in Kraft und gilt für die Dauer der Transaktionsgespräche, mindestens jedoch für 24 Monate ab Unterzeichnung. Bei Abschluss einer Transaktion gelten die Geheimhaltungspflichten für weitere 36 Monate nach deren Vollzug.",
+      "page": 1,
+      "location_hint": "§ 7 Laufzeit"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Zahlungsziel muss mindestens 30 Tage betragen.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Klausel zu Zahlungszielen oder Zahlungsfristen.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Ordentliche Kündigung darf nicht kürzer als 60 Tage sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag erlaubt die Kündigung ohne Vorankündigung (§9.1), was der Regel von mindestens 60 Tagen widerspricht.",
+      "quote": "Diese NDA begründet keine Verpflichtung einer Partei, Verhandlungen fortzuführen oder eine Transaktion abzuschließen. Jede Partei kann die Gespräche jederzeit ohne Angabe von Gründen beenden.",
+      "page": 1,
+      "location_hint": "§ 9.1"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Haftungscap für direkte Schäden darf 100% der Jahresvergütung nicht überschreiten.",
+      "status": "deviation",
+      "explanation": "Der Vertrag enthält keine Haftungsgrenze für direkte Schäden, während die Spielregel eine solche Grenze vorschreibt.",
+      "quote": "8.1 Für jeden Fall einer schuldhaften Verletzung der Geheimhaltungspflichten hat der Empfänger eine Vertragsstrafe von EUR 500.000,-- an den Offenlegenden zu zahlen. Die Geltendmachung weitergehenden Schadenersatzes bleibt vorbehalten.",
+      "page": 1,
+      "location_hint": "§ 8 Vertragsstrafe und Schadensersatz"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Indirekte/Folgeschäden müssen ausgeschlossen sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag erlaubt weitergehenden Schadenersatz, was indirekte/Folgeschäden umfasst.",
+      "quote": "Die Geltendmachung weitergehenden Schadenersatzes bleibt vorbehalten.",
+      "page": 1,
+      "location_hint": "§ 8 Vertragsstrafe und Schadensersatz"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "SLA-Verfügbarkeit muss mindestens 99.5% pro Monat betragen.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Angaben zur SLA-Verfügbarkeit oder zugehörigen Kennzahlen.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Haftung für Vorsatz, grobe Fahrlässigkeit, Tod/Körperverletzung darf nicht begrenzt werden.",
+      "status": "ok",
+      "explanation": "Der Vertrag enthält keine Klausel, die die Haftung für Vorsatz, grobe Fahrlässigkeit oder Körperverletzung begrenzt.",
+      "quote": "Der Empfänger erkennt an, dass Vertragsverletzungen zu nicht wiedergutzumachenden Schäden führen können, die durch Geldzahlung nicht hinreichend kompensierbar sind, und stimmt der Berechtigung des Offenlegenden zu, einstweiligen Rechtsschutz und Unterlassungsverfügungen zu beantragen.",
+      "page": 1,
+      "location_hint": "§ 8.2"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "AVV/DPA muss ausdrücklich vereinbart sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine explizite Vereinbarung zur Anwendung des AVV/DPA.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Service Credits müssen bei SLA-Verstoß ausdrücklich vorgesehen sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag behandelt keine Service Credits für SLA-Verstöße, da er sich ausschließlich auf Vertraulichkeitsverpflichtungen konzentriert.",
+      "quote": "Diese NDA unterliegt österreichischem Recht. Ausschließlicher Gerichtsstand ist Wien.",
+      "page": 1,
+      "location_hint": "§ 10 Schlussbestimmungen"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "RTO muss <= 24 Stunden sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine Regelung zur Reaktionszeit (RTO) oder zeitlichen Fristen für Reaktionsmaßnahmen.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "RPO muss <= 4 Stunden sein.",
+      "status": "deviation",
+      "explanation": "Contract specifies 10 Werktagen (working days) for information return/destroy, exceeding the 4-hour RPO requirement.",
+      "quote": "6.1 Auf schriftliche Anforderung des Offenlegenden... innerhalb von 10 Werktagen alle Vertraulichen Informationen... zu vernichten oder zurückzugeben.",
+      "page": 1,
+      "location_hint": "§ 6 Rückgabe und Vernichtung"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Informationssicherheitsstandard ISO 27001 oder gleichwertig muss genannt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keinen konkreten Informationssicherheitsstandard wie ISO 27001 oder gleichwertige Regelungen.",
+      "quote": "alle Vertraulichen Informationen streng vertraulich zu behandeln und mindestens den gleichen Schutz anzuwenden wie für eigene vertrauliche Informationen vergleichbarer Bedeutung",
+      "page": 1,
+      "location_hint": "§ 4 Geheimhaltungspflichten 4.1"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Subunternehmer dürfen nur mit vertraglicher Weitergabe der Datenschutzpflichten eingesetzt werden.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine expliziten Verpflichtungen für Subunternehmer, die vertraglich zur Datenschutzpflichten verpflichtet sind.",
+      "quote": "Vertrauliche Informationen nur solchen Mitarbeitern, Beratern und Finanzierungspartnern zugänglich zu machen, die diese auf einer \"Need-to-know\"-Basis benötigen und die zuvor auf schriftliche Vertraulichkeit verpflichtet wurden",
+      "page": 1,
+      "location_hint": "§ 4 Geheimhaltungspflichten"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Audit-Recht des Kunden muss mindestens einmal jährlich vorgesehen sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Klausel zur jährlichen Prüfung der Compliance (Audit-Recht des Kunden).",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Drittlandtransfer personenbezogener Daten muss mit geeigneten Garantien geregelt sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag regelt keine spezifischen Schutzmaßnahmen für den Drittlandtransfer personenbezogener Daten, obwohl solche Daten im Kontext einer Unternehmenstransaktion potenziell betroffen sein könnten.",
+      "quote": "Vertrauliche Informationen umfassen ... Personalbezogene Informationen (Organigramme, Gehaltsstrukturen, Schlüsselpersonen)",
+      "page": 1,
+      "location_hint": "§ 3 Definition von \"Vertraulichen Informationen\""
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Vertraulichkeitspflichten müssen mindestens 3 Jahre nach Vertragsende gelten.",
+      "status": "ok",
+      "explanation": "Die Vertraulichkeitspflichten gelten 36 Monate nach Vollzug der Transaktion, was den 3-Jahres-Anspruch erfüllt.",
+      "quote": "Bei Abschluss einer Transaktion gelten die Geheimhaltungspflichten für weitere 36 Monate nach deren Vollzug.",
+      "page": 1,
+      "location_hint": "§ 7 Laufzeit"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Gerichtsstand muss München sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag nennt Wien als ausschließlichen Gerichtsstand, während die Spielregel München vorschreibt.",
+      "quote": "Diese NDA unterliegt österreichischem Recht. Ausschließlicher Gerichtsstand ist Wien.",
+      "page": 1,
+      "location_hint": "§ 10 Schlussbestimmungen"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Rechtswahl muss deutsches Recht sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag wählt österreichisches Recht statt deutsches Recht, was gegen die Spielregel verstößt.",
+      "quote": "Diese NDA unterliegt österreichischem Recht. Ausschließlicher Gerichtsstand ist Wien.",
+      "page": 1,
+      "location_hint": "§ 10 Schlussbestimmungen"
+    },
+    {
+      "doc_id": "3426415ec32790e1",
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "rule": "Rangfolge der Vertragsdokumente muss explizit geregelt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Regelung zur Rangfolge von Vertragsdokumenten.",
+      "quote": "Diese NDA unterliegt österreichischem Recht. Ausschließlicher Gerichtsstand ist Wien.",
+      "page": 1,
+      "location_hint": "§ 10 Schlussbestimmungen"
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Zahlungsziel muss mindestens 30 Tage betragen.",
+      "status": "ok",
+      "explanation": "Der Vertrag enthält eine 30-tägige Frist für Nachzahlungen nach jährlicher Abrechnung, was den Playbook-Richtlinien entspricht.",
+      "quote": "Guthaben werden erstattet, Nachzahlungen sind innerhalb von 30 Tagen zu begleichen.",
+      "page": 1,
+      "location_hint": "§ 5.5"
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Automatische Verlängerung darf höchstens 12 Monate betragen.",
+      "status": "deviation",
+      "explanation": "Der Vertrag erlaubt eine Verlängerung um 5 Jahre pro Option, was über die 12-Monats-Grenze hinausgeht.",
+      "quote": "Der Mieter hat das unwiderrufliche Optionsrecht, das Mietverhältnis zweimal um jeweils 5 (fünf) Jahre zu verlängern.",
+      "page": 1,
+      "location_hint": "§ 4.2"
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Ordentliche Kündigung darf nicht kürzer als 60 Tage sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Regelung zur Kündigungsfrist, was gegen die Spielregel verstoßt.",
+      "quote": "Der Vertrag unterliegt österreichischem Recht... (§9) – keine Kündigungsfrist genannt",
+      "page": 1,
+      "location_hint": "§9 Schlusstimmungen"
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Preisänderungen müssen an objektive Kriterien (z. B. CPI) geknüpft sein.",
+      "status": "ok",
+      "explanation": "Der Mietzins wird jährlich an den Verbraucherpreisindex 2020 angepasst, was eine objektive Kriterienbindung erfüllt.",
+      "quote": "Der Mietzins ist wertgesichert und wird jährlich zum 1. April an die Entwicklung des Verbraucherpreisindex 2020 (VPI 2020) der Statistik Austria angepasst.",
+      "page": 1,
+      "location_hint": "§ 5.3"
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Haftung für Vorsatz, grobe Fahrlässigkeit, Tod/Körperverletzung darf nicht begrenzt werden.",
+      "status": "ok",
+      "explanation": "Der Vertrag enthält keine Klauseln, die die Haftung für Vorsatz, grobe Fahrlässigkeit oder Körperverletzung begrenzen.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "SLA-Verfügbarkeit muss mindestens 99.5% pro Monat betragen.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Regelung zur SLA-Verfügbarkeit oder garantierten Systemverfügbarkeit.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Haftungscap für direkte Schäden darf 100% der Jahresvergütung nicht überschreiten.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Haftungsgrenze für direkte Schäden, die der Regel von 100% der Jahresvergütung entspricht.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Indirekte/Folgeschäden müssen ausgeschlossen sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Klausel zur Ausschluss von indirekten/Folgeschäden.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "RPO muss <= 4 Stunden sein.",
+      "status": "missing",
+      "explanation": "The document does not mention RPO or any time constraints related to it.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "AVV/DPA muss ausdrücklich vereinbart sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Erwähnung eines AVV/DPA oder datenschutzrechtlicher Vereinbarungen.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "RTO muss <= 24 Stunden sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Angaben zu RTO (Recovery Time Objective) oder ähnlichen Disaster Recovery-Kriterien.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Service Credits müssen bei SLA-Verstoß ausdrücklich vorgesehen sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine Service Credits oder SLA-Vorschriften, die bei Verstößen explizit vorgesehen werden müssten.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Drittlandtransfer personenbezogener Daten muss mit geeigneten Garantien geregelt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Regelungen zur Sicherstellung von Datenschutz bei Datenübermittlungen an Drittstaaten.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Informationssicherheitsstandard ISO 27001 oder gleichwertig muss genannt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine Informationssicherheitsstandards wie ISO 27001 oder gleichwertige Regelungen.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Audit-Recht des Kunden muss mindestens einmal jährlich vorgesehen sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Klausel zur jährlichen Audit-Recht des Kunden.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Subunternehmer dürfen nur mit vertraglicher Weitergabe der Datenschutzpflichten eingesetzt werden.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine vertragliche Weitergabe von Datenschutzpflichten an Subunternehmer.",
+      "quote": null,
+      "page": 1,
+      "location_hint": "§ 3.2 (Untervermietung an verbundene Unternehmen)"
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Vertraulichkeitspflichten müssen mindestens 3 Jahre nach Vertragsende gelten.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Vertraulichkeitspflichten oder Regelungen zur Nachverpflichtung nach Vertragsende.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Rechtswahl muss deutsches Recht sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag wählt österreichisches Recht statt deutsches Recht, was gegen die Spielregel verstößt.",
+      "quote": "Dieser Vertrag unterliegt österreichischem Recht unter Ausschluss des UN-Kaufrechts. Der Gerichtsstand ist Wien.",
+      "page": 1,
+      "location_hint": "§ 9.1"
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Gerichtsstand muss München sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag nennt Wien als Gerichtsstand, während die Spielregel München vorschreibt.",
+      "quote": "Dieser Vertrag unterliegt österreichischem Recht unter Ausschluss des UN-Kaufrechts. Der Gerichtsstand ist Wien.",
+      "page": 1,
+      "location_hint": "§ 9.1"
+    },
+    {
+      "doc_id": "21860c7b3643ed0f",
+      "filename": "03_Gewerbemietvertrag.txt",
+      "rule": "Rangfolge der Vertragsdokumente muss explizit geregelt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine explizite Regelung zur Rangfolge von Vertragsdokumenten.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Preisänderungen müssen an objektive Kriterien (z. B. CPI) geknüpft sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag enthält keine Klausel zur Anpassung von Gehältern an objektive Kriterien wie CPI.",
+      "quote": "Das Bruttomonatsgehalt beträgt EUR 6.800,-- ... keine Anpassungsklausel für CPI oder ähnliche Indizes.",
+      "page": 1,
+      "location_hint": "§ 5 Vergütung (5.1-5.2)"
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Ordentliche Kündigung darf nicht kürzer als 60 Tage sein.",
+      "status": "deviation",
+      "explanation": "Die Kündigungsfrist von 2 Monaten (56 Tage) für den Arbeitnehmer ist kürzer als die vorgeschriebene 60-Tage-Frist.",
+      "quote": "ab dem 3. Dienstjahr 2 Monate",
+      "page": 1,
+      "location_hint": "§ 8.2"
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Zahlungsziel muss mindestens 30 Tage betragen.",
+      "status": "ok",
+      "explanation": "Der Lohn wird am letzten Werktag des Monats gezahlt, was mindestens 30 Tage entspricht.",
+      "quote": "Das Bruttomonatsgehalt beträgt EUR 6.800,-- (in Worten: sechstausendachthundert Euro), zahlbar am letzten Werktag eines jeden Kalendermonats.",
+      "page": 1,
+      "location_hint": "§ 5 Vergütung 5.1"
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Automatische Verlängerung darf höchstens 12 Monate betragen.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Klausel zur automatischen Verlängerung des Arbeitsverhältnisses.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Indirekte/Folgeschäden müssen ausgeschlossen sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Klausel zur Ausschluss von indirekten/Folgeschäden.",
+      "quote": null,
+      "page": 1,
+      "location_hint": "§ 9 Anwendbares Recht und Kollektivvertrag"
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Haftung für Vorsatz, grobe Fahrlässigkeit, Tod/Körperverletzung darf nicht begrenzt werden.",
+      "status": "ok",
+      "explanation": "Der Vertrag enthält keine Klausel, die die Haftung des Arbeitgebers für Vorsatz, grobe Fahrlässigkeit oder Körperverletzung begrenzt.",
+      "quote": "9.1 Auf das Arbeitsverhältnis findet der Kollektivvertrag für Angestellte in der Informationstechnologie (IT-KV) in seiner jeweils geltenden Fassung Anwendung.",
+      "page": 1,
+      "location_hint": "§ 9 Anwendbares Recht und Kollektivvertrag"
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "SLA-Verfügbarkeit muss mindestens 99.5% pro Monat betragen.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Angaben zur SLA-Verfügbarkeit oder Systemuptime-Vorgaben.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Haftungscap für direkte Schäden darf 100% der Jahresvergütung nicht überschreiten.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Regelung zur Haftungsgrenze für direkte Schäden.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Service Credits müssen bei SLA-Verstoß ausdrücklich vorgesehen sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine SLA-Verträge oder Service Credits für SLA-Verstöße.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "RPO muss <= 4 Stunden sein.",
+      "status": "deviation",
+      "explanation": "Die Kündigungsfrist für die Arbeitnehmerin im 16. Dienstjahr beträgt 4 Monate, was gegen die Regelung von RPO <= 4 Stunden verstößt.",
+      "quote": "ab dem 16. Dienstjahr 4 Monate",
+      "page": 1,
+      "location_hint": "§ 8.2"
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "AVV/DPA muss ausdrücklich vereinbart sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine explizite Vereinbarung zu AVV/DPA.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "RTO muss <= 24 Stunden sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Angaben zu Recovery Time Objective (RTO) oder IT-Notfallplanung.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Audit-Recht des Kunden muss mindestens einmal jährlich vorgesehen sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine jährliche Prüfung der Rechte des Kunden (Audit-Recht des Kunden). Stattdessen wird nur die jährliche Vereinbarung von Leistungszielen zwischen Arbeitnehmer und Arbeitgeber genannt.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Subunternehmer dürfen nur mit vertraglicher Weitergabe der Datenschutzpflichten eingesetzt werden.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Klausel zur Weitergabe von Datenschutzpflichten bei Subunternehmern.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Informationssicherheitsstandard ISO 27001 oder gleichwertig muss genannt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine Informationssicherheitsstandards wie ISO 27001 oder gleichwertige Regelungen.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Drittlandtransfer personenbezogener Daten muss mit geeigneten Garantien geregelt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Regelungen zum Schutz von personenbezogenen Daten bei Transfer in Drittländer.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Gerichtsstand muss München sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine Gerichtsstandsklausel, die München vorschreibt.",
+      "quote": "Im Übrigen gilt österreichisches Arbeitsrecht, insbesondere das Angestelltengesetz (AngG), das Urlaubsgesetz (UrlG) und das AVRAG.",
+      "page": 1,
+      "location_hint": "§ 9 Anwendbares Recht und Kollektivvertrag"
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Vertraulichkeitspflichten müssen mindestens 3 Jahre nach Vertragsende gelten.",
+      "status": "ok",
+      "explanation": "Die Vertraulichkeitspflicht (§7.1) gilt zeitlich unbegrenzt, was die Forderung von mindestens 3 Jahren nach Vertragsende erfüllt.",
+      "quote": "Die Arbeitnehmerin verpflichtet sich, während und nach Beendigung des Arbeitsverhältnisses über sämtliche ihr im Rahmen ihrer Tätigkeit bekannt gewordenen Geschäfts- und Betriebsgeheimnisse Stillschweigen zu bewahren. Diese Verpflichtung gilt zeitlich unbegrenzt.",
+      "page": 1,
+      "location_hint": "§ 7 Geheimhaltung und Konkurrenzklausel"
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Rechtswahl muss deutsches Recht sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag nennt explizit österreichisches Arbeitsrecht (AngG, UrlG, AVRAG), während die Spielregel deutsche Rechtsordnung voraussetzt.",
+      "quote": "Im Übrigen gilt österreichisches Arbeitsrecht, insbesondere das Angestelltengesetz (AngG), das Urlaubsgesetz (UrlG) und das AVRAG.",
+      "page": 1,
+      "location_hint": "§ 9 Anwendbares Recht und Kollektivvertrag 9.2"
+    },
+    {
+      "doc_id": "aa41f1f69b2eff1e",
+      "filename": "02_Arbeitsvertrag_Senior_Developer.txt",
+      "rule": "Rangfolge der Vertragsdokumente muss explizit geregelt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine Rangfolge von Vertragsdokumenten, obwohl kollektivvertragliche Regelungen und Gesetze relevant sind.",
+      "quote": null,
+      "page": 1,
+      "location_hint": "§ 9 Anwendbares Recht und Kollektivvertrag"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Preisänderungen müssen an objektive Kriterien (z. B. CPI) geknüpft sein.",
+      "status": "deviation",
+      "explanation": "Preisänderungen sind an VPI-Index geknüpft, nicht an CPI wie im Playbook vorgeschrieben",
+      "quote": "Der Lizenzgeber ist berechtigt, die Vergütung einmal jährlich um maximal 5% oder den offiziell veröffentlichten VPI-Index... anzupassen",
+      "page": 1,
+      "location_hint": "§ 5.4"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Ordentliche Kündigung darf nicht kürzer als 60 Tage sein.",
+      "status": "ok",
+      "explanation": "Der Vertrag sieht eine Kündigungsfrist von 6 Monaten vor, was länger als die vorgeschriebene 60-Tage-Frist ist.",
+      "quote": "Nach Ablauf der Mindestlaufzeit verlängert sich der Vertrag automatisch um jeweils 12 Monate, sofern er nicht von einer Vertragspartei mit einer Frist von 6 Monaten zum Laufzeitende schriftlich gekündigt wird.",
+      "page": 1,
+      "location_hint": "§ 8 Vertragslaufzeit und Kündigung"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Automatische Verlängerung darf höchstens 12 Monate betragen.",
+      "status": "ok",
+      "explanation": "Der Vertrag sieht eine automatische Verlängerung um genau 12 Monate nach Ablauf der Mindestlaufzeit vor, was der Regel entspricht.",
+      "quote": "Nach Ablauf der Mindestlaufzeit verlängert sich der Vertrag automatisch um jeweils 12 Monate, sofern er nicht von einer Vertragspartei mit einer Frist von 6 Monaten zum Laufzeitende schriftlich gekündigt wird.",
+      "page": 1,
+      "location_hint": "§ 8 Vertragslaufzeit und Kündigung"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Zahlungsziel muss mindestens 30 Tage betragen.",
+      "status": "ok",
+      "explanation": "Der Vertrag enthält eine Zahlungsfrist von 30 Tagen, wie im Playbook gefordert.",
+      "quote": "Rechnungen sind innerhalb von 30 Tagen nach Rechnungsstellung zahlbar.",
+      "page": 1,
+      "location_hint": "§ 5 Vergütung und Zahlungsbedingungen, 5.2"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "SLA-Verfügbarkeit muss mindestens 99.5% pro Monat betragen.",
+      "status": "ok",
+      "explanation": "Der Vertrag garantiert explizit eine Systemverfügbarkeit von 99,5% im Monatsdurchschnitt, gemessen außerhalb der Wartungsfenster, was der SLA-Vorgabe entspricht.",
+      "quote": "Der Lizenzgeber garantiert eine Systemverfügbarkeit von mindestens 99,5% im Monatsdurchschnitt, gemessen außerhalb der geplanten Wartungsfenster (\"SLA\").",
+      "page": 1,
+      "location_hint": "§ 4.3"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Haftungscap für direkte Schäden darf 100% der Jahresvergütung nicht überschreiten.",
+      "status": "ok",
+      "explanation": "Der Vertrag begrenzt die Haftung für Schäden aus leichter Fahrlässigkeit auf den durchschnittlichen jährlichen Vertragswert (§7.2), was 100% des Jahrespreises (€64.800) entspricht und damit der Regel entspricht.",
+      "quote": "Die Haftung des Lizenzgebers für Schäden aus leichter Fahrlässigkeit ist auf den durchschnittlichen jährlichen Vertragswert begrenzt",
+      "page": 1,
+      "location_hint": "§7.2"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Haftung für Vorsatz, grobe Fahrlässigkeit, Tod/Körperverletzung darf nicht begrenzt werden.",
+      "status": "deviation",
+      "explanation": "The contract limits liability for indirect damages under intent/gross negligence, contradicting the rule requiring no limitation for death/injury.",
+      "quote": "Für mittelbare Schäden, entgangenen Gewinn und Datenverluste haftet der Lizenzgeber nur bei Vorsatz oder grober Fahrlässigkeit.",
+      "page": 1,
+      "location_hint": "§ 7.3"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Indirekte/Folgeschäden müssen ausgeschlossen sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag schränkt indirekte Schäden nur ein, wenn Vorsatz oder grobe Fahrlässigkeit vorliegt, was die vollständige Ausschlusspflicht der Regel nicht erfüllt.",
+      "quote": "Für mittelbare Schäden, entgangenen Gewinn und Datenverluste haftet der Lizenzgeber nur bei Vorsatz oder grober Fahrlässigkeit.",
+      "page": 1,
+      "location_hint": "§ 7.3 Haftung"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "AVV/DPA muss ausdrücklich vereinbart sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine explizite Vereinbarung zur AVV (Österreichisches Datenschutzgesetz) oder DPA (Datenschutzvereinbarung), obwohl österreichisches Recht gilt.",
+      "quote": "§ 6.1 Im Rahmen der Vertragserfüllung verarbeitet der Lizenzgeber personenbezogene Daten... im Sinne von Art. 28 DSGVO.",
+      "page": 1,
+      "location_hint": "§ 6 Datenschutz und Datensicherheit"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "RPO muss <= 4 Stunden sein.",
+      "status": "ok",
+      "explanation": "Der Vertrag legt für Severity 1-Fehler eine Antwortzeit von 4 Stunden fest, was der Regel RPO <= 4 Stunden entspricht.",
+      "quote": "Kritische Fehler (Severity 1) werden innerhalb von 4 Stunden behoben",
+      "page": 1,
+      "location_hint": "§ 4 Wartungs- und Supportleistungen 4.1"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "RTO muss <= 24 Stunden sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine spezifische Reaktionszeit (RTO) oder entsprechende SLA-Klauseln für die Wiederherstellung von Systemausfällen.",
+      "quote": null,
+      "page": 1,
+      "location_hint": "§ 4 Wartungs- und Supportleistungen"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Service Credits müssen bei SLA-Verstoß ausdrücklich vorgesehen sein.",
+      "status": "ok",
+      "explanation": "Der Vertrag enthält eine Klausel über Service Credits bei SLA-Verstößen.",
+      "quote": "Bei Unterschreitung des SLA wird dem Lizenznehmer eine Gutschrift gemäß der Service Level Agreement-Anlage (Anlage B) gewährt.",
+      "page": 1,
+      "location_hint": "§ 4.3"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Audit-Recht des Kunden muss mindestens einmal jährlich vorgesehen sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine Rechte des Kunden auf jährliche Audits, obwohl dies laut Playbook vorgeschrieben ist.",
+      "quote": "Regelmäßige Penetrationstests durch unabhängige Dritte (mindestens jährlich)",
+      "page": 1,
+      "location_hint": "§ 6 Datenschutz und Datensicherheit"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Subunternehmer dürfen nur mit vertraglicher Weitergabe der Datenschutzpflichten eingesetzt werden.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Klausel zur vertraglichen Weitergabe von Datenschutzpflichten bei Subunternehmern.",
+      "quote": "Subunternehmer dürfen nur mit vertraglicher Weitergabe der Datenschutzpflichten eingesetzt werden.",
+      "page": 1,
+      "location_hint": "§ 6 Datenschutz und Datensicherheit"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Informationssicherheitsstandard ISO 27001 oder gleichwertig muss genannt sein.",
+      "status": "ok",
+      "explanation": "Der Vertrag nennt explizit ISO 27001 in der Serverinfrastruktur.",
+      "quote": "Der Lizenzgeber betreibt seine Server ausschließlich in ISO 27001-zertifizierten Rechenzentren innerhalb der Europäischen Union",
+      "page": 1,
+      "location_hint": "§ 6 Datenschutz und Datensicherheit 6.3"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Drittlandtransfer personenbezogener Daten muss mit geeigneten Garantien geregelt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag erwähnt keine Regelungen zum Transfer personenbezogener Daten an Drittländer, obwohl Server in der EU betrieben werden.",
+      "quote": "Der Lizenzgeber betreibt seine Server ausschließlich in ISO 27001-zertifizierten Rechenzentren innerhalb der Europäischen Union, bevorzugt in Österreich oder Deutschland.",
+      "page": 1,
+      "location_hint": "§ 6 Datenschutz und Datensicherheit"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Gerichtsstand muss München sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag nennt Wien als Gerichtsstand, während die Spielregel München verlangt.",
+      "quote": "Auf diesen Vertrag findet österreichisches Recht Anwendung. Der Gerichtsstand für alle Streitigkeiten ist Wien.",
+      "page": 1,
+      "location_hint": "§ 9.2"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Rangfolge der Vertragsdokumente muss explizit geregelt sein.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine explizite Regelung zur Rangfolge von Vertragsdokumenten.",
+      "quote": null,
+      "page": 1,
+      "location_hint": "§ 9 Schlussbestimmungen (und andere Abschnitte)"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Rechtswahl muss deutsches Recht sein.",
+      "status": "deviation",
+      "explanation": "Der Vertrag wählt österreichisches Recht statt deutsches Recht aus.",
+      "quote": "Auf diesen Vertrag findet österreichisches Recht Anwendung. Der Gerichtsstand für alle Streitigkeiten ist Wien.",
+      "page": 1,
+      "location_hint": "§ 9.2"
+    },
+    {
+      "doc_id": "9722aa9bd729820b",
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "rule": "Vertraulichkeitspflichten müssen mindestens 3 Jahre nach Vertragsende gelten.",
+      "status": "missing",
+      "explanation": "Der Vertrag enthält keine Regelung zur Vertraulichkeitspflichten nach Vertragsende.",
+      "quote": null,
+      "page": 1,
+      "location_hint": null
+    }
+  ],
+  "summary": {
+    "ok": 22,
+    "deviation": 26,
+    "missing": 52
+  }
+}
+\nQ: Welcher Vertrag enthält die strengste Haftungsbegrenzung und wie genau ist sie formuliert?
+{
+  "answer": "Der Dienstleistungsrahmenvertrag enthält die strengste Haftungsbegrenzung, da die Gesamthaftung des AN auf den Wert des betreffenden Projektvertrages begrenzt ist, maximal jedoch EUR 2.000.000,-- [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 9.1]. Für mittelbare Schäden, Folgeschäden und entgangenen Gewinn haftet der AN nur bei Vorsatz [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 9.2].",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 9.1",
+      "quote": "Die Gesamthaftung des AN aus diesem Rahmenvertrag und allen Projektverträgen ist auf den Wert des betreffenden Projektvertrages, maximal jedoch EUR 2.000.000,--, begrenzt."
+    },
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 9.2",
+      "quote": "Für mittelbare Schäden, Folgeschäden und entgangenen Gewinn haftet der AN nur bei Vorsatz."
+    }
+  ]
+}
+\nQ: In welchen Dokumenten ist die Haftung für grobe Fahrlässigkeit ausdrücklich unbeschränkt?
+{
+  "answer": "Die Haftung für grobe Fahrlässigkeit ist in den Dokumenten **05_Dienstleistungsrahmenvertrag.txt** ausdrücklich unbeschränkt. [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 9.3]  \nIn diesem Dokument wird explizit festgelegt, dass die Haftungsbegrenzung nicht für Schäden durch grobe Fahrlässigkeit gilt. Andere Dokumente erwähnen keine unbeschränkte Haftung für grobe Fahrlässigkeit.",
+  "sources": []
+}
+\nQ: Welche Verträge erlauben Preisanpassungen, und an welche Trigger sind sie gebunden?
+{
+  "answer": "Der Softwarelizenz-Wartungsvertrag (01_Softwarelizenz_Wartungsvertrag.txt) erlaubt Preisanpassungen, die jährlich um maximal 5% oder den VPI-Index (je nachdem, welcher höher ist) erfolgen. Dieser Trigger ist an die Ankündigung mindestens 3 Monate vor Inkrafttreten gebunden [DOC: 01_Softwarelizenz_Wartungsvertrag.txt, p. 1, clause 5.4]. Andere Verträge in den Passagen enthalten keine Regelungen zur Preisanpassung.",
+  "sources": []
+}
+\nQ: Gibt es einen Vertrag, der Service Credits erwähnt, aber keine Berechnungslogik enthält?
+{
+  "answer": "Ja, der Softwarelizenz- und Wartungsvertrag erwähnt Service Credits im Kontext der SLA (Service Level Agreement), jedoch ohne Berechnungslogik. [DOC: 01_Softwarelizenz_Wartungsvertrag.txt, p. 1, clause 4.3] Die Gutschrift bei SLA-Verletzungen wird genannt, aber keine konkrete Berechnung wird festgelegt. [DOC: 01_Softwarelizenz_Wartungsvertrag.txt, p. 1, clause 5.3]",
+  "sources": []
+}
+\nQ: In welchen Dokumenten ist das Zahlungsziel unter 30 Tagen?
+{
+  "answer": "Das Zahlungsziel unter 30 Tagen ist in [05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 5.4] festgelegt: „Rechnungen sind monatlich zu stellen und innerhalb von 30 Tagen nach Eingang beim AG zahlbar.“",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 5.4",
+      "quote": "Rechnungen sind monatlich zu stellen und innerhalb von 30 Tagen nach Eingang beim AG zahlbar."
+    }
+  ]
+}
+\nQ: Welche Dokumente enthalten widersprüchliche Aussagen zur Vertragslaufzeit oder Verlängerung?
+{
+  "answer": "Die Dokumente enthalten keine widersprüchlichen Aussagen zur Vertragslaufzeit oder Verlängerung. [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 8.1] und [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 8.2] beschreiben klare Regelungen zur Laufzeit und Kündigung, jedoch keine Widersprüche.",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 8.1",
+      "quote": "Dieser Rahmenvertrag tritt mit Unterzeichnung in Kraft und läuft auf unbestimmte Zeit. Er kann von beiden Parteien mit einer Frist von 6 Monaten zum Ende eines Kalenderquartals gekündigt werden."
+    },
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 8.2",
+      "quote": "Eine Kündigung des Rahmenvertrages berührt nicht die Gültigkeit und Wirksamkeit bereits abgeschlossener Projektverträge, die nach den jeweiligen Regelungen zu Ende geführt werden."
+    }
+  ]
+}
+\nQ: Wo wird Subunternehmer-Einsatz geregelt und welche Kontrollrechte hat der Kunde dabei?
+{
+  "answer": "Der Einsatz von Subunternehmern wird in § 4.3 des Dienstleistungsrahmenvertrags geregelt: Die Hinzuziehung bedarf der vorherigen schriftlichen Zustimmung des AG, der AN haftet für deren Leistungen wie eigene, und Subunternehmer sind auf dieselben Datenschutz- und Geheimhaltungspflichten zu verpflichten [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 4.3]. Der Kunde hat Kontrollrechte durch die Pflicht zur schriftlichen Zustimmung und kann Änderungen des Leistungsumfangs (§ 3.3) sowie die Ersatzpersonenwahl (§ 4.2) prüfen, aber keine detaillierten Inspekteurechte sind explizit festgelegt [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 3.3].",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 4.3",
+      "quote": "Die Hinzuziehung von Subunternehmern bedarf der vorherigen schriftlichen Zustimmung des AG..."
+    },
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 3.3",
+      "quote": "Änderungen des vereinbarten Leistungsumfangs...bedürfen der schriftlichen Vereinbarung..."
+    }
+  ]
+}
+\nQ: Welche Verträge nennen konkret RTO und RPO, und sind diese Werte playbook-konform?
+{
+  "answer": "Die Verträge nennen keine konkreten Werte wie RTO und RPO, und keine der bereitgestellten Dokumente erwähnt diese Begriffe im Zusammenhang mit playbook-konformer Einhaltung. [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 2.3]  \nDie Frage nach der playbook-konformen Einhaltung von RTO/RPO kann aus den vorliegenden Texten nicht beantwortet werden, da diese Begriffe nicht explizit genannt werden. [DOC: 01_Softwarelizenz_Wartungsvertrag.txt, p. 1, clause 5.4]  \nEs gibt keine direkte Verknüpfung der genannten Verträge mit RTO/RPO oder playbook-konformen Vorgaben in den bereitgestellten Dokumenten. [DOC: 04_Geheimhaltungsvereinbarung_NDA.txt, p. 1, clause 3.2]",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 2.3",
+      "quote": "Leistungsschwerpunkte umfassen insbesondere: ERP-Implementierung..."
+    },
+    {
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 5.4",
+      "quote": "Der Lizenzgeber ist berechtigt, die Vergütung..."
+    },
+    {
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "page": 1,
+      "location_hint": "clause 3.2",
+      "quote": "Vertrauliche Informationen umfassen nicht:"
+    }
+  ]
+}
+\nQ: Welche Dokumente regeln Drittlandtransfer personenbezogener Daten explizit?
+{
+  "answer": "Die in den bereitgestellten Dokumenten erwähnten Vereinbarungen regeln keine expliziten Vorgaben zur Drittlandtransferierung personenbezogener Daten. Die NDAs (04_Geheimhaltungsvereinbarung_NDA.txt) konzentrieren sich auf Vertraulichkeitspflichten und Datenraum-Management, nicht auf跨境数据传输的法律框架 [DOC: 04_Geheimhaltungsvereinbarung_NDA.txt, p. 1, clause 3.1]. Der Dienstleistungsrahmenvertrag (05_Dienstleistungsrahmenvertrag.txt) enthält keine Bezugnahme auf Drittlandtransfers [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 3.2].",
+  "sources": [
+    {
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "page": 1,
+      "location_hint": "clause 3.1",
+      "quote": "Vertrauliche Informationen bezeichnet alle Informationen... Personalbezogene Informationen (Organigramme, Gehaltsstrukturen, Schlüsselpersonen)"
+    },
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 3.2",
+      "quote": "Für jedes Projekt werden in den jeweiligen Projektverträgen folgende Punkte geregelt:"
+    }
+  ]
+}
+\nQ: In welchem Vertrag fehlt trotz Verarbeitung personenbezogener Daten eine explizite AVV/DPA-Regelung?
+{
+  "answer": "Die Antwort lautet: **Keiner der bereitgestellten Verträge** erfüllt die beschriebene Situation, da sowohl der Softwarelizenzvertrag (01_Softwarelizenz_Wartungsvertrag.txt) als auch der Dienstleistungsrahmenvertrag (05_Dienstleistungsrahmenvertrag.txt) explizit auf **Art. 28 DSGVO** und **Auftragsverarbeitungsverträge (Anlage C)** verweisen, was eine DPA/AVV-Regelung impliziert. Der Vertraulichkeitsvertrag (04_Geheimhaltungsvereinbarung_NDA.txt) bezieht sich nicht auf datenschutzrechtliche Verarbeitung. Somit gibt es in den bereitgestellten Dokumenten keine Verträge, die personalisierte Daten verarbeiten, aber keine DPA/AVV-Regelung enthalten.",
+  "sources": []
+}
+\nQ: Welche Rechtsordnungen sind über alle Dokumente verteilt vereinbart?
+{
+  "detail": "Ollama chat failed"
+}
+\nQ: Gibt es Dokumente mit Gerichtsstandsklauseln außerhalb Deutschlands?
+{
+  "answer": "Ja, es gibt Dokumente mit Gerichtsstandsklauseln außerhalb Deutschlands. Beispielsweise wird in [01_Softwarelizenz_Wartungsvertrag.txt, p. 1, § 9.2] Österreichs Wien als ausschließlicher Gerichtsstand festgelegt. Ebenfalls in [04_Geheimhaltungsvereinbarung_NDA.txt, p. 1, § 10.1] und [05_Dienstleistungsrahmenvertrag.txt, p. 1, § 10.1] wird Wien als Gerichtsstand genannt.",
+  "sources": [
+    {
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "page": 1,
+      "location_hint": "§ 9.2",
+      "quote": "Der Gerichtsstand für alle Streitigkeiten ist Wien."
+    },
+    {
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "page": 1,
+      "location_hint": "§ 10.1",
+      "quote": "Ausschließlicher Gerichtsstand ist Wien."
+    },
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "§ 10.1",
+      "quote": "Gerichtsstand ist Wien."
+    }
+  ]
+}
+\nQ: In welchen Verträgen ist die Rangfolge zwischen Hauptvertrag, SLA und DPA explizit geregelt?
+{
+  "answer": "Die Rangfolge zwischen Hauptvertrag, SLA und DPA ist explizit im Dienstleistungsrahmenvertrag geregelt, wobei Projektverträge (SLA) Vorrang vor dem Rahmenvertrag haben [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 2.2]. Die Geheimhaltungsvereinbarung (DPA) wird nicht in Bezug auf diese Rangfolge erwähnt [DOC: 04_Geheimhaltungsvereinbarung_NDA.txt, p. 1].",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 2.2",
+      "quote": "Im Zweifelsfall haben die Regelungen des Projektvertrages Vorrang vor diesem Rahmenvertrag."
+    }
+  ]
+}
+\nQ: Welche Klauseln deuten auf ungewöhnlich einseitige Risiken zulasten des Kunden hin?
+{
+  "answer": "Die Klauseln in [05_Dienstleistungsrahmenvertrag.txt, p. 1, §9.1–9.2] begrenzen die Haftung des Anbieters auf maximal EUR 2.000.000 und schränken die Ansprüche auf mittelbare Schäden ein, sofern keine Vorsatzhandlung vorliegt. Zudem enthält die salvatorische Klausel [05_Dienstleistungsrahmenvertrag.txt, p. 1, §10.2], die unwirksame Bestimmungen durch eine andere ersetzt, was potenziell einseitige Risiken für den Kunden unterstreicht. In [04_Geheimhaltungsvereinbarung_NDA.txt, p. 1, §8.1] wird eine hohe Vertragsstrafe von EUR 500.000 vorgesehen, die den Kunden bei Vertragsbruch stark belasten könnte.",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "§9.1–9.2",
+      "quote": "Die Gesamthaftung des AN ... maximal jedoch EUR 2.000.000,--, begrenzt. ... nur bei Vorsatz."
+    },
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "§10.2",
+      "quote": "Salvatorische Klausel: Sollten einzelne Bestimmungen ... durch eine rechtlich wirksame Regelung zu ersetzen"
+    },
+    {
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "page": 1,
+      "location_hint": "§8.1",
+      "quote": "Vertragsstrafe von EUR 500.000,-- ... Geltendmachung weitergehenden Schadenersatzes bleibt vorbehalten."
+    }
+  ]
+}
+\nQ: Nenne pro Dokument genau eine potenziell kritische Abweichung vom Playbook mit Quelle.
+{
+  "answer": "In **05_Dienstleistungsrahmenvertrag.txt** (§9.1) ist die Haftung des AN auf den Projektumfang begrenzt, was eine Abweichung vom Standard-Playbook (unbegrenzte Haftung) darstellt. In **01_Softwarelizenz_Wartungsvertrag.txt** (§3.1) ist die Nutzung der Software ausschließlich über das Internet vorgesehen, während das Playbook möglicherweise eine Installation auf eigenen Systemen erlaubt.",
+  "sources": []
+}
+\nDone. Grade with: test_docs/pdf_eval_scorecard.md

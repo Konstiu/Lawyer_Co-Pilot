@@ -1,0 +1,29 @@
+Master Service Agreement (MSA)
+Zwischen: AlphaSoft GmbH (Anbieter) und Bergmann Logistik AG (Kunde)
+Datum: 2026-01-10
+
+§1 Leistungsgegenstand
+Der Anbieter stellt eine SaaS-Plattform für Vertragsanalyse zur Verfügung.
+
+§2 Laufzeit und Kündigung
+(1) Die initiale Vertragslaufzeit beträgt 24 Monate.
+(2) Danach verlängert sich der Vertrag jeweils um 12 Monate, sofern keine Partei mit einer Frist von 90 Tagen zum Laufzeitende kündigt.
+(3) Das Recht zur außerordentlichen Kündigung aus wichtigem Grund bleibt unberührt.
+
+§3 Preise und Zahlungsbedingungen
+(1) Die monatliche Vergütung beträgt EUR 12.500 netto.
+(2) Rechnungen sind innerhalb von 30 Kalendertagen nach Rechnungsdatum ohne Abzug zahlbar.
+(3) Bei Zahlungsverzug fallen Verzugszinsen in gesetzlicher Höhe an.
+
+§4 Haftung
+(1) Für leichte Fahrlässigkeit haftet der Anbieter nur bei Verletzung wesentlicher Vertragspflichten.
+(2) In diesen Fällen ist die Haftung auf 200% der im letzten Vertragsjahr gezahlten Vergütung begrenzt.
+(3) Die Haftung für Vorsatz, grobe Fahrlässigkeit, Personenschäden und nach dem Produkthaftungsgesetz bleibt unbeschränkt.
+
+§5 Datenschutz und Sicherheit
+(1) Der Anbieter verarbeitet personenbezogene Daten ausschließlich auf dokumentierte Weisung des Kunden.
+(2) Eine Auftragsverarbeitungsvereinbarung (AVV) wird abgeschlossen.
+
+§6 Anwendbares Recht und Gerichtsstand
+(1) Es gilt deutsches Recht unter Ausschluss des UN-Kaufrechts.
+(2) Ausschließlicher Gerichtsstand ist München.

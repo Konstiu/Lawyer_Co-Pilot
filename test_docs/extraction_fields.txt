@@ -1,0 +1,8 @@
+Kündigungsfrist ordentlich
+Vertragslaufzeit initial
+Zahlungsziel (Tage)
+Haftungsobergrenze
+Anwendbares Recht
+Gerichtsstand
+SLA Verfügbarkeit
+AVV erwähnt
