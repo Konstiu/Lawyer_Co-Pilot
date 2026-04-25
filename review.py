@@ -18,6 +18,10 @@ from typing import Optional
 import httpx
 from openai import AsyncOpenAI
 try:
+    from google import genai
+except Exception:  # pragma: no cover - optional dependency
+    genai = None
+try:
     from .ingestion import list_documents, retrieve_chunks
 except ImportError:
     from ingestion import list_documents, retrieve_chunks
@@ -28,9 +32,39 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_CHAT_MODEL = os.getenv("OLLAMA_CHAT_MODEL", "llama3.1:8b")
 OLLAMA_CHAT_TIMEOUT = float(os.getenv("OLLAMA_CHAT_TIMEOUT", "300"))
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
+GOOGLE_CLOUD_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+GOOGLE_GENAI_USE_VERTEXAI = os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "true").lower() in {"1", "true", "yes", "on"}
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 REVIEW_MAX_CONCURRENCY = int(os.getenv("REVIEW_MAX_CONCURRENCY", "6"))
 client = AsyncOpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
 logger = logging.getLogger("legal_copilot")
+
+
+def _init_gemini_client():
+    if LLM_PROVIDER != "gemini" or genai is None:
+        return None
+    try:
+        if GOOGLE_GENAI_USE_VERTEXAI:
+            if not GOOGLE_CLOUD_PROJECT:
+                logger.warning("LLM_PROVIDER=gemini but GOOGLE_CLOUD_PROJECT is not set; using local fallback")
+                return None
+            return genai.Client(
+                vertexai=True,
+                project=GOOGLE_CLOUD_PROJECT,
+                location=GOOGLE_CLOUD_LOCATION,
+            )
+        if GEMINI_API_KEY:
+            return genai.Client(api_key=GEMINI_API_KEY)
+        logger.warning("LLM_PROVIDER=gemini but no auth configured; using local fallback")
+        return None
+    except Exception:
+        logger.exception("Failed to initialize Gemini client")
+        return None
+
+
+gemini_client = _init_gemini_client()
 
 
 def _llm_mode() -> str:
@@ -38,6 +72,8 @@ def _llm_mode() -> str:
         return f"openai:{OPENAI_MODEL}"
     if LLM_PROVIDER == "ollama":
         return f"ollama:{OLLAMA_CHAT_MODEL}"
+    if gemini_client:
+        return f"gemini:{GEMINI_MODEL}"
     return "local_fallback"
 
 REVIEW_SYSTEM = """\
@@ -102,6 +138,11 @@ async def _review_one(doc_id: str, filename: str, rule: str) -> dict:
         raw = json.loads(resp.choices[0].message.content)
     elif LLM_PROVIDER == "ollama":
         raw = await _ollama_chat_json(
+            system=REVIEW_SYSTEM,
+            user=REVIEW_USER.format(filename=filename, rule=rule, passages=passages),
+        ) or _local_review(rule=rule, chunks=chunks)
+    elif gemini_client:
+        raw = await _gemini_chat_json(
             system=REVIEW_SYSTEM,
             user=REVIEW_USER.format(filename=filename, rule=rule, passages=passages),
         ) or _local_review(rule=rule, chunks=chunks)
@@ -182,6 +223,53 @@ async def _ollama_chat_json(system: str, user: str) -> dict | None:
             OLLAMA_BASE_URL,
             OLLAMA_CHAT_MODEL,
         )
+        return None
+
+
+def _extract_json_object(text: str) -> dict | None:
+    if not text:
+        return None
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+    fenced = re.search(r"```json\s*(\{.*?\})\s*```", text, flags=re.DOTALL)
+    if fenced:
+        try:
+            return json.loads(fenced.group(1))
+        except json.JSONDecodeError:
+            return None
+    brace_start = text.find("{")
+    brace_end = text.rfind("}")
+    if brace_start >= 0 and brace_end > brace_start:
+        try:
+            return json.loads(text[brace_start:brace_end + 1])
+        except json.JSONDecodeError:
+            return None
+    return None
+
+
+async def _gemini_chat_json(system: str, user: str) -> dict | None:
+    if not gemini_client:
+        return None
+    prompt = f"SYSTEM:\n{system}\n\nUSER:\n{user}"
+
+    def _call() -> str:
+        resp = gemini_client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+            config={
+                "temperature": 0,
+                "response_mime_type": "application/json",
+            },
+        )
+        return (getattr(resp, "text", None) or "").strip()
+
+    try:
+        text = await asyncio.to_thread(_call)
+        return _extract_json_object(text)
+    except Exception:
+        logger.exception("Gemini review JSON failed (model=%s)", GEMINI_MODEL)
         return None
 
 

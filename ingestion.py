@@ -24,6 +24,10 @@ from xml.etree import ElementTree as ET
 import chromadb
 import httpx
 from openai import OpenAI
+try:
+    from google import genai
+except Exception:  # pragma: no cover - optional dependency
+    genai = None
 from chromadb.config import Settings
 from chromadb.errors import InvalidDimensionException
 
@@ -42,11 +46,41 @@ LOCAL_EMBED_DIM = int(os.getenv("LOCAL_EMBED_DIM", "1536"))
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai").lower()
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
+GEMINI_EMBED_MODEL = os.getenv("GEMINI_EMBED_MODEL", "text-embedding-004")
+GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
+GOOGLE_CLOUD_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+GOOGLE_GENAI_USE_VERTEXAI = os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "true").lower() in {"1", "true", "yes", "on"}
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
 logger = logging.getLogger("legal_copilot")
 _EMBED_MODE_LOGGED = False
+
+
+def _init_gemini_client():
+    if LLM_PROVIDER != "gemini" or genai is None:
+        return None
+    try:
+        if GOOGLE_GENAI_USE_VERTEXAI:
+            if not GOOGLE_CLOUD_PROJECT:
+                logger.warning("LLM_PROVIDER=gemini but GOOGLE_CLOUD_PROJECT is not set; using local embedding fallback")
+                return None
+            return genai.Client(
+                vertexai=True,
+                project=GOOGLE_CLOUD_PROJECT,
+                location=GOOGLE_CLOUD_LOCATION,
+            )
+        if GEMINI_API_KEY:
+            return genai.Client(api_key=GEMINI_API_KEY)
+        logger.warning("LLM_PROVIDER=gemini but no auth configured; using local embedding fallback")
+        return None
+    except Exception:
+        logger.exception("Failed to initialize Gemini embedding client")
+        return None
+
+
+gemini_client = _init_gemini_client()
 
 chroma = chromadb.PersistentClient(
     path=str(DATA_DIR / "chroma"),
@@ -219,6 +253,8 @@ def _embed(texts: list[str]) -> list[list[float]]:
     if not _EMBED_MODE_LOGGED:
         if client:
             logger.info("Embedding backend: openai (model=%s)", EMBED_MODEL)
+        elif gemini_client:
+            logger.info("Embedding backend: gemini (model=%s)", GEMINI_EMBED_MODEL)
         elif LLM_PROVIDER == "ollama":
             logger.info("Embedding backend: ollama (model=%s)", OLLAMA_EMBED_MODEL)
         else:
@@ -244,6 +280,8 @@ def _embed(texts: list[str]) -> list[list[float]]:
                     sleep_s,
                 )
                 time.sleep(sleep_s)
+    if gemini_client:
+        return _gemini_embed_batch(texts)
     if LLM_PROVIDER == "ollama":
         return [_ollama_embed(t) for t in texts]
     return [_local_embed(t) for t in texts]
@@ -296,6 +334,53 @@ def _ollama_embed(text: str) -> list[float]:
             )
             time.sleep(sleep_s)
     return _local_embed(text)
+
+
+def _gemini_embed_batch(texts: list[str]) -> list[list[float]]:
+    if not gemini_client:
+        return [_local_embed(t) for t in texts]
+
+    for attempt in range(1, EMBED_MAX_RETRIES + 1):
+        try:
+            resp = gemini_client.models.embed_content(
+                model=GEMINI_EMBED_MODEL,
+                contents=texts,
+            )
+            raw_embeddings = getattr(resp, "embeddings", None)
+            if raw_embeddings is None and isinstance(resp, dict):
+                raw_embeddings = resp.get("embeddings")
+
+            vectors: list[list[float]] = []
+            for item in raw_embeddings or []:
+                values = getattr(item, "values", None)
+                if values is None and isinstance(item, dict):
+                    values = item.get("values")
+                if isinstance(values, list) and values:
+                    vectors.append(values)
+
+            if len(vectors) == len(texts):
+                return vectors
+            raise RuntimeError(
+                f"Gemini embeddings mismatch: requested={len(texts)} received={len(vectors)}"
+            )
+        except Exception as exc:
+            if attempt >= EMBED_MAX_RETRIES:
+                logger.exception(
+                    "Gemini embeddings failed after %s attempts (model=%s). Falling back to local embeddings.",
+                    EMBED_MAX_RETRIES,
+                    GEMINI_EMBED_MODEL,
+                )
+                return [_local_embed(t) for t in texts]
+            sleep_s = EMBED_RETRY_BASE_SECONDS * (2 ** (attempt - 1))
+            logger.warning(
+                "Gemini embeddings failed (attempt %s/%s): %s; retrying in %.1fs",
+                attempt,
+                EMBED_MAX_RETRIES,
+                type(exc).__name__,
+                sleep_s,
+            )
+            time.sleep(sleep_s)
+    return [_local_embed(t) for t in texts]
 
 
 # ── Public API ────────────────────────────────────────────────────────────────

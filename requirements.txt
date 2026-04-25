@@ -4,6 +4,7 @@ python-multipart==0.0.12
 
 # LLM
 openai>=1.40.0
+google-genai>=0.5.0
 
 # Vector DB
 chromadb==0.5.23

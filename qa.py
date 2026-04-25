@@ -7,6 +7,7 @@ Q&A pipeline
 """
 
 import json
+import asyncio
 import os
 import re
 import logging
@@ -14,6 +15,10 @@ from typing import Optional
 
 import httpx
 from openai import AsyncOpenAI
+try:
+    from google import genai
+except Exception:  # pragma: no cover - optional dependency
+    genai = None
 try:
     from .ingestion import list_documents, retrieve_chunks
 except ImportError:
@@ -25,9 +30,39 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_CHAT_MODEL = os.getenv("OLLAMA_CHAT_MODEL", "llama3.1:8b")
 OLLAMA_CHAT_TIMEOUT = float(os.getenv("OLLAMA_CHAT_TIMEOUT", "300"))
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
+GOOGLE_CLOUD_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+GOOGLE_GENAI_USE_VERTEXAI = os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "true").lower() in {"1", "true", "yes", "on"}
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 QA_TOP_K = int(os.getenv("QA_TOP_K", "6"))
 client = AsyncOpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
 logger = logging.getLogger("legal_copilot")
+
+
+def _init_gemini_client():
+    if LLM_PROVIDER != "gemini" or genai is None:
+        return None
+    try:
+        if GOOGLE_GENAI_USE_VERTEXAI:
+            if not GOOGLE_CLOUD_PROJECT:
+                logger.warning("LLM_PROVIDER=gemini but GOOGLE_CLOUD_PROJECT is not set; using local fallback")
+                return None
+            return genai.Client(
+                vertexai=True,
+                project=GOOGLE_CLOUD_PROJECT,
+                location=GOOGLE_CLOUD_LOCATION,
+            )
+        if GEMINI_API_KEY:
+            return genai.Client(api_key=GEMINI_API_KEY)
+        logger.warning("LLM_PROVIDER=gemini but no auth configured; using local fallback")
+        return None
+    except Exception:
+        logger.exception("Failed to initialize Gemini client")
+        return None
+
+
+gemini_client = _init_gemini_client()
 
 
 def _llm_mode() -> str:
@@ -35,6 +70,8 @@ def _llm_mode() -> str:
         return f"openai:{OPENAI_MODEL}"
     if LLM_PROVIDER == "ollama":
         return f"ollama:{OLLAMA_CHAT_MODEL}"
+    if gemini_client:
+        return f"gemini:{GEMINI_MODEL}"
     return "local_fallback"
 
 QA_SYSTEM = """\
@@ -98,7 +135,7 @@ async def run_qa(
         f"[{c['filename']}, page {c['page']}]\n{c['text']}" for c in chunks
     )
 
-    if not client and LLM_PROVIDER != "ollama":
+    if not client and not gemini_client and LLM_PROVIDER != "ollama":
         sources = [
             {
                 "filename": c["filename"],
@@ -138,8 +175,12 @@ async def run_qa(
             temperature=0,
         )
         full_text: str = resp.choices[0].message.content
-    else:
+    elif gemini_client:
+        full_text = await _gemini_chat_text(messages)
+    elif LLM_PROVIDER == "ollama":
         full_text = await _ollama_chat_text(messages)
+    else:
+        raise RuntimeError("No LLM backend configured")
 
     # Split answer from JSON sources block
     answer = full_text
@@ -201,3 +242,25 @@ async def _ollama_chat_text(messages: list[dict]) -> str:
             OLLAMA_CHAT_MODEL,
         )
         raise RuntimeError("Ollama chat failed")
+
+
+async def _gemini_chat_text(messages: list[dict]) -> str:
+    if not gemini_client:
+        raise RuntimeError("Gemini client not configured")
+    prompt = "\n\n".join(
+        f"{m.get('role', 'user').upper()}:\n{m.get('content', '')}" for m in messages
+    )
+
+    def _call() -> str:
+        resp = gemini_client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+            config={"temperature": 0},
+        )
+        return (getattr(resp, "text", None) or "").strip()
+
+    try:
+        return await asyncio.to_thread(_call)
+    except Exception:
+        logger.exception("Gemini chat failed (model=%s)", GEMINI_MODEL)
+        raise RuntimeError("Gemini chat failed")

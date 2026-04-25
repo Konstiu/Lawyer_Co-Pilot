@@ -46,12 +46,18 @@ async def _log_runtime_config():
     provider = os.getenv("LLM_PROVIDER", "openai").lower()
     openai_model = os.getenv("OPENAI_MODEL", "gpt-4o")
     ollama_model = os.getenv("OLLAMA_CHAT_MODEL", "llama3.1:8b")
+    gemini_model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+    gcp_project = os.getenv("GOOGLE_CLOUD_PROJECT")
+    gcp_location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
     has_openai_key = bool(os.getenv("OPENAI_API_KEY"))
     logger.info(
-        "Runtime config: LLM_PROVIDER=%s OPENAI_MODEL=%s OLLAMA_CHAT_MODEL=%s OPENAI_API_KEY_set=%s",
+        "Runtime config: LLM_PROVIDER=%s OPENAI_MODEL=%s OLLAMA_CHAT_MODEL=%s GEMINI_MODEL=%s GCP_PROJECT=%s GCP_LOCATION=%s OPENAI_API_KEY_set=%s",
         provider,
         openai_model,
         ollama_model,
+        gemini_model,
+        bool(gcp_project),
+        gcp_location,
         has_openai_key,
     )
 

@@ -37,7 +37,7 @@ Upload PDF
 
 Run Extraction / Review / Q&A
   └─→ retrieve_chunks()   ← semantic search in ChromaDB
-        └─→ LLM (gpt-4o)  ← structured JSON response
+        └─→ LLM (OpenAI / Ollama / Gemini)  ← structured JSON response
               └─→ response with value + quote + page + location_hint
 ```
 
@@ -74,10 +74,22 @@ ollama pull llama3.1:8b
 ollama pull nomic-embed-text
 ```
 
+#### Gemini mode (Vertex AI / GCP credits)
+
+```bash
+export LLM_PROVIDER="gemini"
+export GEMINI_MODEL="gemini-2.5-flash"      # low-cost default
+export GOOGLE_GENAI_USE_VERTEXAI="true"
+export GOOGLE_CLOUD_PROJECT="<your-project-id>"
+export GOOGLE_CLOUD_LOCATION="us-central1"
+gcloud auth application-default login
+```
+
 Or create a `.env` file and load with `python-dotenv`.
 
-If you do not set `OPENAI_API_KEY`:
+If provider credentials are missing:
 - with `LLM_PROVIDER=ollama`, the app uses local Ollama models
+- with `LLM_PROVIDER=gemini`, it falls back to local heuristics
 - otherwise it runs in a heuristic fallback mode (no external API)
 
 This keeps the app usable for demos/offline testing, but output quality is lower than
@@ -139,12 +151,18 @@ Set via environment variables:
 
 | Variable | Default | Description |
 |---|---|---|
-| `LLM_PROVIDER` | `openai` | `openai`, `ollama`, or fallback without remote model |
+| `LLM_PROVIDER` | `openai` | `openai`, `ollama`, `gemini`, or fallback without remote model |
 | `OPENAI_API_KEY` | — | Optional. If missing, local fallback mode is used |
 | `OPENAI_MODEL` | `gpt-4o` | Chat model for OpenAI mode |
+| `GEMINI_MODEL` | `gemini-2.5-flash` | Chat model for Gemini mode (cost-efficient default) |
+| `GOOGLE_GENAI_USE_VERTEXAI` | `true` | Use Vertex AI auth/billing (recommended for GCP credits) |
+| `GOOGLE_CLOUD_PROJECT` | — | GCP project for Vertex AI Gemini |
+| `GOOGLE_CLOUD_LOCATION` | `us-central1` | Vertex AI region |
+| `GEMINI_API_KEY` | — | Optional API-key auth (if not using Vertex AI) |
 | `OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama API URL |
 | `OLLAMA_CHAT_MODEL` | `llama3.1:8b` | Ollama chat model |
 | `OLLAMA_EMBED_MODEL` | `nomic-embed-text` | Ollama embedding model |
+| `GEMINI_EMBED_MODEL` | `text-embedding-004` | Embedding model when `LLM_PROVIDER=gemini` |
 | `DATA_DIR` | `./data` | Where ChromaDB + SQLite are stored |
 | `CHUNK_SIZE` | `1500` | Target characters per chunk |
 | `CHUNK_OVERLAP` | `200` | Character overlap between chunks |
