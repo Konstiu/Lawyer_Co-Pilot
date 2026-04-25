@@ -78,7 +78,7 @@ ollama pull nomic-embed-text
 
 ```bash
 export LLM_PROVIDER="gemini"
-export GEMINI_MODEL="gemini-2.5-flash"      # low-cost default
+export GEMINI_MODEL="gemini-2.5-flash-lite"      # low-cost default
 export GOOGLE_GENAI_USE_VERTEXAI="true"
 export GOOGLE_CLOUD_PROJECT="<your-project-id>"
 export GOOGLE_CLOUD_LOCATION="us-central1"
@@ -154,7 +154,7 @@ Set via environment variables:
 | `LLM_PROVIDER` | `openai` | `openai`, `ollama`, `gemini`, or fallback without remote model |
 | `OPENAI_API_KEY` | — | Optional. If missing, local fallback mode is used |
 | `OPENAI_MODEL` | `gpt-4o` | Chat model for OpenAI mode |
-| `GEMINI_MODEL` | `gemini-2.5-flash` | Chat model for Gemini mode (cost-efficient default) |
+| `GEMINI_MODEL` | `gemini-2.5-flash-lite` | Chat model for Gemini mode (cost-efficient default) |
 | `GOOGLE_GENAI_USE_VERTEXAI` | `true` | Use Vertex AI auth/billing (recommended for GCP credits) |
 | `GOOGLE_CLOUD_PROJECT` | — | GCP project for Vertex AI Gemini |
 | `GOOGLE_CLOUD_LOCATION` | `us-central1` | Vertex AI region |
