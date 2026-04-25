@@ -102,7 +102,7 @@ http://localhost:8000
 ## Usage
 
 ### Upload documents
-Click **+ Upload document** in the sidebar. Supports PDF and plain text.
+Click **+ Upload document** in the sidebar. Supports PDF, DOCX, and plain text.
 Documents are chunked, embedded, and indexed automatically.
 
 ### Extraction
@@ -146,9 +146,13 @@ Set via environment variables:
 | `OLLAMA_CHAT_MODEL` | `llama3.1:8b` | Ollama chat model |
 | `OLLAMA_EMBED_MODEL` | `nomic-embed-text` | Ollama embedding model |
 | `DATA_DIR` | `./data` | Where ChromaDB + SQLite are stored |
-| `CHUNK_SIZE` | `800` | Characters per chunk |
-| `CHUNK_OVERLAP` | `150` | Overlap between chunks |
+| `CHUNK_SIZE` | `1500` | Target characters per chunk |
+| `CHUNK_OVERLAP` | `200` | Character overlap between chunks |
+| `MIN_CHUNK_CHARS` | `80` | Drop chunks smaller than this size |
 | `EMBED_MODEL` | `text-embedding-3-small` | OpenAI embedding model |
+| `EMBED_BATCH_SIZE` | `64` | Embedding request batch size |
+| `EMBED_MAX_RETRIES` | `3` | Retries per embedding API call |
+| `EMBED_RETRY_BASE_SECONDS` | `1.0` | Exponential backoff base delay |
 | `LOCAL_EMBED_DIM` | `1536` | Embedding dimension for local fallback mode |
 
 ---
