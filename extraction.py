@@ -104,8 +104,8 @@ Relevant passages:
 """
 
 
-async def _extract_one(doc_id: str, filename: str, field: str) -> dict:
-    chunks = retrieve_chunks(query=field, doc_ids=[doc_id], n=5)
+async def _extract_one(doc_id: str, filename: str, field: str, corpus: str | None = "user_docs") -> dict:
+    chunks = retrieve_chunks(query=field, doc_ids=[doc_id], n=5, corpus=corpus)
     if not chunks:
         return {
             "doc_id": doc_id,
@@ -116,6 +116,7 @@ async def _extract_one(doc_id: str, filename: str, field: str) -> dict:
             "quote": None,
             "page": None,
             "location_hint": None,
+            "source_anchor": None,
         }
 
     passages = "\n\n---\n\n".join(
@@ -148,7 +149,21 @@ async def _extract_one(doc_id: str, filename: str, field: str) -> dict:
     else:
         raw = _local_extract(field=field, chunks=chunks)
 
-    best_page = chunks[0]["page"] if chunks else None
+    best = _resolve_chunk_for_quote(chunks, raw.get("quote")) or (chunks[0] if chunks else None)
+    best_page = best["page"] if best else None
+    source_anchor = None
+    if best:
+        source_anchor = {
+            "doc_id": best["doc_id"],
+            "filename": best["filename"],
+            "chunk_id": best.get("chunk_id"),
+            "chunk_index": best.get("chunk_index"),
+            "page": best.get("page"),
+            "page_start": best.get("page_start"),
+            "page_end": best.get("page_end"),
+            "char_start": best.get("char_start"),
+            "char_end": best.get("char_end"),
+        }
 
     return {
         "doc_id": doc_id,
@@ -159,7 +174,25 @@ async def _extract_one(doc_id: str, filename: str, field: str) -> dict:
         "quote": raw.get("quote"),
         "page": best_page,
         "location_hint": raw.get("location_hint"),
+        "source_anchor": source_anchor,
     }
+
+
+def _normalize_for_match(text: str | None) -> str:
+    return re.sub(r"\s+", " ", (text or "").strip().lower())
+
+
+def _resolve_chunk_for_quote(chunks: list[dict], quote: str | None) -> dict | None:
+    if not chunks:
+        return None
+    q = _normalize_for_match(quote)
+    if not q:
+        return None
+    for c in chunks:
+        t = _normalize_for_match(c.get("text"))
+        if q and q in t:
+            return c
+    return None
 
 
 def _local_extract(field: str, chunks: list[dict]) -> dict:
@@ -269,7 +302,11 @@ async def _gemini_chat_json(system: str, user: str) -> dict | None:
         return None
 
 
-async def run_extraction(fields: list[str], doc_ids: Optional[list[str]] = None) -> dict:
+async def run_extraction(
+    fields: list[str],
+    doc_ids: Optional[list[str]] = None,
+    corpus: str | None = "user_docs",
+) -> dict:
     """
     Returns:
     {
@@ -285,7 +322,7 @@ async def run_extraction(fields: list[str], doc_ids: Optional[list[str]] = None)
       ]
     }
     """
-    docs = list_documents()
+    docs = list_documents(corpus=corpus)
     if doc_ids:
         docs = [d for d in docs if d["id"] in doc_ids]
 
@@ -310,7 +347,7 @@ async def run_extraction(fields: list[str], doc_ids: Optional[list[str]] = None)
     async def _bounded_extract(pair: tuple[str, str, str]) -> dict:
         doc_id, filename, field = pair
         async with semaphore:
-            return await _extract_one(doc_id, filename, field)
+            return await _extract_one(doc_id, filename, field, corpus=corpus)
 
     tasks = [asyncio.create_task(_bounded_extract(pair)) for pair in pairs]
     results: list[dict] = []
@@ -336,6 +373,7 @@ async def run_extraction(fields: list[str], doc_ids: Optional[list[str]] = None)
             "quote": r["quote"],
             "page": r["page"],
             "location_hint": r["location_hint"],
+            "source_anchor": r.get("source_anchor"),
         }
 
     return {"fields": fields, "rows": list(rows_map.values())}

@@ -159,6 +159,22 @@ http://localhost:8000
 ### Upload documents
 Click **+ Upload document** in the sidebar. Supports PDF, DOCX, and plain text.
 Documents are chunked, embedded, and indexed automatically.
+By default, UI uploads go to corpus `user_docs`.
+
+### Preload legal knowledge corpus
+To ingest statutes/case law/commentary into a separate corpus (`legal_knowledge`):
+
+```bash
+python scripts/ingest_legal_corpus.py --url-list data/legal_seed_urls.txt --jurisdiction AT --source-type statute
+```
+
+Or ingest from local files:
+
+```bash
+python scripts/ingest_legal_corpus.py --input-dir ./seed_laws --jurisdiction AT --source-type statute
+```
+
+This keeps user drafts/contracts separated from background legal materials.
 
 ### Extraction
 1. Click **Extraction** in the sidebar
@@ -210,6 +226,8 @@ Set via environment variables:
 | `CHUNK_SIZE` | `1500` | Target characters per chunk |
 | `CHUNK_OVERLAP` | `200` | Character overlap between chunks |
 | `MIN_CHUNK_CHARS` | `80` | Drop chunks smaller than this size |
+| `RETRIEVE_CANDIDATE_MULTIPLIER` | `3` | Fetch more initial vector hits before trimming/expanding |
+| `RETRIEVE_EXPAND_NEIGHBORS` | `1` | Include adjacent chunks per hit to preserve clause continuity |
 | `EMBED_MODEL` | `text-embedding-3-small` | OpenAI embedding model |
 | `EMBED_BATCH_SIZE` | `64` | Embedding request batch size |
 | `EMBED_MAX_RETRIES` | `3` | Retries per embedding API call |
@@ -223,6 +241,7 @@ Set via environment variables:
 | Challenge | Implementation |
 |---|---|
 | **Source grounding** | Each chunk stores `page`, `char_start/end`; LLM is prompted to return `location_hint` + verbatim `quote` |
+| **Context continuity** | Retrieval can expand to neighboring chunks to avoid clause truncation at chunk boundaries |
 | **Handling absence** | Three-way status: `found` / `not_specified` / `uncertain` — LLM is explicitly instructed on the difference |
 | **Rule-based review** | Per-rule retrieval + structured `ok/deviation/missing` JSON schema with explanation |
 | **Multi-doc extraction** | Async `asyncio.gather` — all (doc × field) pairs run concurrently |
@@ -236,3 +255,13 @@ Set via environment variables:
 - [ ] Export table as CSV / Excel
 - [ ] Document selection (run only on subset)
 - [ ] Caching: skip re-extraction for unchanged docs
+
+---
+
+## RIS / Austria source note
+
+For Austria, RIS is the correct official starting point:
+- Info: https://www.ris.bka.gv.at/UI/Info.aspx
+- OGD/Interfaces: https://www.ris.bka.gv.at/UI/Ogd.aspx
+
+RIS OGD guidance explicitly recommends paced access (about 1–2s pauses) and contacting `ris.it@bka.gv.at` before initial mass downloads.

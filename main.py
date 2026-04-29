@@ -13,12 +13,12 @@ import os
 import logging
 
 try:
-    from .ingestion import ingest_document, list_documents
+    from .ingestion import ingest_document, list_documents, resolve_source_anchor
     from .extraction import run_extraction
     from .review import run_review
     from .qa import run_qa
 except ImportError:
-    from ingestion import ingest_document, list_documents
+    from ingestion import ingest_document, list_documents, resolve_source_anchor
     from extraction import run_extraction
     from review import run_review
     from qa import run_qa
@@ -84,20 +84,20 @@ async def root():
 
 # ── Documents ───────────────────────────────────────────────────────────────
 @app.post("/api/documents/upload")
-async def upload_document(file: UploadFile = File(...)):
+async def upload_document(file: UploadFile = File(...), corpus: str = "user_docs"):
     """Upload and ingest a PDF or text document."""
     try:
         content = await file.read()
-        result = ingest_document(filename=file.filename, content=content)
+        result = ingest_document(filename=file.filename, content=content, corpus=corpus)
         return result
     except Exception:
         raise _internal_error("upload_document")
 
 @app.get("/api/documents")
-async def get_documents():
+async def get_documents(corpus: str = "user_docs"):
     """List all ingested documents."""
     try:
-        return list_documents()
+        return list_documents(corpus=corpus)
     except Exception:
         raise _internal_error("get_documents")
 
@@ -113,16 +113,31 @@ async def delete_document(doc_id: str):
         raise _internal_error("delete_document")
 
 
+@app.get("/api/source-anchor")
+async def get_source_anchor(doc_id: str, chunk_id: Optional[str] = None):
+    """Resolve source metadata + open URL for citation anchors."""
+    try:
+        payload = resolve_source_anchor(doc_id=doc_id, chunk_id=chunk_id)
+        if not payload:
+            raise HTTPException(status_code=404, detail="Source anchor not found")
+        return payload
+    except HTTPException:
+        raise
+    except Exception:
+        raise _internal_error("get_source_anchor")
+
+
 # ── Extraction ───────────────────────────────────────────────────────────────
 class ExtractionRequest(BaseModel):
     fields: list[str]           # e.g. ["notice period", "governing law"]
     doc_ids: Optional[list[str]] = None  # None = all documents
+    corpus: Optional[str] = "user_docs"
 
 @app.post("/api/extract")
 async def extract(req: ExtractionRequest):
     """Extract structured fields from documents. Returns a table."""
     try:
-        return await run_extraction(fields=req.fields, doc_ids=req.doc_ids)
+        return await run_extraction(fields=req.fields, doc_ids=req.doc_ids, corpus=req.corpus)
     except RuntimeError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception:
@@ -133,12 +148,13 @@ async def extract(req: ExtractionRequest):
 class ReviewRequest(BaseModel):
     rules: list[str]            # e.g. ["governing law must be Germany"]
     doc_ids: Optional[list[str]] = None
+    corpus: Optional[str] = "user_docs"
 
 @app.post("/api/review")
 async def review(req: ReviewRequest):
     """Check documents against a playbook. Returns flagged deviations."""
     try:
-        return await run_review(rules=req.rules, doc_ids=req.doc_ids)
+        return await run_review(rules=req.rules, doc_ids=req.doc_ids, corpus=req.corpus)
     except RuntimeError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception:
@@ -150,6 +166,7 @@ class QARequest(BaseModel):
     question: str
     doc_ids: Optional[list[str]] = None
     history: Optional[list[dict]] = None  # [{role, content}, ...]
+    corpus: Optional[str] = "user_docs"
 
 @app.post("/api/qa")
 async def qa(req: QARequest):
@@ -158,7 +175,8 @@ async def qa(req: QARequest):
         return await run_qa(
             question=req.question,
             doc_ids=req.doc_ids,
-            history=req.history or []
+            history=req.history or [],
+            corpus=req.corpus,
         )
     except RuntimeError as e:
         raise HTTPException(status_code=400, detail=str(e))

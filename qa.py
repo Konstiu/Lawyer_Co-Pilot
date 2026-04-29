@@ -108,6 +108,7 @@ async def run_qa(
     question: str,
     doc_ids: Optional[list[str]] = None,
     history: list[dict] = [],
+    corpus: str | None = "user_docs",
 ) -> dict:
     """
     Returns:
@@ -116,7 +117,7 @@ async def run_qa(
       "sources": [{"filename", "page", "location_hint", "quote"}, ...]
     }
     """
-    chunks = retrieve_chunks(query=question, doc_ids=doc_ids, n=QA_TOP_K)
+    chunks = retrieve_chunks(query=question, doc_ids=doc_ids, n=QA_TOP_K, corpus=corpus)
     logger.info(
         "Q&A request: llm_mode=%s docs_filter=%s history_messages=%s top_k=%s",
         _llm_mode(),
@@ -142,6 +143,7 @@ async def run_qa(
                 "page": c["page"],
                 "location_hint": "retrieved passage",
                 "quote": _short_quote(c["text"]),
+                "source_anchor": _anchor_from_chunk(c),
             }
             for c in chunks[:5]
         ]
@@ -195,7 +197,8 @@ async def run_qa(
         except json.JSONDecodeError:
             sources = []
 
-    return {"answer": answer, "sources": sources}
+    enriched_sources = _enrich_sources_with_anchors(sources, chunks)
+    return {"answer": answer, "sources": enriched_sources}
 
 
 def _short_quote(text: str, max_len: int = 220) -> str:
@@ -203,6 +206,61 @@ def _short_quote(text: str, max_len: int = 220) -> str:
     if len(compact) <= max_len:
         return compact
     return compact[: max_len - 3] + "..."
+
+
+def _anchor_from_chunk(c: dict) -> dict:
+    return {
+        "doc_id": c.get("doc_id"),
+        "filename": c.get("filename"),
+        "chunk_id": c.get("chunk_id"),
+        "chunk_index": c.get("chunk_index"),
+        "page": c.get("page"),
+        "page_start": c.get("page_start"),
+        "page_end": c.get("page_end"),
+        "char_start": c.get("char_start"),
+        "char_end": c.get("char_end"),
+    }
+
+
+def _enrich_sources_with_anchors(sources: list[dict], chunks: list[dict]) -> list[dict]:
+    if not sources:
+        return []
+    by_file_page: dict[tuple[str, int], dict] = {}
+    by_file: dict[str, list[dict]] = {}
+    for c in chunks:
+        key = (str(c.get("filename", "")), int(c.get("page") or 0))
+        by_file_page.setdefault(key, c)
+        by_file.setdefault(str(c.get("filename", "")), []).append(c)
+
+    out: list[dict] = []
+    for s in sources:
+        filename = str(s.get("filename", ""))
+        page = int(s.get("page") or 0)
+        quote = str(s.get("quote", "") or "")
+        match = _resolve_chunk_for_quote(by_file.get(filename, []), quote)
+        if not match:
+            match = by_file_page.get((filename, page))
+        item = dict(s)
+        item["source_anchor"] = _anchor_from_chunk(match) if match else None
+        out.append(item)
+    return out
+
+
+def _normalize_for_match(text: str | None) -> str:
+    return re.sub(r"\s+", " ", (text or "").strip().lower())
+
+
+def _resolve_chunk_for_quote(chunks: list[dict], quote: str | None) -> dict | None:
+    if not chunks:
+        return None
+    q = _normalize_for_match(quote)
+    if not q:
+        return None
+    for c in chunks:
+        t = _normalize_for_match(c.get("text"))
+        if q and q in t:
+            return c
+    return None
 
 
 def _answer_mode(question: str) -> str:

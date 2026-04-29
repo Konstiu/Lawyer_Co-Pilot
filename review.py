@@ -104,8 +104,8 @@ Relevant passages:
 """
 
 
-async def _review_one(doc_id: str, filename: str, rule: str) -> dict:
-    chunks = retrieve_chunks(query=rule, doc_ids=[doc_id], n=5)
+async def _review_one(doc_id: str, filename: str, rule: str, corpus: str | None = "user_docs") -> dict:
+    chunks = retrieve_chunks(query=rule, doc_ids=[doc_id], n=5, corpus=corpus)
 
     if not chunks:
         return {
@@ -117,6 +117,7 @@ async def _review_one(doc_id: str, filename: str, rule: str) -> dict:
             "quote": None,
             "page": None,
             "location_hint": None,
+            "source_anchor": None,
         }
 
     passages = "\n\n---\n\n".join(
@@ -149,7 +150,21 @@ async def _review_one(doc_id: str, filename: str, rule: str) -> dict:
     else:
         raw = _local_review(rule=rule, chunks=chunks)
 
-    best_page = chunks[0]["page"] if chunks else None
+    best = _resolve_chunk_for_quote(chunks, raw.get("quote")) or (chunks[0] if chunks else None)
+    best_page = best["page"] if best else None
+    source_anchor = None
+    if best:
+        source_anchor = {
+            "doc_id": best["doc_id"],
+            "filename": best["filename"],
+            "chunk_id": best.get("chunk_id"),
+            "chunk_index": best.get("chunk_index"),
+            "page": best.get("page"),
+            "page_start": best.get("page_start"),
+            "page_end": best.get("page_end"),
+            "char_start": best.get("char_start"),
+            "char_end": best.get("char_end"),
+        }
 
     return {
         "doc_id": doc_id,
@@ -160,7 +175,25 @@ async def _review_one(doc_id: str, filename: str, rule: str) -> dict:
         "quote": raw.get("quote"),
         "page": best_page,
         "location_hint": raw.get("location_hint"),
+        "source_anchor": source_anchor,
     }
+
+
+def _normalize_for_match(text: str | None) -> str:
+    return re.sub(r"\s+", " ", (text or "").strip().lower())
+
+
+def _resolve_chunk_for_quote(chunks: list[dict], quote: str | None) -> dict | None:
+    if not chunks:
+        return None
+    q = _normalize_for_match(quote)
+    if not q:
+        return None
+    for c in chunks:
+        t = _normalize_for_match(c.get("text"))
+        if q and q in t:
+            return c
+    return None
 
 
 def _local_review(rule: str, chunks: list[dict]) -> dict:
@@ -273,7 +306,11 @@ async def _gemini_chat_json(system: str, user: str) -> dict | None:
         return None
 
 
-async def run_review(rules: list[str], doc_ids: Optional[list[str]] = None) -> dict:
+async def run_review(
+    rules: list[str],
+    doc_ids: Optional[list[str]] = None,
+    corpus: str | None = "user_docs",
+) -> dict:
     """
     Returns:
     {
@@ -289,7 +326,7 @@ async def run_review(rules: list[str], doc_ids: Optional[list[str]] = None) -> d
       "summary": {"ok": N, "deviation": N, "missing": N}
     }
     """
-    docs = list_documents()
+    docs = list_documents(corpus=corpus)
     if doc_ids:
         docs = [d for d in docs if d["id"] in doc_ids]
 
@@ -313,7 +350,7 @@ async def run_review(rules: list[str], doc_ids: Optional[list[str]] = None) -> d
     async def _bounded_review(pair: tuple[str, str, str]) -> dict:
         doc_id, filename, rule = pair
         async with semaphore:
-            return await _review_one(doc_id, filename, rule)
+            return await _review_one(doc_id, filename, rule, corpus=corpus)
 
     tasks = [asyncio.create_task(_bounded_review(pair)) for pair in pairs]
     findings: list[dict] = []

@@ -125,6 +125,16 @@ html, body { height: 100%; font-family: var(--sans); background: var(--bg); colo
   padding: 14px 24px;
   display: flex; align-items: center; justify-content: space-between;
 }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.corpus-select {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 12px;
+  color: var(--text);
+  font-family: var(--mono);
+}
 .topbar-left h1 { font-size: 15px; font-weight: 500; }
 .topbar-left p { font-size: 12px; color: var(--text-2); margin-top: 2px; }
 .run-btn {
@@ -372,6 +382,55 @@ textarea.field-input::placeholder { color: var(--text-3); }
 .toast.show { opacity: 1; }
 
 input[type=file] { display: none; }
+
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-backdrop.show { display: flex; }
+.modal {
+  width: min(760px, 92vw);
+  max-height: 80vh;
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.modal-head {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-body { padding: 14px; font-size: 13px; line-height: 1.6; }
+.modal-close {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.modal-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+.modal-link {
+  display: inline-block;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: #1e6bb8;
+  border-radius: 6px;
+  padding: 6px 10px;
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 12px;
+}
 </style>
 </head>
 <body>
@@ -409,16 +468,32 @@ input[type=file] { display: none; }
         <h1 id="mode-title">Extraction</h1>
         <p id="mode-desc">Define fields — get a structured table with exact source links</p>
       </div>
-      <button class="run-btn" id="run-btn" onclick="runCurrent()">
-        <div class="spinner"></div>
-        <span class="btn-text">Run ↗</span>
-      </button>
+      <div class="topbar-right">
+        <select id="corpus-select" class="corpus-select" onchange="setCorpus(this.value)">
+          <option value="user_docs">Corpus: user docs</option>
+          <option value="legal_knowledge">Corpus: legal knowledge</option>
+          <option value="all">Corpus: both</option>
+        </select>
+        <button class="run-btn" id="run-btn" onclick="runCurrent()">
+          <div class="spinner"></div>
+          <span class="btn-text">Run ↗</span>
+        </button>
+      </div>
     </div>
     <div class="content" id="main-content"></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
+<div class="modal-backdrop" id="source-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <strong id="source-modal-title">Source</strong>
+      <button class="modal-close" onclick="closeSourceModal()">Close</button>
+    </div>
+    <div class="modal-body" id="source-modal-body"></div>
+  </div>
+</div>
 
 <script>
 const API = "";  // same origin; change to http://localhost:8000 if running separately
@@ -426,6 +501,7 @@ const GENERIC_ERROR = "Interner Fehler. Bitte Server-Logs prüfen.";
 let currentMode = "extract";
 let documents = [];
 let qaHistory = [];
+let currentCorpus = "user_docs";
 
 const MODES = {
   extract: {
@@ -457,6 +533,11 @@ function setMode(m) {
   renderContent();
 }
 
+function setCorpus(corpus) {
+  currentCorpus = corpus || "user_docs";
+  loadDocs();
+}
+
 function renderContent() {
   const el = document.getElementById("main-content");
   if (currentMode === "qa") {
@@ -484,11 +565,12 @@ async function runCurrent() {
   setLoading(true);
 
   try {
+    const corpusPayload = currentCorpus === "all" ? null : currentCorpus;
     if (currentMode === "extract") {
-      const data = await post("/api/extract", { fields: lines });
+      const data = await post("/api/extract", { fields: lines, corpus: corpusPayload });
       renderExtractionResult(data);
     } else {
-      const data = await post("/api/review", { rules: lines });
+      const data = await post("/api/review", { rules: lines, corpus: corpusPayload });
       renderReviewResult(data);
     }
   } catch(e) {
@@ -519,8 +601,9 @@ function renderExtractionResult(data) {
       const c = row.cells[f];
       if (!c) return `<td>—</td>`;
       const badge = `<span class="badge badge-${c.status}">${c.status}</span>`;
-      const loc = c.location_hint || (c.page ? `p. ${c.page}` : null);
-      const cite = loc ? `<span class="cite" onclick="showQuote('${esc(row.filename)}','${esc(c.quote||'')}','${esc(loc)}')">${loc}</span>` : "";
+      const loc = sourceLoc(c.source_anchor, c.location_hint, c.page);
+      const anchorPayload = enc(c.source_anchor || null);
+      const cite = loc ? `<span class="cite" onclick="showQuote('${jsStr(row.filename)}','${jsStr(c.quote||'')}','${jsStr(loc)}','${jsStr(anchorPayload)}')">${esc(loc)}</span>` : "";
       const val = c.value ? `<span>${esc(c.value)}</span>` : `<span style="color:var(--text-3)">—</span>`;
       return `<td>${val} ${cite}<br>${badge}</td>`;
     }).join("");
@@ -548,8 +631,9 @@ function renderReviewResult(data) {
     </div>`;
 
   const rows = data.findings.map(f => {
-    const loc = f.location_hint || (f.page ? `p. ${f.page}` : null);
-    const cite = loc ? `<span class="cite" onclick="showQuote('${esc(f.filename)}','${esc(f.quote||'')}','${esc(loc)}')">${loc}</span>` : "";
+    const loc = sourceLoc(f.source_anchor, f.location_hint, f.page);
+    const anchorPayload = enc(f.source_anchor || null);
+    const cite = loc ? `<span class="cite" onclick="showQuote('${jsStr(f.filename)}','${jsStr(f.quote||'')}','${jsStr(loc)}','${jsStr(anchorPayload)}')">${esc(loc)}</span>` : "";
     return `
       <div class="review-row">
         <div class="doc-cell" style="padding:10px 14px;" title="${esc(f.filename)}">${esc(f.filename)}</div>
@@ -592,8 +676,9 @@ function renderMessage(m) {
     return `<div class="msg"><div class="av av-u">U</div><div class="msg-body"><div class="msg-text">${esc(m.content)}</div></div></div>`;
   }
   const sources = (m.sources || []).map(s => {
-    const loc = s.location_hint || (s.page ? `p.${s.page}` : "");
-    return `<span class="source-chip" onclick="showQuote('${esc(s.filename)}','${esc(s.quote||'')}','${esc(loc)}')">${esc(s.filename)}${loc ? ' · '+loc : ''}</span>`;
+    const loc = sourceLoc(s.source_anchor, s.location_hint, s.page);
+    const anchorPayload = enc(s.source_anchor || null);
+    return `<span class="source-chip" onclick="showQuote('${jsStr(s.filename)}','${jsStr(s.quote||'')}','${jsStr(loc)}','${jsStr(anchorPayload)}')">${esc(s.filename)}${loc ? ' · '+esc(loc) : ''}</span>`;
   }).join("");
   return `
     <div class="msg">
@@ -713,8 +798,10 @@ async function sendQA() {
   body.scrollTop = body.scrollHeight;
 
   try {
+    const corpusPayload = currentCorpus === "all" ? null : currentCorpus;
     const data = await post("/api/qa", {
       question: q,
+      corpus: corpusPayload,
       history: qaHistory.slice(-10).filter(m => m.role === "user").map(m => ({ role: "user", content: m.content })),
     });
     qaHistory.push({ role: "assistant", content: data.answer, sources: data.sources });
@@ -734,7 +821,15 @@ function autoResize(el) { el.style.height = "auto"; el.style.height = Math.min(e
 // ── Documents ────────────────────────────────────────────────────────────────
 async function loadDocs() {
   try {
-    documents = await get("/api/documents");
+    if (currentCorpus === "all") {
+      const [a, b] = await Promise.all([
+        get("/api/documents?corpus=user_docs"),
+        get("/api/documents?corpus=legal_knowledge"),
+      ]);
+      documents = [...(a || []), ...(b || [])];
+    } else {
+      documents = await get(`/api/documents?corpus=${encodeURIComponent(currentCorpus)}`);
+    }
     renderDocList();
   } catch(e) { /* backend not running */ }
 }
@@ -748,7 +843,7 @@ function renderDocList() {
   el.innerHTML = documents.map(d => `
     <div class="doc-entry" title="${esc(d.filename)}">
       <div class="doc-dot ready"></div>
-      <span class="doc-name">${esc(d.filename)}</span>
+      <span class="doc-name">${esc(d.filename)}${d.corpus ? ` [${esc(d.corpus)}]` : ""}</span>
     </div>`).join("");
 }
 
@@ -757,7 +852,8 @@ async function uploadFiles(files) {
     const fd = new FormData();
     fd.append("file", file);
     try {
-      const resp = await fetch(API + "/api/documents/upload", { method: "POST", body: fd });
+      const uploadCorpus = currentCorpus === "all" ? "user_docs" : currentCorpus;
+      const resp = await fetch(API + `/api/documents/upload?corpus=${encodeURIComponent(uploadCorpus)}`, { method: "POST", body: fd });
       if (!resp.ok) throw new Error("upload_failed");
       showToast("Uploaded: " + file.name);
     } catch(e) {
@@ -769,15 +865,95 @@ async function uploadFiles(files) {
 }
 
 // ── Quote modal ───────────────────────────────────────────────────────────────
-function showQuote(filename, quote, loc) {
-  if (!quote) { showToast(`${filename} · ${loc}`); return; }
-  alert(`${filename}\n${loc}\n\n"${quote}"`);
+function sourceLoc(anchor, locationHint, fallbackPage) {
+  if (locationHint) return locationHint;
+  if (anchor && anchor.page_start && anchor.page_end && anchor.page_start !== anchor.page_end) {
+    return `p. ${anchor.page_start}-${anchor.page_end}`;
+  }
+  if (anchor && anchor.page) return `p. ${anchor.page}`;
+  if (fallbackPage) return `p. ${fallbackPage}`;
+  return "";
+}
+
+function enc(obj) {
+  try { return encodeURIComponent(JSON.stringify(obj || null)); }
+  catch { return ""; }
+}
+
+function dec(payload) {
+  if (!payload) return null;
+  try { return JSON.parse(decodeURIComponent(payload)); }
+  catch { return null; }
+}
+
+function anchorLine(anchor) {
+  if (!anchor) return "anchor: n/a";
+  const page = anchor.page_start && anchor.page_end && anchor.page_start !== anchor.page_end
+    ? `p.${anchor.page_start}-${anchor.page_end}`
+    : (anchor.page ? `p.${anchor.page}` : "p.n/a");
+  const chars = (anchor.char_start != null && anchor.char_end != null)
+    ? `chars ${anchor.char_start}-${anchor.char_end}`
+    : "chars n/a";
+  const chunk = anchor.chunk_index != null
+    ? `chunk ${anchor.chunk_index}`
+    : (anchor.chunk_id ? anchor.chunk_id : "chunk n/a");
+  return `${page}, ${chunk}, ${chars}`;
+}
+
+async function showQuote(filename, quote, loc, anchorPayload) {
+  const anchor = dec(anchorPayload);
+  const anchorTxt = anchorLine(anchor);
+  const title = `${filename}${loc ? " · " + loc : ""}`;
+  document.getElementById("source-modal-title").textContent = title;
+
+  let details = `<div><strong>Anchor</strong>: ${esc(anchorTxt)}</div>`;
+  if (quote) {
+    details += `<div style="margin-top:8px;"><strong>Quote</strong><br>"${esc(quote)}"</div>`;
+  }
+
+  if (anchor && anchor.doc_id) {
+    try {
+      const chunkId = anchor.chunk_id ? `&chunk_id=${encodeURIComponent(anchor.chunk_id)}` : "";
+      const resolved = await get(`/api/source-anchor?doc_id=${encodeURIComponent(anchor.doc_id)}${chunkId}`);
+      const doc = resolved.document || {};
+      const chunk = resolved.chunk || {};
+      if (doc.source_type || doc.jurisdiction) {
+        details += `<div style="margin-top:8px;"><strong>Meta</strong>: ${esc(doc.source_type || "n/a")} · ${esc(doc.jurisdiction || "n/a")}</div>`;
+      }
+      if (chunk.text) {
+        const excerpt = String(chunk.text).trim().slice(0, 1200);
+        details += `<div style="margin-top:8px;"><strong>Chunk excerpt</strong><br>${esc(excerpt)}</div>`;
+      }
+      if (resolved.open_url) {
+        details += `<div class="modal-actions"><a class="modal-link" href="${esc(resolved.open_url)}" target="_blank" rel="noopener">Open source</a></div>`;
+      }
+    } catch(e) {
+      console.error("resolve source anchor failed", e);
+    }
+  }
+
+  document.getElementById("source-modal-body").innerHTML = details;
+  document.getElementById("source-modal").classList.add("show");
+}
+
+function closeSourceModal() {
+  document.getElementById("source-modal").classList.remove("show");
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 function esc(s) {
   if (!s) return "";
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function jsStr(s) {
+  if (s == null) return "";
+  return String(s)
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/\r/g, "\\r")
+    .replace(/\n/g, "\\n")
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
 }
 async function get(path) {
   const r = await fetch(API + path);

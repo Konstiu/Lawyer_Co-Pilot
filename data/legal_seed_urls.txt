@@ -1,0 +1,10 @@
+# Add official legal source URLs here (one per line).
+# For Austria, prefer RIS/manual downloads from:
+# https://www.ris.bka.gv.at/UI/Info.aspx
+# https://www.ris.bka.gv.at/UI/Ogd.aspx
+
+https://www.ris.bka.gv.at/Dokumente/LgblAuth/LGBLA_WI_20260429_10/LGBLA_WI_20260429_10.pdf
+https://www.ris.bka.gv.at/Dokumente/LgblAuth/LGBLA_WI_20260413_6/LGBLA_WI_20260413_6.pdf
+https://www.ris.bka.gv.at/Dokumente/LgblAuth/LGBLA_WI_20260417_7/LGBLA_WI_20260417_7.pdf
+https://www.ris.bka.gv.at/Dokumente/LgblAuth/LGBLA_WI_20260422_8/LGBLA_WI_20260422_8.pdf
+
