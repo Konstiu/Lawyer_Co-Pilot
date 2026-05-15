@@ -101,7 +101,15 @@ html, body { height: 100%; font-family: var(--sans); background: var(--bg); colo
   flex-shrink: 0;
 }
 .doc-dot.ready { background: var(--ok); }
-.doc-entry .doc-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.doc-entry .doc-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.doc-delete-btn {
+  display: none; flex-shrink: 0;
+  background: none; border: none; cursor: pointer;
+  color: var(--text-3); font-size: 14px; line-height: 1;
+  padding: 0 2px; border-radius: 3px;
+}
+.doc-delete-btn:hover { color: var(--err, #e05); }
+.doc-entry:hover .doc-delete-btn { display: block; }
 .upload-btn {
   width: 100%; margin-top: 8px;
   padding: 7px 10px;
@@ -180,6 +188,12 @@ html, body { height: 100%; font-family: var(--sans); background: var(--bg); colo
 }
 .panel-head-title { font-size: 12px; font-weight: 500; }
 .panel-head-hint { font-size: 11px; color: var(--text-3); font-family: var(--mono); }
+.back-btn {
+  background: none; border: 1px solid var(--border-strong);
+  border-radius: 5px; padding: 3px 10px;
+  font-size: 11px; color: var(--text-2); cursor: pointer;
+}
+.back-btn:hover { background: var(--bg); color: var(--text); }
 
 textarea.field-input {
   width: 100%;
@@ -217,7 +231,17 @@ textarea.field-input::placeholder { color: var(--text-3); }
 }
 .result-table tr:last-child td { border-bottom: none; }
 .result-table tr:hover td { background: #faf9f7; }
-.doc-cell { color: var(--text-2); font-family: var(--mono); font-size: 11px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.doc-cell { color: var(--text-2); font-family: var(--mono); font-size: 11px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: default; }
+.doc-tooltip {
+  position: fixed; z-index: 9999; pointer-events: none;
+  background: #1a1a1a; color: #f0f0f0;
+  font-size: 11px; font-family: var(--mono);
+  padding: 4px 8px; border-radius: 4px;
+  white-space: nowrap; max-width: 480px;
+  overflow: hidden; text-overflow: ellipsis;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  display: none;
+}
 
 .cite { font-size: 11px; color: #1e6bb8; cursor: pointer; font-family: var(--mono); margin-left: 4px; }
 .cite:hover { text-decoration: underline; }
@@ -431,6 +455,64 @@ input[type=file] { display: none; }
   font-family: var(--mono);
   font-size: 12px;
 }
+
+/* Document preview modal */
+.preview-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+.preview-backdrop.show { display: flex; }
+.preview-modal {
+  width: min(1000px, 96vw);
+  height: 88vh;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.preview-head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.preview-head-title {
+  font-weight: 500;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.preview-meta {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-3);
+}
+.preview-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.75;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.doc-entry { cursor: pointer; }
+.doc-entry:hover .doc-name { color: var(--text); }
 </style>
 </head>
 <body>
@@ -485,6 +567,19 @@ input[type=file] { display: none; }
 </div>
 
 <div class="toast" id="toast"></div>
+<div class="doc-tooltip" id="doc-tooltip"></div>
+
+<div class="preview-backdrop" id="doc-preview-backdrop" onclick="closeDocPreview(event)">
+  <div class="preview-modal" onclick="event.stopPropagation()">
+    <div class="preview-head">
+      <span class="preview-head-title" id="preview-title">Document</span>
+      <div class="preview-meta" id="preview-meta"></div>
+      <button class="modal-close" onclick="closeDocPreview()">Close</button>
+    </div>
+    <div class="preview-body" id="preview-body"></div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="source-modal">
   <div class="modal">
     <div class="modal-head">
@@ -502,6 +597,7 @@ let currentMode = "extract";
 let documents = [];
 let qaHistory = [];
 let currentCorpus = "user_docs";
+let lastInput = "";
 
 const MODES = {
   extract: {
@@ -560,6 +656,7 @@ function renderContent() {
 async function runCurrent() {
   const input = document.getElementById("main-input").value.trim();
   if (!input) { showToast("Enter at least one field or rule"); return; }
+  lastInput = input;
   const lines = input.split("\n").map(l => l.trim()).filter(Boolean);
 
   setLoading(true);
@@ -579,6 +676,12 @@ async function runCurrent() {
   } finally {
     setLoading(false);
   }
+}
+
+function resetToInput() {
+  document.getElementById("output-panel").innerHTML = "";
+  const ta = document.getElementById("main-input");
+  if (ta) { ta.value = lastInput; ta.focus(); ta.scrollIntoView({ behavior: "smooth", block: "start" }); }
 }
 
 function setLoading(on) {
@@ -614,6 +717,7 @@ function renderExtractionResult(data) {
     <div class="panel" style="overflow-x:auto;">
       <div class="panel-head">
         <span class="panel-head-title">Results — ${data.rows.length} documents × ${data.fields.length} fields</span>
+        <button class="back-btn" onclick="resetToInput()">← Edit</button>
       </div>
       <table class="result-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>
     </div>`;
@@ -646,6 +750,7 @@ function renderReviewResult(data) {
     <div class="panel">
       <div class="panel-head">
         <span class="panel-head-title">Review results — ${data.findings.length} checks</span>
+        <button class="back-btn" onclick="resetToInput()">← Edit</button>
       </div>
       ${summary}
       <div class="review-row review-head">
@@ -841,9 +946,10 @@ function renderDocList() {
     return;
   }
   el.innerHTML = documents.map(d => `
-    <div class="doc-entry" title="${esc(d.filename)}">
+    <div class="doc-entry" title="${esc(d.filename)}" onclick="showDocPreview('${esc(d.id)}')">
       <div class="doc-dot ready"></div>
       <span class="doc-name">${esc(d.filename)}${d.corpus ? ` [${esc(d.corpus)}]` : ""}</span>
+      <button class="doc-delete-btn" title="Dokument löschen" onclick="event.stopPropagation(); deleteDocument('${esc(d.id)}', '${esc(d.filename)}')">✕</button>
     </div>`).join("");
 }
 
@@ -862,6 +968,47 @@ async function uploadFiles(files) {
     }
   }
   await loadDocs();
+}
+
+async function deleteDocument(docId, filename) {
+  if (!confirm(`"${filename}" wirklich löschen?`)) return;
+  try {
+    const resp = await fetch(API + `/api/documents/${encodeURIComponent(docId)}`, { method: "DELETE" });
+    if (!resp.ok) throw new Error("delete_failed");
+    showToast("Gelöscht: " + filename);
+    await loadDocs();
+  } catch(e) {
+    console.error("delete failed", e);
+    showToast(GENERIC_ERROR);
+  }
+}
+
+// ── Document preview ─────────────────────────────────────────────────────────
+async function showDocPreview(docId) {
+  const backdrop = document.getElementById("doc-preview-backdrop");
+  document.getElementById("preview-title").textContent = "Loading…";
+  document.getElementById("preview-meta").textContent = "";
+  document.getElementById("preview-body").textContent = "";
+  backdrop.classList.add("show");
+
+  try {
+    const data = await get(`/api/documents/${encodeURIComponent(docId)}/preview`);
+    document.getElementById("preview-title").textContent = data.filename || docId;
+    const parts = [];
+    if (data.page_count) parts.push(`${data.page_count} pages`);
+    if (data.chunk_count) parts.push(`${data.chunk_count} chunks`);
+    if (data.corpus) parts.push(data.corpus);
+    if (data.jurisdiction) parts.push(data.jurisdiction);
+    document.getElementById("preview-meta").textContent = parts.join(" · ");
+    document.getElementById("preview-body").textContent = data.full_text || "(no text available)";
+  } catch(e) {
+    document.getElementById("preview-body").textContent = "Could not load document.";
+  }
+}
+
+function closeDocPreview(e) {
+  if (e && e.target !== document.getElementById("doc-preview-backdrop")) return;
+  document.getElementById("doc-preview-backdrop").classList.remove("show");
 }
 
 // ── Quote modal ───────────────────────────────────────────────────────────────
@@ -977,6 +1124,25 @@ function showToast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove("show"), 3000);
 }
+
+// ── Doc-cell tooltip ─────────────────────────────────────────────────────────
+(function() {
+  const tip = document.getElementById("doc-tooltip");
+  document.addEventListener("mouseover", e => {
+    const cell = e.target.closest(".doc-cell");
+    if (!cell || !cell.title) return;
+    tip.textContent = cell.title;
+    tip.style.display = "block";
+  });
+  document.addEventListener("mousemove", e => {
+    if (tip.style.display === "none") return;
+    tip.style.left = (e.clientX + 12) + "px";
+    tip.style.top  = (e.clientY + 16) + "px";
+  });
+  document.addEventListener("mouseout", e => {
+    if (e.target.closest(".doc-cell")) tip.style.display = "none";
+  });
+})();
 
 // ── Init ─────────────────────────────────────────────────────────────────────
 renderContent();

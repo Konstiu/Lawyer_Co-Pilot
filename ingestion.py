@@ -22,14 +22,14 @@ from typing import Any
 from xml.etree import ElementTree as ET
 
 import chromadb
-import httpx
-from openai import OpenAI
-try:
-    from google import genai
-except Exception:  # pragma: no cover - optional dependency
-    genai = None
+import httpx  # used by Ollama embedding calls below
 from chromadb.config import Settings
 from chromadb.errors import InvalidDimensionException
+
+try:
+    from .llm_client import gemini_client, openai_embed_client as client, LLM_PROVIDER
+except ImportError:
+    from llm_client import gemini_client, openai_embed_client as client, LLM_PROVIDER
 
 # ── Config ──────────────────────────────────────────────────────────────────
 DATA_DIR = Path(os.getenv("DATA_DIR", "./data"))
@@ -45,44 +45,12 @@ EMBED_BATCH_SIZE = max(1, int(os.getenv("EMBED_BATCH_SIZE", 64)))
 EMBED_MAX_RETRIES = max(1, int(os.getenv("EMBED_MAX_RETRIES", 3)))
 EMBED_RETRY_BASE_SECONDS = float(os.getenv("EMBED_RETRY_BASE_SECONDS", 1.0))
 LOCAL_EMBED_DIM = int(os.getenv("LOCAL_EMBED_DIM", "1536"))
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai").lower()
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 GEMINI_EMBED_MODEL = os.getenv("GEMINI_EMBED_MODEL", "text-embedding-004")
-GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
-GOOGLE_CLOUD_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-GOOGLE_GENAI_USE_VERTEXAI = os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "true").lower() in {"1", "true", "yes", "on"}
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
 logger = logging.getLogger("legal_copilot")
 _EMBED_MODE_LOGGED = False
-
-
-def _init_gemini_client():
-    if LLM_PROVIDER != "gemini" or genai is None:
-        return None
-    try:
-        if GOOGLE_GENAI_USE_VERTEXAI:
-            if not GOOGLE_CLOUD_PROJECT:
-                logger.warning("LLM_PROVIDER=gemini but GOOGLE_CLOUD_PROJECT is not set; using local embedding fallback")
-                return None
-            return genai.Client(
-                vertexai=True,
-                project=GOOGLE_CLOUD_PROJECT,
-                location=GOOGLE_CLOUD_LOCATION,
-            )
-        if GEMINI_API_KEY:
-            return genai.Client(api_key=GEMINI_API_KEY)
-        logger.warning("LLM_PROVIDER=gemini but no auth configured; using local embedding fallback")
-        return None
-    except Exception:
-        logger.exception("Failed to initialize Gemini embedding client")
-        return None
-
-
-gemini_client = _init_gemini_client()
 
 chroma = chromadb.PersistentClient(
     path=str(DATA_DIR / "chroma"),
@@ -581,6 +549,22 @@ def ingest_document(
                 "low_text_warning": bool(low_text_warning),
             },
         }
+    finally:
+        db.close()
+
+
+def get_document_preview(doc_id: str) -> dict | None:
+    db = _get_db()
+    try:
+        row = db.execute(
+            """
+            SELECT id, filename, corpus, source_type, jurisdiction,
+                   page_count, chunk_count, ingested_at, full_text
+            FROM documents WHERE id=?
+            """,
+            (doc_id,),
+        ).fetchone()
+        return dict(row) if row else None
     finally:
         db.close()
 

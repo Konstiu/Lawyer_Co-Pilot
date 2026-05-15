@@ -3,78 +3,45 @@ Extraction pipeline
 ────────────────────
 For each (document × field) pair:
   1. Retrieve top-k chunks most relevant to the field
-  2. Ask Claude to extract the value (or flag absence)
+  2. Ask the LLM to extract the value (or flag absence)
   3. Return structured rows with source citations
 """
 
-import json
 import asyncio
+import json
+import logging
 import os
 import re
-import logging
 import time
 from typing import Optional
 
-import httpx
-from openai import AsyncOpenAI
 try:
-    from google import genai
-except Exception:  # pragma: no cover - optional dependency
-    genai = None
-try:
+    from .llm_client import (
+        openai_chat_client as client,
+        gemini_client,
+        OPENAI_MODEL,
+        LLM_PROVIDER,
+        llm_mode,
+        resolve_chunk_for_quote,
+        ollama_chat_json,
+        gemini_chat_json,
+    )
     from .ingestion import list_documents, retrieve_chunks
 except ImportError:
+    from llm_client import (
+        openai_chat_client as client,
+        gemini_client,
+        OPENAI_MODEL,
+        LLM_PROVIDER,
+        llm_mode,
+        resolve_chunk_for_quote,
+        ollama_chat_json,
+        gemini_chat_json,
+    )
     from ingestion import list_documents, retrieve_chunks
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai").lower()
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-OLLAMA_CHAT_MODEL = os.getenv("OLLAMA_CHAT_MODEL", "llama3.1:8b")
-OLLAMA_CHAT_TIMEOUT = float(os.getenv("OLLAMA_CHAT_TIMEOUT", "300"))
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
-GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
-GOOGLE_CLOUD_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-GOOGLE_GENAI_USE_VERTEXAI = os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "true").lower() in {"1", "true", "yes", "on"}
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 EXTRACT_MAX_CONCURRENCY = int(os.getenv("EXTRACT_MAX_CONCURRENCY", "6"))
-client = AsyncOpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
 logger = logging.getLogger("legal_copilot")
-
-
-def _init_gemini_client():
-    if LLM_PROVIDER != "gemini" or genai is None:
-        return None
-    try:
-        if GOOGLE_GENAI_USE_VERTEXAI:
-            if not GOOGLE_CLOUD_PROJECT:
-                logger.warning("LLM_PROVIDER=gemini but GOOGLE_CLOUD_PROJECT is not set; using local fallback")
-                return None
-            return genai.Client(
-                vertexai=True,
-                project=GOOGLE_CLOUD_PROJECT,
-                location=GOOGLE_CLOUD_LOCATION,
-            )
-        if GEMINI_API_KEY:
-            return genai.Client(api_key=GEMINI_API_KEY)
-        logger.warning("LLM_PROVIDER=gemini but no auth configured; using local fallback")
-        return None
-    except Exception:
-        logger.exception("Failed to initialize Gemini client")
-        return None
-
-
-gemini_client = _init_gemini_client()
-
-
-def _llm_mode() -> str:
-    if client:
-        return f"openai:{OPENAI_MODEL}"
-    if LLM_PROVIDER == "ollama":
-        return f"ollama:{OLLAMA_CHAT_MODEL}"
-    if gemini_client:
-        return f"gemini:{GEMINI_MODEL}"
-    return "local_fallback"
 
 EXTRACT_SYSTEM = """\
 You are a precise legal analyst. You will receive text passages from a legal document
@@ -104,8 +71,12 @@ Relevant passages:
 """
 
 
-async def _extract_one(doc_id: str, filename: str, field: str, corpus: str | None = "user_docs") -> dict:
-    chunks = retrieve_chunks(query=field, doc_ids=[doc_id], n=5, corpus=corpus)
+async def _extract_one(
+    doc_id: str, filename: str, field: str, corpus: str | None = "user_docs"
+) -> dict:
+    chunks = await asyncio.to_thread(
+        retrieve_chunks, query=field, doc_ids=[doc_id], n=5, corpus=corpus
+    )
     if not chunks:
         return {
             "doc_id": doc_id,
@@ -119,41 +90,32 @@ async def _extract_one(doc_id: str, filename: str, field: str, corpus: str | Non
             "source_anchor": None,
         }
 
-    passages = "\n\n---\n\n".join(
-        f"[Page {c['page']}]\n{c['text']}" for c in chunks
-    )
+    passages = "\n\n---\n\n".join(f"[Page {c['page']}]\n{c['text']}" for c in chunks)
+    user_msg = EXTRACT_USER.format(filename=filename, field=field, passages=passages)
 
+    raw: dict | None = None
     if client:
         resp = await client.chat.completions.create(
             model=OPENAI_MODEL,
             response_format={"type": "json_object"},
             messages=[
                 {"role": "system", "content": EXTRACT_SYSTEM},
-                {"role": "user", "content": EXTRACT_USER.format(
-                    filename=filename, field=field, passages=passages
-                )},
+                {"role": "user", "content": user_msg},
             ],
             temperature=0,
         )
         raw = json.loads(resp.choices[0].message.content)
     elif LLM_PROVIDER == "ollama":
-        raw = await _ollama_chat_json(
-            system=EXTRACT_SYSTEM,
-            user=EXTRACT_USER.format(filename=filename, field=field, passages=passages),
-        ) or _local_extract(field=field, chunks=chunks)
+        raw = await ollama_chat_json(system=EXTRACT_SYSTEM, user=user_msg)
     elif gemini_client:
-        raw = await _gemini_chat_json(
-            system=EXTRACT_SYSTEM,
-            user=EXTRACT_USER.format(filename=filename, field=field, passages=passages),
-        ) or _local_extract(field=field, chunks=chunks)
-    else:
+        raw = await gemini_chat_json(system=EXTRACT_SYSTEM, user=user_msg)
+
+    if not raw:
         raw = _local_extract(field=field, chunks=chunks)
 
-    best = _resolve_chunk_for_quote(chunks, raw.get("quote")) or (chunks[0] if chunks else None)
-    best_page = best["page"] if best else None
-    source_anchor = None
-    if best:
-        source_anchor = {
+    best = resolve_chunk_for_quote(chunks, raw.get("quote")) or (chunks[0] if chunks else None)
+    source_anchor = (
+        {
             "doc_id": best["doc_id"],
             "filename": best["filename"],
             "chunk_id": best.get("chunk_id"),
@@ -164,6 +126,9 @@ async def _extract_one(doc_id: str, filename: str, field: str, corpus: str | Non
             "char_start": best.get("char_start"),
             "char_end": best.get("char_end"),
         }
+        if best
+        else None
+    )
 
     return {
         "doc_id": doc_id,
@@ -172,27 +137,10 @@ async def _extract_one(doc_id: str, filename: str, field: str, corpus: str | Non
         "value": raw.get("value"),
         "status": raw.get("status", "uncertain"),
         "quote": raw.get("quote"),
-        "page": best_page,
+        "page": best["page"] if best else None,
         "location_hint": raw.get("location_hint"),
         "source_anchor": source_anchor,
     }
-
-
-def _normalize_for_match(text: str | None) -> str:
-    return re.sub(r"\s+", " ", (text or "").strip().lower())
-
-
-def _resolve_chunk_for_quote(chunks: list[dict], quote: str | None) -> dict | None:
-    if not chunks:
-        return None
-    q = _normalize_for_match(quote)
-    if not q:
-        return None
-    for c in chunks:
-        t = _normalize_for_match(c.get("text"))
-        if q and q in t:
-            return c
-    return None
 
 
 def _local_extract(field: str, chunks: list[dict]) -> dict:
@@ -211,12 +159,7 @@ def _local_extract(field: str, chunks: list[dict]) -> dict:
                 best_page = c["page"]
 
     if not best_sentence or best_score <= 0:
-        return {
-            "value": None,
-            "status": "not_specified",
-            "quote": None,
-            "location_hint": None,
-        }
+        return {"value": None, "status": "not_specified", "quote": None, "location_hint": None}
 
     return {
         "value": best_sentence[:180],
@@ -226,130 +169,31 @@ def _local_extract(field: str, chunks: list[dict]) -> dict:
     }
 
 
-async def _ollama_chat_json(system: str, user: str) -> dict | None:
-    try:
-        timeout = httpx.Timeout(connect=10.0, read=OLLAMA_CHAT_TIMEOUT, write=30.0, pool=30.0)
-        async with httpx.AsyncClient(timeout=timeout) as http:
-            resp = await http.post(
-                f"{OLLAMA_BASE_URL}/api/chat",
-                json={
-                    "model": OLLAMA_CHAT_MODEL,
-                    "stream": False,
-                    "format": "json",
-                    "messages": [
-                        {"role": "system", "content": system},
-                        {"role": "user", "content": user},
-                    ],
-                    "options": {"temperature": 0},
-                },
-            )
-            resp.raise_for_status()
-            content = resp.json().get("message", {}).get("content", "{}")
-            return json.loads(content)
-    except Exception:
-        logger.exception(
-            "Ollama extraction JSON failed (base_url=%s, model=%s)",
-            OLLAMA_BASE_URL,
-            OLLAMA_CHAT_MODEL,
-        )
-        return None
-
-
-def _extract_json_object(text: str) -> dict | None:
-    if not text:
-        return None
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        pass
-    fenced = re.search(r"```json\s*(\{.*?\})\s*```", text, flags=re.DOTALL)
-    if fenced:
-        try:
-            return json.loads(fenced.group(1))
-        except json.JSONDecodeError:
-            return None
-    brace_start = text.find("{")
-    brace_end = text.rfind("}")
-    if brace_start >= 0 and brace_end > brace_start:
-        try:
-            return json.loads(text[brace_start:brace_end + 1])
-        except json.JSONDecodeError:
-            return None
-    return None
-
-
-async def _gemini_chat_json(system: str, user: str) -> dict | None:
-    if not gemini_client:
-        return None
-    prompt = f"SYSTEM:\n{system}\n\nUSER:\n{user}"
-
-    def _call() -> str:
-        resp = gemini_client.models.generate_content(
-            model=GEMINI_MODEL,
-            contents=prompt,
-            config={
-                "temperature": 0,
-                "response_mime_type": "application/json",
-            },
-        )
-        return (getattr(resp, "text", None) or "").strip()
-
-    try:
-        text = await asyncio.to_thread(_call)
-        return _extract_json_object(text)
-    except Exception:
-        logger.exception("Gemini extraction JSON failed (model=%s)", GEMINI_MODEL)
-        return None
-
-
 async def run_extraction(
     fields: list[str],
     doc_ids: Optional[list[str]] = None,
     corpus: str | None = "user_docs",
 ) -> dict:
-    """
-    Returns:
-    {
-      "fields": [...],
-      "rows": [
-        {
-          "doc_id": ..., "filename": ...,
-          "cells": {
-            "notice period": {"value": "30 days", "status": "found", "quote": "...", "page": 8, "location_hint": "§12.2"},
-            ...
-          }
-        }
-      ]
-    }
-    """
     docs = list_documents(corpus=corpus)
     if doc_ids:
         docs = [d for d in docs if d["id"] in doc_ids]
 
     logger.info(
-        "Extraction request: llm_mode=%s docs=%s fields=%s max_concurrency=%s",
-        _llm_mode(),
-        len(docs),
-        len(fields),
-        EXTRACT_MAX_CONCURRENCY,
+        "Extraction: llm_mode=%s docs=%s fields=%s concurrency=%s",
+        llm_mode(), len(docs), len(fields), EXTRACT_MAX_CONCURRENCY,
     )
 
-    # Run all (doc × field) pairs with bounded concurrency and progress logs.
     semaphore = asyncio.Semaphore(max(1, EXTRACT_MAX_CONCURRENCY))
-    pairs = [
-        (doc["id"], doc["filename"], field)
-        for doc in docs
-        for field in fields
-    ]
+    pairs = [(doc["id"], doc["filename"], field) for doc in docs for field in fields]
     total = len(pairs)
     started_at = time.perf_counter()
 
-    async def _bounded_extract(pair: tuple[str, str, str]) -> dict:
+    async def _bounded(pair: tuple[str, str, str]) -> dict:
         doc_id, filename, field = pair
         async with semaphore:
             return await _extract_one(doc_id, filename, field, corpus=corpus)
 
-    tasks = [asyncio.create_task(_bounded_extract(pair)) for pair in pairs]
+    tasks = [asyncio.create_task(_bounded(p)) for p in pairs]
     results: list[dict] = []
     completed = 0
     progress_every = max(1, min(10, total // 5 if total > 0 else 1))
@@ -358,10 +202,11 @@ async def run_extraction(
         results.append(await task)
         completed += 1
         if completed % progress_every == 0 or completed == total:
-            elapsed = time.perf_counter() - started_at
-            logger.info("Extraction progress: %s/%s completed (%.1fs)", completed, total, elapsed)
+            logger.info(
+                "Extraction progress: %s/%s (%.1fs)",
+                completed, total, time.perf_counter() - started_at,
+            )
 
-    # Pivot into rows
     rows_map: dict[str, dict] = {}
     for r in results:
         key = r["doc_id"]

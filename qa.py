@@ -3,76 +3,44 @@ Q&A pipeline
 ─────────────
 1. Retrieve top-k chunks across all (selected) documents
 2. Synthesize answer with precise citations
-3. Stream response back
 """
 
-import json
 import asyncio
+import json
+import logging
 import os
 import re
-import logging
 from typing import Optional
 
-import httpx
-from openai import AsyncOpenAI
 try:
-    from google import genai
-except Exception:  # pragma: no cover - optional dependency
-    genai = None
-try:
+    from .llm_client import (
+        openai_chat_client as client,
+        gemini_client,
+        OPENAI_MODEL,
+        LLM_PROVIDER,
+        llm_mode,
+        normalize_for_match,
+        resolve_chunk_for_quote,
+        ollama_chat_text,
+        gemini_chat_text,
+    )
     from .ingestion import list_documents, retrieve_chunks
 except ImportError:
+    from llm_client import (
+        openai_chat_client as client,
+        gemini_client,
+        OPENAI_MODEL,
+        LLM_PROVIDER,
+        llm_mode,
+        normalize_for_match,
+        resolve_chunk_for_quote,
+        ollama_chat_text,
+        gemini_chat_text,
+    )
     from ingestion import list_documents, retrieve_chunks
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "openai").lower()
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-OLLAMA_CHAT_MODEL = os.getenv("OLLAMA_CHAT_MODEL", "llama3.1:8b")
-OLLAMA_CHAT_TIMEOUT = float(os.getenv("OLLAMA_CHAT_TIMEOUT", "300"))
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
-GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
-GOOGLE_CLOUD_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-GOOGLE_GENAI_USE_VERTEXAI = os.getenv("GOOGLE_GENAI_USE_VERTEXAI", "true").lower() in {"1", "true", "yes", "on"}
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 QA_TOP_K = int(os.getenv("QA_TOP_K", "6"))
-client = AsyncOpenAI(api_key=OPENAI_API_KEY) if (LLM_PROVIDER == "openai" and OPENAI_API_KEY) else None
 logger = logging.getLogger("legal_copilot")
-
-
-def _init_gemini_client():
-    if LLM_PROVIDER != "gemini" or genai is None:
-        return None
-    try:
-        if GOOGLE_GENAI_USE_VERTEXAI:
-            if not GOOGLE_CLOUD_PROJECT:
-                logger.warning("LLM_PROVIDER=gemini but GOOGLE_CLOUD_PROJECT is not set; using local fallback")
-                return None
-            return genai.Client(
-                vertexai=True,
-                project=GOOGLE_CLOUD_PROJECT,
-                location=GOOGLE_CLOUD_LOCATION,
-            )
-        if GEMINI_API_KEY:
-            return genai.Client(api_key=GEMINI_API_KEY)
-        logger.warning("LLM_PROVIDER=gemini but no auth configured; using local fallback")
-        return None
-    except Exception:
-        logger.exception("Failed to initialize Gemini client")
-        return None
-
-
-gemini_client = _init_gemini_client()
-
-
-def _llm_mode() -> str:
-    if client:
-        return f"openai:{OPENAI_MODEL}"
-    if LLM_PROVIDER == "ollama":
-        return f"ollama:{OLLAMA_CHAT_MODEL}"
-    if gemini_client:
-        return f"gemini:{GEMINI_MODEL}"
-    return "local_fallback"
 
 QA_SYSTEM = """\
 You are a precise legal research assistant. You receive passages retrieved from a set
@@ -107,7 +75,7 @@ Answer mode: {answer_mode}
 async def run_qa(
     question: str,
     doc_ids: Optional[list[str]] = None,
-    history: list[dict] = [],
+    history: list[dict] | None = None,
     corpus: str | None = "user_docs",
 ) -> dict:
     """
@@ -117,12 +85,15 @@ async def run_qa(
       "sources": [{"filename", "page", "location_hint", "quote"}, ...]
     }
     """
-    chunks = retrieve_chunks(query=question, doc_ids=doc_ids, n=QA_TOP_K, corpus=corpus)
+    history = history or []
+    chunks = await asyncio.to_thread(
+        retrieve_chunks, query=question, doc_ids=doc_ids, n=QA_TOP_K, corpus=corpus
+    )
     logger.info(
-        "Q&A request: llm_mode=%s docs_filter=%s history_messages=%s top_k=%s",
-        _llm_mode(),
+        "Q&A: llm_mode=%s docs_filter=%s history=%s top_k=%s",
+        llm_mode(),
         len(doc_ids) if doc_ids else 0,
-        len(history or []),
+        len(history),
         QA_TOP_K,
     )
 
@@ -147,10 +118,7 @@ async def run_qa(
             }
             for c in chunks[:5]
         ]
-        answer_lines = [
-            "OPENAI_API_KEY ist nicht gesetzt, daher läuft Q&A im lokalen Fallback-Modus.",
-            "Hier sind die relevantesten Passagen:",
-        ]
+        answer_lines = ["No LLM backend is configured. Showing retrieved passages:"]
         for c in chunks[:3]:
             answer_lines.append(
                 f"- [DOC: {c['filename']}, p. {c['page']}] {_short_quote(c['text'])}"
@@ -178,13 +146,12 @@ async def run_qa(
         )
         full_text: str = resp.choices[0].message.content
     elif gemini_client:
-        full_text = await _gemini_chat_text(messages)
+        full_text = await gemini_chat_text(messages)
     elif LLM_PROVIDER == "ollama":
-        full_text = await _ollama_chat_text(messages)
+        full_text = await ollama_chat_text(messages)
     else:
         raise RuntimeError("No LLM backend configured")
 
-    # Split answer from JSON sources block
     answer = full_text
     sources: list[dict] = []
 
@@ -237,30 +204,13 @@ def _enrich_sources_with_anchors(sources: list[dict], chunks: list[dict]) -> lis
         filename = str(s.get("filename", ""))
         page = int(s.get("page") or 0)
         quote = str(s.get("quote", "") or "")
-        match = _resolve_chunk_for_quote(by_file.get(filename, []), quote)
+        match = resolve_chunk_for_quote(by_file.get(filename, []), quote)
         if not match:
             match = by_file_page.get((filename, page))
         item = dict(s)
         item["source_anchor"] = _anchor_from_chunk(match) if match else None
         out.append(item)
     return out
-
-
-def _normalize_for_match(text: str | None) -> str:
-    return re.sub(r"\s+", " ", (text or "").strip().lower())
-
-
-def _resolve_chunk_for_quote(chunks: list[dict], quote: str | None) -> dict | None:
-    if not chunks:
-        return None
-    q = _normalize_for_match(quote)
-    if not q:
-        return None
-    for c in chunks:
-        t = _normalize_for_match(c.get("text"))
-        if q and q in t:
-            return c
-    return None
 
 
 def _answer_mode(question: str) -> str:
@@ -276,49 +226,3 @@ def _answer_mode(question: str) -> str:
     if any(re.search(p, q) for p in definition_patterns):
         return "concise_definition (1-2 sentences, no broad summary)"
     return "concise_general (max 3 sentences unless detail requested)"
-
-
-async def _ollama_chat_text(messages: list[dict]) -> str:
-    try:
-        timeout = httpx.Timeout(connect=10.0, read=OLLAMA_CHAT_TIMEOUT, write=30.0, pool=30.0)
-        async with httpx.AsyncClient(timeout=timeout) as http:
-            resp = await http.post(
-                f"{OLLAMA_BASE_URL}/api/chat",
-                json={
-                    "model": OLLAMA_CHAT_MODEL,
-                    "stream": False,
-                    "messages": messages,
-                    "options": {"temperature": 0},
-                },
-            )
-            resp.raise_for_status()
-            return resp.json().get("message", {}).get("content", "")
-    except Exception:
-        logger.exception(
-            "Ollama chat failed (base_url=%s, model=%s)",
-            OLLAMA_BASE_URL,
-            OLLAMA_CHAT_MODEL,
-        )
-        raise RuntimeError("Ollama chat failed")
-
-
-async def _gemini_chat_text(messages: list[dict]) -> str:
-    if not gemini_client:
-        raise RuntimeError("Gemini client not configured")
-    prompt = "\n\n".join(
-        f"{m.get('role', 'user').upper()}:\n{m.get('content', '')}" for m in messages
-    )
-
-    def _call() -> str:
-        resp = gemini_client.models.generate_content(
-            model=GEMINI_MODEL,
-            contents=prompt,
-            config={"temperature": 0},
-        )
-        return (getattr(resp, "text", None) or "").strip()
-
-    try:
-        return await asyncio.to_thread(_call)
-    except Exception:
-        logger.exception("Gemini chat failed (model=%s)", GEMINI_MODEL)
-        raise RuntimeError("Gemini chat failed")
