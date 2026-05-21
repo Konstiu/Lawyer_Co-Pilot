@@ -3,7 +3,7 @@ Legal Co-Pilot — Backend
 Run: uvicorn backend.main:app --reload
 """
 
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -34,6 +34,7 @@ logging.getLogger("chromadb.segment.impl.vector.local_persistent_hnsw").setLevel
 
 app = FastAPI(title="Legal Co-Pilot")
 logger = logging.getLogger("legal_copilot")
+MAX_UPLOAD_BYTES = int(os.getenv("MAX_UPLOAD_BYTES", str(50 * 1024 * 1024)))  # 50 MB default
 
 
 def _internal_error(op: str) -> HTTPException:
@@ -88,8 +89,15 @@ async def upload_document(file: UploadFile = File(...), corpus: str = "user_docs
     """Upload and ingest a PDF or text document."""
     try:
         content = await file.read()
+        if len(content) > MAX_UPLOAD_BYTES:
+            raise HTTPException(
+                status_code=413,
+                detail=f"File too large ({len(content) // 1024 // 1024} MB). Maximum is {MAX_UPLOAD_BYTES // 1024 // 1024} MB.",
+            )
         result = ingest_document(filename=file.filename, content=content, corpus=corpus)
         return result
+    except HTTPException:
+        raise
     except Exception:
         raise _internal_error("upload_document")
 
@@ -100,6 +108,24 @@ async def get_documents(corpus: str = "user_docs"):
         return list_documents(corpus=corpus)
     except Exception:
         raise _internal_error("get_documents")
+
+@app.get("/api/documents/{doc_id}/preview")
+async def document_preview(doc_id: str):
+    """Return full text + metadata for a document preview."""
+    try:
+        try:
+            from .ingestion import get_document_preview as _preview
+        except ImportError:
+            from ingestion import get_document_preview as _preview
+        result = _preview(doc_id)
+        if not result:
+            raise HTTPException(status_code=404, detail="Document not found")
+        return result
+    except HTTPException:
+        raise
+    except Exception:
+        raise _internal_error("document_preview")
+
 
 @app.delete("/api/documents/{doc_id}")
 async def delete_document(doc_id: str):

@@ -143,7 +143,7 @@ delete `./data/chroma` and re-ingest documents.
 ### 3. Start the server
 
 ```bash
-uvicorn backend.main:app --reload --port 8000
+uvicorn main:app --reload --port 8000
 ```
 
 ### 4. Open the UI
