@@ -7,6 +7,10 @@ For each (document × rule) pair:
   3. Return ok / deviation / missing with explanation + citation
 """
 
+from .config import load_environment
+
+load_environment()
+
 import asyncio
 import json
 import logging
@@ -15,30 +19,17 @@ import re
 import time
 from typing import Optional
 
-try:
-    from .llm_client import (
-        openai_chat_client as client,
-        gemini_client,
-        OPENAI_MODEL,
-        LLM_PROVIDER,
-        llm_mode,
-        resolve_chunk_for_quote,
-        ollama_chat_json,
-        gemini_chat_json,
-    )
-    from .ingestion import list_documents, retrieve_chunks
-except ImportError:
-    from llm_client import (
-        openai_chat_client as client,
-        gemini_client,
-        OPENAI_MODEL,
-        LLM_PROVIDER,
-        llm_mode,
-        resolve_chunk_for_quote,
-        ollama_chat_json,
-        gemini_chat_json,
-    )
-    from ingestion import list_documents, retrieve_chunks
+from .llm_client import (
+    openai_chat_client as client,
+    gemini_client,
+    OPENAI_MODEL,
+    LLM_PROVIDER,
+    llm_mode,
+    resolve_chunk_for_quote,
+    ollama_chat_json,
+    gemini_chat_json,
+)
+from .ingestion import list_documents, retrieve_chunks
 
 REVIEW_MAX_CONCURRENCY = int(os.getenv("REVIEW_MAX_CONCURRENCY", "6"))
 logger = logging.getLogger("legal_copilot")

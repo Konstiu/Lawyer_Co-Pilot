@@ -3,6 +3,10 @@ Shared LLM client — singletons, config, and call helpers.
 Imported by extraction.py, review.py, qa.py, and ingestion.py.
 """
 
+from .config import load_environment
+
+load_environment()
+
 import asyncio
 import json
 import logging

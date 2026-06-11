@@ -145,6 +145,12 @@ html, body { height: 100%; font-family: var(--sans); background: var(--bg); colo
 }
 .topbar-left h1 { font-size: 15px; font-weight: 500; }
 .topbar-left p { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+.scope-note {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-3);
+  font-family: var(--mono);
+}
 .run-btn {
   background: var(--text);
   color: white;
@@ -539,7 +545,7 @@ input[type=file] { display: none; }
       <button class="upload-btn" onclick="document.getElementById('file-input').click()">
         + Upload document
       </button>
-      <input type="file" id="file-input" accept=".pdf,.txt,.md" multiple onchange="uploadFiles(this.files)">
+      <input type="file" id="file-input" accept=".pdf,.txt,.md,.docx" multiple onchange="uploadFiles(this.files)">
     </div>
   </div>
 
@@ -549,6 +555,7 @@ input[type=file] { display: none; }
       <div class="topbar-left">
         <h1 id="mode-title">Extraction</h1>
         <p id="mode-desc">Define fields — get a structured table with exact source links</p>
+        <div class="scope-note" id="scope-note">Scope: user-document corpus selected. Claims should stay grounded in the selected corpus.</div>
       </div>
       <div class="topbar-right">
         <select id="corpus-select" class="corpus-select" onchange="setCorpus(this.value)">
@@ -603,16 +610,19 @@ const MODES = {
   extract: {
     title: "Extraction",
     desc: "Define fields — get a structured table with exact source links",
+    scope: "Grounded extraction from the selected corpus. Better for contract facts than open-ended legal interpretation.",
     placeholder: "One field per line, e.g.:\nNotice period\nGoverning law\nLiability cap\nTermination for convenience\nConfidentiality period",
   },
   review: {
     title: "Rule Review",
     desc: "Define your playbook — the system flags every deviation",
+    scope: "Rule checks depend on your prompt wording and the retrieved passages. Use citations to audit every finding.",
     placeholder: "One rule per line, e.g.:\nGoverning law must be Germany\nLiability cap must be at least 2× annual fees\nNotice period must be at least 30 days\nNo unilateral amendment rights for counterparty",
   },
   qa: {
     title: "Q&A",
     desc: "Ask a question across all documents — answer with exact citations",
+    scope: "Answers are limited to the selected corpus. This is a document-grounded assistant, not a source of general legal advice.",
     placeholder: null,
   },
 };
@@ -625,13 +635,31 @@ function setMode(m) {
   );
   document.getElementById("mode-title").textContent = MODES[m].title;
   document.getElementById("mode-desc").textContent = MODES[m].desc;
+  updateScopeNote();
   document.getElementById("run-btn").style.display = m === "qa" ? "none" : "flex";
   renderContent();
 }
 
 function setCorpus(corpus) {
   currentCorpus = corpus || "user_docs";
+  updateScopeNote();
   loadDocs();
+}
+
+function corpusLabel(corpus) {
+  if (corpus === "legal_knowledge") return "legal-knowledge corpus";
+  if (corpus === "all") return "combined corpus";
+  return "user-document corpus";
+}
+
+function updateScopeNote() {
+  const el = document.getElementById("scope-note");
+  if (!el) return;
+  const mode = MODES[currentMode] || MODES.extract;
+  const jurisdictionNote = currentCorpus === "legal_knowledge"
+    ? " Default legal-knowledge ingestion is Austria-oriented unless you ingest a different corpus."
+    : "";
+  el.textContent = `Scope: ${corpusLabel(currentCorpus)} selected. ${mode.scope}${jurisdictionNote}`;
 }
 
 function renderContent() {
@@ -1145,6 +1173,7 @@ function showToast(msg) {
 })();
 
 // ── Init ─────────────────────────────────────────────────────────────────────
+updateScopeNote();
 renderContent();
 loadDocs();
 </script>

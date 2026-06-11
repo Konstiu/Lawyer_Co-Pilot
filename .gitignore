@@ -2,3 +2,8 @@
 __pycache__/
 venv/
 data
+.env
+.env.local
+test_runs/
+node_modules/
+.idea/

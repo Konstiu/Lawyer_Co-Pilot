@@ -1,0 +1,262 @@
+Using BASE_URL=http://127.0.0.1:8000
+Using DOCX_DIR=test_docs/files(1)
+Using WORK_DIR=/tmp/legal_copilot_docx_texts
+converted: 01_Softwarelizenz_Wartungsvertrag.docx -> 01_Softwarelizenz_Wartungsvertrag.txt (7181 chars)
+converted: 02_Arbeitsvertrag_Senior_Developer.docx -> 02_Arbeitsvertrag_Senior_Developer.txt (5695 chars)
+converted: 03_Gewerbemietvertrag.docx -> 03_Gewerbemietvertrag.txt (5226 chars)
+converted: 04_Geheimhaltungsvereinbarung_NDA.docx -> 04_Geheimhaltungsvereinbarung_NDA.txt (6620 chars)
+converted: 05_Dienstleistungsrahmenvertrag.docx -> 05_Dienstleistungsrahmenvertrag.txt (6833 chars)
+[1/4] Upload converted documents
+  -> /tmp/legal_copilot_docx_texts/01_Softwarelizenz_Wartungsvertrag.txt
+{
+  "detail": "Internal server error. Check server logs."
+}
+  -> /tmp/legal_copilot_docx_texts/02_Arbeitsvertrag_Senior_Developer.txt
+{
+  "detail": "Internal server error. Check server logs."
+}
+  -> /tmp/legal_copilot_docx_texts/03_Gewerbemietvertrag.txt
+{
+  "detail": "Internal server error. Check server logs."
+}
+  -> /tmp/legal_copilot_docx_texts/04_Geheimhaltungsvereinbarung_NDA.txt
+{
+  "detail": "Internal server error. Check server logs."
+}
+  -> /tmp/legal_copilot_docx_texts/05_Dienstleistungsrahmenvertrag.txt
+{
+  "detail": "Internal server error. Check server logs."
+}
+[2/4] List indexed docs
+{
+  "detail": "Internal server error. Check server logs."
+}
+[3/4] Extraction hard set
+{
+  "detail": "Internal server error. Check server logs."
+}
+[4/4] Review + Q&A hard set
+{
+  "detail": "Internal server error. Check server logs."
+}
+\nQ: Welcher Vertrag enthält die strengste Haftungsbegrenzung und wie genau ist sie formuliert?
+{
+  "answer": "Der Dienstleistungsrahmenvertrag enthält die strengste Haftungsbegrenzung, da er die Gesamthaftung des AN auf den Wert des betreffenden Projektvertrages, maximal jedoch EUR 2.000.000,--, begrenzt [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 9.1]. Diese Begrenzung gilt nicht für Personenschäden, Schäden durch grobe Fahrlässigkeit oder vorsätzliches Verhalten [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 9.3]. Für mittelbare Schäden, Folgeschäden und entgangenen Gewinn haftet der AN nur bei Vorsatz [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 9.2].",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 9.1",
+      "quote": "Die Gesamthaftung des AN aus diesem Rahmenvertrag und allen Projektverträgen ist auf den Wert des betreffenden Projektvertrages, maximal jedoch EUR 2.000.000,--, begrenzt."
+    },
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 9.3",
+      "quote": "Diese Haftungsbegrenzung gilt nicht für Personenschäden, Schäden durch grobe Fahrlässigkeit oder vorsätzliches Verhalten."
+    },
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 9.2",
+      "quote": "Für mittelbare Schäden, Folgeschäden und entgangenen Gewinn haftet der AN nur bei Vorsatz."
+    }
+  ]
+}
+\nQ: In welchen Dokumenten ist die Haftung für grobe Fahrlässigkeit ausdrücklich unbeschränkt?
+{
+  "answer": "Die Haftung für grobe Fahrlässigkeit ist in den Dokumenten \"05_Dienstleistungsrahmenvertrag.txt\" und \"vertrag_1_saas_msa.txt\" ausdrücklich unbeschränkt. Im \"05_Dienstleistungsrahmenvertrag.txt\" wird dies in § 9.3 erwähnt. Im \"vertrag_1_saas_msa.txt\" ist dies in § 4 (3) aufgeführt.",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "§ 9 Haftungsbegrenzung",
+      "quote": "9.3 Diese Haftungsbegrenzung gilt nicht für Personenschäden, Schäden durch grobe Fahrlässigkeit oder vorsätzliches Verhalten."
+    },
+    {
+      "filename": "vertrag_1_saas_msa.txt",
+      "page": 1,
+      "location_hint": "§4 Haftung",
+      "quote": "(3) Die Haftung für Vorsatz, grobe Fahrlässigkeit, Personenschäden und nach dem Produkthaftungsgesetz bleibt unbeschränkt."
+    }
+  ]
+}
+\nQ: Welche Verträge erlauben Preisanpassungen, und an welche Trigger sind sie gebunden?
+{
+  "answer": "Verträge, die Preisanpassungen erlauben, sind der Dienstleistungsrahmenvertrag und der Softwarelizenz-Wartungsvertrag. Im Dienstleistungsrahmenvertrag werden die Tagessätze jährlich zum 1. Januar an den VPI 2020-Index angepasst, mit einer maximalen Erhöhung von 4% pro Jahr [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 5.5]. Der Softwarelizenz-Wartungsvertrag erlaubt eine jährliche Anpassung der Vergütung um maximal 5% oder den offiziell veröffentlichten VPI-Index, je nachdem, welcher Wert höher ist [DOC: 01_Softwarelizenz_Wartungsvertrag.txt, p. 1, clause 5.4]. Der Gewerbemietvertrag erlaubt ebenfalls eine jährliche Anpassung des Mietzinses an die Entwicklung des Verbraucherpreisindex 2020 (VPI 2020) [DOC: 03_Gewerbemietvertrag.txt, p. 1, clause 5.3].",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 5.5",
+      "quote": "Die Tagessätze gemäß Punkt 5.1 werden jährlich zum 1. Jänner an den VPI 2020-Index angepasst, maximal um 4% p.a."
+    },
+    {
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 5.4",
+      "quote": "Der Lizenzgeber ist berechtigt, die Vergütung einmal jährlich um maximal 5% oder den offiziell veröffentlichten VPI-Index (Verbraucherpreisindex) der Statistik Austria, je nachdem, welcher Wert höher ist, anzupassen. Die Ankündigung hat mindestens 3 Monate vor Inkrafttreten zu erfolgen."
+    },
+    {
+      "filename": "03_Gewerbemietvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 5.3",
+      "quote": "Der Mietzins ist wertgesichert und wird jährlich zum 1. April an die Entwicklung des Verbraucherpreisindex 2020 (VPI 2020) der Statistik Austria angepasst. Als Ausgangsbasis dient der für den Monat Dezember 2024 verlautbarte Indexwert."
+    }
+  ]
+}
+\nQ: Gibt es einen Vertrag, der Service Credits erwähnt, aber keine Berechnungslogik enthält?
+{
+  "answer": "Ja, es gibt einen Vertrag, der Service Credits erwähnt, aber keine Berechnungslogik dafür enthält. Der Vertrag \"01_Softwarelizenz_Wartungsvertrag.txt\" erwähnt, dass dem Lizenznehmer eine Gutschrift gewährt wird, wenn der garantierte SLA unterschritten wird, verweist aber für die Details auf eine separate Anlage.",
+  "sources": [
+    {
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "page": 1,
+      "location_hint": "4.3",
+      "quote": "Bei Unterschreitung des SLA wird dem Lizenznehmer eine Gutschrift gemäß der Service Level Agreement-Anlage (Anlage B) gewährt."
+    }
+  ]
+}
+\nQ: In welchen Dokumenten ist das Zahlungsziel unter 30 Tagen?
+{
+  "answer": "Das Zahlungsziel von unter 30 Tagen ist in den Dokumenten \"05_Dienstleistungsrahmenvertrag.txt\" und \"vertrag_1_saas_msa.txt\" zu finden. Im \"05_Dienstleistungsrahmenvertrag.txt\" sind Rechnungen innerhalb von 30 Tagen nach Eingang zahlbar [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 5.4]. Im \"vertrag_1_saas_msa.txt\" sind Rechnungen innerhalb von 30 Kalendertagen nach Rechnungsdatum zahlbar [DOC: vertrag_1_saas_msa.txt, p. 1, clause §3 (2)].",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 5.4",
+      "quote": "Rechnungen sind monatlich zu stellen und innerhalb von 30 Tagen nach Eingang beim AG zahlbar."
+    },
+    {
+      "filename": "vertrag_1_saas_msa.txt",
+      "page": 1,
+      "location_hint": "clause §3 (2)",
+      "quote": "Rechnungen sind innerhalb von 30 Kalendertagen nach Rechnungsdatum ohne Abzug zahlbar."
+    }
+  ]
+}
+\nQ: Welche Dokumente enthalten widersprüchliche Aussagen zur Vertragslaufzeit oder Verlängerung?
+{
+  "answer": "Es gibt keine Dokumente, die widersprüchliche Aussagen zur Vertragslaufzeit oder Verlängerung enthalten. Jedes Dokument legt seine eigenen Bedingungen für Laufzeit und Kündigung fest.\n\n[\n  {\"filename\": \"01_Softwarelizenz_Wartungsvertrag.txt\", \"page\": 1, \"location_hint\": \"§ 8\", \"quote\": \"8.1 Dieser Vertrag beginnt mit dem Datum der Unterzeichnung und hat eine Mindestlaufzeit von 36 Monaten.\\n\\n8.2 Nach Ablauf der Mindestlaufzeit verlängert sich der Vertrag automatisch um jeweils 12 Monate, sofern er nicht von einer Vertragspartei mit einer Frist von 6 Monaten zum Laufzeitende schriftlich gekündigt wird.\"},\n  {\"filename\": \"02_Arbeitsvertrag_Senior_Developer.txt\", \"page\": 1, \"location_hint\": \"§ 8\", \"quote\": \"8.1 Das Arbeitsverhältnis kann von beiden Seiten unter Einhaltung der gesetzlichen Kündigungsfristen und -termine (§ 20 AngG) aufgelöst werden.\"},\n  {\"filename\": \"05_Dienstleistungsrahmenvertrag.txt\", \"page\": 1, \"location_hint\": \"§ 8\", \"quote\": \"8.1 Dieser Rahmenvertrag tritt mit Unterzeichnung in Kraft und läuft auf unbestimmte Zeit. Er kann von beiden Parteien mit einer Frist von 6 Monaten zum Ende eines Kalenderquartals gekündigt werden.\"},\n  {\"filename\": \"vertrag_1_saas_msa.txt\", \"page\": 1, \"location_hint\": \"§2\", \"quote\": \"(1) Die initiale Vertragslaufzeit beträgt 24 Monate.\\n(2) Danach verlängert sich der Vertrag jeweils um 12 Monate, sofern keine Partei mit einer Frist von 90 Tagen zum Laufzeitende kündigt.\"}\n]",
+  "sources": []
+}
+\nQ: Wo wird Subunternehmer-Einsatz geregelt und welche Kontrollrechte hat der Kunde dabei?
+{
+  "answer": "Der Einsatz von Subunternehmern wird in § 4.3 des Dienstleistungsrahmenvertrags geregelt, wobei die Hinzuziehung der vorherigen schriftlichen Zustimmung des Auftraggebers (AG) bedarf. Der Kunde hat dabei das Recht, die Hinzuziehung von Subunternehmern zu genehmigen. Der Auftragnehmer (AN) haftet für die Leistungen seiner Subunternehmer wie für eigene Leistungen.",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 4.3",
+      "quote": "Die Hinzuziehung von Subunternehmern bedarf der vorherigen schriftlichen Zustimmung des AG. Der AN haftet für die Leistungen seiner Subunternehmer wie für eigene Leistungen. Die Subunternehmer sind auf dieselben Datenschutz- und Geheimhaltungspflichten zu verpflichten wie der AN selbst."
+    }
+  ]
+}
+\nQ: Welche Verträge nennen konkret RTO und RPO, und sind diese Werte playbook-konform?
+{
+  "answer": "Die vorliegenden Verträge nennen RTO (Recovery Time Objective) und RPO (Recovery Point Objective) nicht explizit. Daher kann nicht beurteilt werden, ob diese Werte playbook-konform sind.",
+  "sources": []
+}
+\nQ: Welche Dokumente regeln Drittlandtransfer personenbezogener Daten explizit?
+{
+  "answer": "Die vorliegenden Dokumente regeln nicht explizit den Drittlandtransfer personenbezogener Daten. Die Geheimhaltungsvereinbarung (NDA) konzentriert sich auf den Schutz vertraulicher Informationen im Rahmen einer Transaktionsprüfung [DOC: 04_Geheimhaltungsvereinbarung_NDA.txt, p. 1]. Der Dienstleistungsrahmenvertrag regelt IT-Beratungs- und Implementierungsleistungen [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1].",
+  "sources": [
+    {
+      "filename": "04_Geheimhaltungsvereinbarung_NDA.txt",
+      "page": 1,
+      "location_hint": "§ 2 Hintergrund und Zweck",
+      "quote": "Im Rahmen dieser Prüfung (\"Due Diligence\") wird der Offenlegende dem Empfänger vertrauliche Informationen über die Zielgesellschaft zugänglich machen. Ziel dieser Vereinbarung ist der Schutz dieser Informationen."
+    },
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "§ 2 Gegenstand des Rahmenvertrages",
+      "quote": "Dieser Rahmenvertrag (\"Rahmenvertrag\") regelt die allgemeinen Bedingungen für die Erbringung von IT-Beratungs-, Planungs- und Implementierungsleistungen durch den AN für den AG."
+    }
+  ]
+}
+\nQ: In welchem Vertrag fehlt trotz Verarbeitung personenbezogener Daten eine explizite AVV/DPA-Regelung?
+{
+  "answer": "In dem Master Service Agreement (MSA) zwischen AlphaSoft GmbH und Bergmann Logistik AG fehlt trotz Verarbeitung personenbezogener Daten eine explizite AVV/DPA-Regelung. Der Vertrag besagt lediglich, dass der Anbieter personenbezogene Daten ausschließlich auf dokumentierte Weisung des Kunden verarbeitet und eine Auftragsverarbeitungsvereinbarung (AVV) abgeschlossen wird [DOC: vertrag_1_saas_msa.txt, p. 1, clause 5].",
+  "sources": [
+    {
+      "filename": "vertrag_1_saas_msa.txt",
+      "page": 1,
+      "location_hint": "clause 5",
+      "quote": "Der Anbieter verarbeitet personenbezogene Daten ausschließlich auf dokumentierte Weisung des Kunden.\nEine Auftragsverarbeitungsvereinbarung (AVV) wird abgeschlossen."
+    }
+  ]
+}
+\nQ: Welche Rechtsordnungen sind über alle Dokumente verteilt vereinbart?
+{
+  "answer": "Es wird vereinbart, dass auf den Vertrag österreichisches Recht Anwendung findet und Gerichtsstand Wien ist [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 10.1].",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 10.1",
+      "quote": "Auf diesen Vertrag findet österreichisches Recht Anwendung. Gerichtsstand ist Wien."
+    }
+  ]
+}
+\nQ: Gibt es Dokumente mit Gerichtsstandsklauseln außerhalb Deutschlands?
+{
+  "answer": "Ja, es gibt Dokumente mit Gerichtsstandsklauseln außerhalb Deutschlands. Der Dienstleistungsrahmenvertrag nennt Wien als Gerichtsstand [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 10.1]. Ebenso legt der Softwarelizenz- und Wartungsvertrag Wien als Gerichtsstand für alle Streitigkeiten fest [DOC: 01_Softwarelizenz_Wartungsvertrag.txt, p. 1, clause 9.2].",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 10.1",
+      "quote": "Gerichtsstand ist Wien."
+    },
+    {
+      "filename": "01_Softwarelizenz_Wartungsvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 9.2",
+      "quote": "Der Gerichtsstand für alle Streitigkeiten ist Wien."
+    }
+  ]
+}
+\nQ: In welchen Verträgen ist die Rangfolge zwischen Hauptvertrag, SLA und DPA explizit geregelt?
+{
+  "answer": "Die Rangfolge zwischen Hauptvertrag, SLA und DPA ist in den vorliegenden Passagen nicht explizit geregelt. Es wird jedoch in einem Dienstleistungsrahmenvertrag erwähnt, dass im Zweifelsfall die Regelungen eines Projektvertrages Vorrang vor dem Rahmenvertrag haben [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 2.2].",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 2.2",
+      "quote": "Im Zweifelsfall haben die Regelungen des Projektvertrages Vorrang vor diesem Rahmenvertrag."
+    }
+  ]
+}
+\nQ: Welche Klauseln deuten auf ungewöhnlich einseitige Risiken zulasten des Kunden hin?
+{
+  "answer": "Die Klausel in § 7.2 des Dienstleistungsrahmenvertrags, die die Haftung des AN für mittelbare Schäden, Folgeschäden und entgangenen Gewinn nur bei Vorsatz vorsieht, deutet auf einseitige Risiken zulasten des Kunden hin. Ebenso begrenzt die Klausel in § 9.1 des Dienstleistungsrahmenvertrags die Gesamthaftung des AN auf den Wert des Projektvertrages, maximal jedoch EUR 2.000.000,--.",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "§ 7.2",
+      "quote": "Für mittelbare Schäden, Folgeschäden und entgangenen Gewinn haftet der AN nur bei Vorsatz."
+    },
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "§ 9.1",
+      "quote": "Die Gesamthaftung des AN aus diesem Rahmenvertrag und allen Projektverträgen ist auf den Wert des betreffenden Projektvertrages, maximal jedoch EUR 2.000.000,--, begrenzt."
+    }
+  ]
+}
+\nQ: Nenne pro Dokument genau eine potenziell kritische Abweichung vom Playbook mit Quelle.
+{
+  "answer": "Im Dienstleistungsrahmenvertrag wird die Haftung des AN für mittelbare Schäden, Folgeschäden und entgangenen Gewinn nur bei Vorsatz begrenzt [DOC: 05_Dienstleistungsrahmenvertrag.txt, p. 1, clause 9.2]. Dies könnte eine Abweichung vom Playbook darstellen, wenn dieses eine umfassendere Haftung vorsieht.",
+  "sources": [
+    {
+      "filename": "05_Dienstleistungsrahmenvertrag.txt",
+      "page": 1,
+      "location_hint": "clause 9.2",
+      "quote": "Für mittelbare Schäden, Folgeschäden und entgangenen Gewinn haftet der AN nur bei Vorsatz."
+    }
+  ]
+}
+\nDone. Grade with: test_docs/pdf_eval_scorecard.md

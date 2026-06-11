@@ -11,13 +11,13 @@ echo "[A] Documents currently indexed"
 curl -sS "$BASE_URL/api/documents" | jq .
 
 echo "[B] Extraction hard set"
-EXTRACT_PAYLOAD="$(jq -Rn --rawfile f test_docs/pdf_hard_extraction_fields.txt '{fields: ($f | split("\n") | map(select(length>0)))}')"
+EXTRACT_PAYLOAD="$(jq -Rn --rawfile f test_docs/hard/prompts/pdf_hard_extraction_fields.txt '{fields: ($f | split("\n") | map(select(length>0)))}')"
 curl -sS -X POST "$BASE_URL/api/extract" \
   -H "Content-Type: application/json" \
   -d "$EXTRACT_PAYLOAD" | jq .
 
 echo "[C] Rule review hard set"
-REVIEW_PAYLOAD="$(jq -Rn --rawfile r test_docs/pdf_hard_review_rules.txt '{rules: ($r | split("\n") | map(select(length>0)))}')"
+REVIEW_PAYLOAD="$(jq -Rn --rawfile r test_docs/hard/prompts/pdf_hard_review_rules.txt '{rules: ($r | split("\n") | map(select(length>0)))}')"
 curl -sS -X POST "$BASE_URL/api/review" \
   -H "Content-Type: application/json" \
   -d "$REVIEW_PAYLOAD" | jq .
@@ -30,6 +30,6 @@ while IFS= read -r q; do
   curl -sS -X POST "$BASE_URL/api/qa" \
     -H "Content-Type: application/json" \
     -d "$QA_PAYLOAD" | jq .
-done < test_docs/pdf_hard_qa_questions.txt
+done < test_docs/hard/prompts/pdf_hard_qa_questions.txt
 
-echo "\nDone. Use test_docs/pdf_eval_scorecard.md for grading."
+echo "\nDone. Use test_docs/docs/pdf_eval_scorecard.md for grading."

@@ -1,7 +1,11 @@
 """
 Legal Co-Pilot — Backend
-Run: uvicorn backend.main:app --reload
+Run: uvicorn app.main:app --reload
 """
+
+from .config import load_environment
+
+load_environment()
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
@@ -12,16 +16,10 @@ from typing import Optional
 import os
 import logging
 
-try:
-    from .ingestion import ingest_document, list_documents, resolve_source_anchor
-    from .extraction import run_extraction
-    from .review import run_review
-    from .qa import run_qa
-except ImportError:
-    from ingestion import ingest_document, list_documents, resolve_source_anchor
-    from extraction import run_extraction
-    from review import run_review
-    from qa import run_qa
+from .ingestion import ingest_document, list_documents, resolve_source_anchor
+from .extraction import run_extraction
+from .review import run_review
+from .qa import run_qa
 
 logging.basicConfig(
     level=logging.INFO,
@@ -113,10 +111,7 @@ async def get_documents(corpus: str = "user_docs"):
 async def document_preview(doc_id: str):
     """Return full text + metadata for a document preview."""
     try:
-        try:
-            from .ingestion import get_document_preview as _preview
-        except ImportError:
-            from ingestion import get_document_preview as _preview
+        from .ingestion import get_document_preview as _preview
         result = _preview(doc_id)
         if not result:
             raise HTTPException(status_code=404, detail="Document not found")
@@ -130,10 +125,7 @@ async def document_preview(doc_id: str):
 @app.delete("/api/documents/{doc_id}")
 async def delete_document(doc_id: str):
     try:
-        try:
-            from .ingestion import delete_document as _del
-        except ImportError:
-            from ingestion import delete_document as _del
+        from .ingestion import delete_document as _del
         return _del(doc_id)
     except Exception:
         raise _internal_error("delete_document")

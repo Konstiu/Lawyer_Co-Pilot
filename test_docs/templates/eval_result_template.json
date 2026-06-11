@@ -1,0 +1,28 @@
+{
+  "run_id": "YYYYMMDD_HHMMSS",
+  "model_provider": "openai|gemini|ollama|local_fallback",
+  "model_name": "fill-in",
+  "corpus": "user_docs|legal_knowledge|both",
+  "dataset": "baseline|hard",
+  "jurisdiction_scope": "AT-focused / configurable corpus",
+  "metrics": {
+    "extraction_correctness_pct": null,
+    "review_classification_correctness_pct": null,
+    "citation_correctness_pct": null,
+    "qa_grounded_answer_quality_pct": null
+  },
+  "artifact_paths": {
+    "documents": "test_runs/<run_id>/documents.json",
+    "extraction": "test_runs/<run_id>/extraction.json",
+    "review": "test_runs/<run_id>/review.json",
+    "qa": "test_runs/<run_id>/qa.json",
+    "summary": "test_runs/<run_id>/summary.json"
+  },
+  "known_failures": [
+    "absence detection can be unreliable",
+    "tables and nested clauses may lose structure during chunking",
+    "page references can weaken on long or layout-heavy documents",
+    "rule translation from natural language into machine-checkable checks is brittle"
+  ],
+  "notes": ""
+}

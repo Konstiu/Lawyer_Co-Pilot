@@ -7,6 +7,10 @@ Ingestion pipeline
 4. Store in ChromaDB (vector) + SQLite (metadata/raw text)
 """
 
+from .config import load_environment
+
+load_environment()
+
 import hashlib
 import io
 import math
@@ -26,10 +30,7 @@ import httpx  # used by Ollama embedding calls below
 from chromadb.config import Settings
 from chromadb.errors import InvalidDimensionException
 
-try:
-    from .llm_client import gemini_client, openai_embed_client as client, LLM_PROVIDER
-except ImportError:
-    from llm_client import gemini_client, openai_embed_client as client, LLM_PROVIDER
+from .llm_client import gemini_client, openai_embed_client as client, LLM_PROVIDER
 
 # ── Config ──────────────────────────────────────────────────────────────────
 DATA_DIR = Path(os.getenv("DATA_DIR", "./data"))

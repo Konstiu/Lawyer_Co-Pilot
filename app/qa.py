@@ -5,6 +5,10 @@ Q&A pipeline
 2. Synthesize answer with precise citations
 """
 
+from .config import load_environment
+
+load_environment()
+
 import asyncio
 import json
 import logging
@@ -12,32 +16,18 @@ import os
 import re
 from typing import Optional
 
-try:
-    from .llm_client import (
-        openai_chat_client as client,
-        gemini_client,
-        OPENAI_MODEL,
-        LLM_PROVIDER,
-        llm_mode,
-        normalize_for_match,
-        resolve_chunk_for_quote,
-        ollama_chat_text,
-        gemini_chat_text,
-    )
-    from .ingestion import list_documents, retrieve_chunks
-except ImportError:
-    from llm_client import (
-        openai_chat_client as client,
-        gemini_client,
-        OPENAI_MODEL,
-        LLM_PROVIDER,
-        llm_mode,
-        normalize_for_match,
-        resolve_chunk_for_quote,
-        ollama_chat_text,
-        gemini_chat_text,
-    )
-    from ingestion import list_documents, retrieve_chunks
+from .llm_client import (
+    openai_chat_client as client,
+    gemini_client,
+    OPENAI_MODEL,
+    LLM_PROVIDER,
+    llm_mode,
+    normalize_for_match,
+    resolve_chunk_for_quote,
+    ollama_chat_text,
+    gemini_chat_text,
+)
+from .ingestion import list_documents, retrieve_chunks
 
 QA_TOP_K = int(os.getenv("QA_TOP_K", "6"))
 logger = logging.getLogger("legal_copilot")

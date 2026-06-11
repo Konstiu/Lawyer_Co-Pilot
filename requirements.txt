@@ -14,3 +14,4 @@ pymupdf==1.24.10
 
 # Async HTTP (optional, for future streaming)
 httpx>=0.27.0
+python-dotenv>=1.0.1
