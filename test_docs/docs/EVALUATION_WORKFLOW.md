@@ -80,6 +80,19 @@ To compare multiple saved runs, generate a markdown report:
 python test_docs/scripts/compare_runs.py --output test_runs/model_comparison_report.md
 ```
 
+How to interpret the comparison report:
+- `Extract Quote %`: share of extracted fields that include a supporting quote. Higher is better because the extraction is easier to verify.
+- `Extract Page %`: share of extracted fields that include a page reference. Higher is better because the supporting passage is easier to locate.
+- `Review Quote %`: share of review findings that include a supporting quote. Higher is better because each classification is more directly auditable.
+- `Review Page %`: share of review findings that include a page reference. Higher is better because the cited passage is easier to inspect.
+- `QA w/ Sources %`: share of question-answer results that include at least one source reference. Higher is better because answers are more clearly grounded in the documents.
+- `Avg Sources`: average number of sources attached to each answer. This is not a simple "higher is better" metric. Too few sources can mean weak grounding, while too many can indicate noisy retrieval or unfocused answers.
+
+Important interpretation note:
+- these metrics measure traceability and auditability, not legal correctness by themselves
+- a run with high quote or page coverage can still contain incorrect extractions, weak legal reasoning, or unsupported conclusions
+- always pair the report with manual checks against `test_docs/docs/expected_results.md` and the grading guidance below
+
 Use `test_docs/templates/eval_result_template.json` to record the final judged metrics you want to cite in a poster or report.
 
 ## 2. Hard Evaluation
