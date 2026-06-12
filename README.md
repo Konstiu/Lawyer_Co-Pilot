@@ -69,7 +69,6 @@ If your system only has Python `3.14`, use a Python version manager and create t
 If you only have Python `3.14`, this is the recommended clean setup:
 
 ```bash
-cd /home/konsti/Documents/Uni/Master/sem2/Applied-Gen-AI/Lawyer_Co-Pilot
 rm -rf venv
 rm -rf ~/.cache/pip
 
