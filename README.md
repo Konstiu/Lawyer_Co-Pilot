@@ -195,13 +195,6 @@ delete `./data/chroma` and re-ingest documents.
 ### 4. Start the server
 
 ```bash
-uvicorn app.main:app --reload --port 8000
-```
-
-Or, if you want a `.env`-driven entrypoint with no manual exports:
-
-```bash
-cp .env.example .env
 python run_server.py
 ```
 
@@ -280,9 +273,15 @@ Use `test_docs/templates/eval_result_template.json` when recording benchmark or 
 
 If you want one Python command that reads `.env`, starts the app, runs the benchmark, and writes the model-comparison report:
 
+_UNIX(Linux/Macos):_
 ```bash
 python test_docs/scripts/run_benchmark.py
 ```
+_Windows:_
+```bash
+python test_docs/scripts/run_benchmark_windows.py
+```
+
 
 ### Scope and limitations
 Current scope is conservative:
