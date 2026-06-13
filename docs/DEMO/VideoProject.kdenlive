@@ -111,7 +111,93 @@
   <property name="kdenlive:monitorPosition">0</property>
   <property name="mute_on_pause">0</property>
  </chain>
- <producer id="producer0" in="00:00:00.000" out="00:05:58.348">
+ <producer id="producer3" in="00:00:00.000" out="00:00:08.130">
+  <property name="length">188</property>
+  <property name="eof">pause</property>
+  <property name="resource"/>
+  <property name="meta.media.progressive">1</property>
+  <property name="aspect_ratio">1</property>
+  <property name="seekable">1</property>
+  <property name="mlt_service">kdenlivetitle</property>
+  <property name="kdenlive:duration">00:00:05:00</property>
+  <property name="kdenlive:clipname">Press This b...</property>
+  <property name="xmldata">&lt;kdenlivetitle LC_NUMERIC="C" duration="115" height="1440" out="114" width="2866">
+ &lt;item type="QGraphicsTextItem" z-index="5">
+  &lt;position x="1038" y="156">
+   &lt;transform>1,0,0,0,1,0,0,0,1&lt;/transform>
+  &lt;/position>
+  &lt;content alignment="0" box-height="99" box-width="1149.14" font="Noto Sans" font-color="255,255,255,255" font-italic="0" font-pixel-size="72" font-underline="0" font-weight="400" letter-spacing="0" shadow="0;#64000000;3;3;3" tab-width="80" typewriter="0;2;1;0;0">Press This button to run the setup&lt;/content>
+ &lt;/item>
+ &lt;item type="QGraphicsEllipseItem" z-index="4">
+  &lt;position x="653" y="197">
+   &lt;transform zoom="100">1,0,0,0,1,0,0,0,1&lt;/transform>
+  &lt;/position>
+  &lt;content brushcolor="191,64,64,0" pencolor="237,51,59,255" penwidth="11" rect="0,0,125.087,123"/>
+ &lt;/item>
+ &lt;item type="QGraphicsRectItem" z-index="3">
+  &lt;position x="1029" y="169">
+   &lt;transform zoom="100">1,0,0,0,1,0,0,0,1&lt;/transform>
+  &lt;/position>
+  &lt;content brushcolor="191,64,64,0" pencolor="192,28,40,255" penwidth="8" rect="0,0,1256.22,82"/>
+ &lt;/item>
+ &lt;startviewport rect="0,0,2866,1440"/>
+ &lt;endviewport rect="0,0,2866,1440"/>
+ &lt;background color="0,0,0,0"/>
+&lt;/kdenlivetitle>
+</property>
+  <property name="xml">was here</property>
+  <property name="kdenlive:folderid">-1</property>
+  <property name="kdenlive:id">6</property>
+  <property name="kdenlive:control_uuid">{004beb8b-23ad-4641-97c0-e48b2839fb7d}</property>
+  <property name="kdenlive:clip_type">2</property>
+  <property name="kdenlive:uniqueId">{2d4b2a18-4de9-4a21-a98e-736a0d4ea7c0}</property>
+  <property name="kdenlive:file_hash">e23cc82c87bccb236254be6b811311bc</property>
+  <property name="force_reload">0</property>
+  <property name="meta.media.width">2866</property>
+  <property name="meta.media.height">1440</property>
+  <property name="kdenlive:monitorPosition">114</property>
+ </producer>
+ <producer id="producer4" in="00:00:00.000" out="00:00:12.391">
+  <property name="length">286</property>
+  <property name="eof">pause</property>
+  <property name="resource"/>
+  <property name="meta.media.progressive">1</property>
+  <property name="aspect_ratio">1</property>
+  <property name="seekable">1</property>
+  <property name="mlt_service">kdenlivetitle</property>
+  <property name="kdenlive:duration">00:00:05:00</property>
+  <property name="kdenlive:clipname">Add your own...</property>
+  <property name="xmldata">&lt;kdenlivetitle LC_NUMERIC="C" duration="115" height="1440" out="114" width="2866">
+ &lt;item type="QGraphicsRectItem" z-index="1">
+  &lt;position x="1400" y="359">
+   &lt;transform zoom="100">1,0,0,0,1,0,0,0,1&lt;/transform>
+  &lt;/position>
+  &lt;content brushcolor="191,64,64,0" pencolor="192,28,40,255" penwidth="8" rect="0,0,1185.55,136.182"/>
+ &lt;/item>
+ &lt;item type="QGraphicsTextItem" z-index="0">
+  &lt;position x="1440" y="382">
+   &lt;transform>1,0,0,0,1,0,0,0,1&lt;/transform>
+  &lt;/position>
+  &lt;content alignment="0" box-height="99" box-width="1133.95" font="Noto Sans" font-color="255,255,255,255" font-italic="0" font-pixel-size="72" font-underline="0" font-weight="400" letter-spacing="0" shadow="0;#64000000;3;3;3" tab-width="80" typewriter="0;2;1;0;0">Add your own Vertex AI Project Id&lt;/content>
+ &lt;/item>
+ &lt;startviewport rect="0,0,2866,1440"/>
+ &lt;endviewport rect="0,0,2866,1440"/>
+ &lt;background color="0,0,0,0"/>
+&lt;/kdenlivetitle>
+</property>
+  <property name="xml">was here</property>
+  <property name="kdenlive:folderid">-1</property>
+  <property name="kdenlive:id">7</property>
+  <property name="kdenlive:control_uuid">{24a90b56-dd34-4fba-af0b-581b858c12d8}</property>
+  <property name="kdenlive:clip_type">2</property>
+  <property name="kdenlive:uniqueId">{823ce4d6-fdcb-4f70-ad01-3fadbbaa36eb}</property>
+  <property name="kdenlive:file_hash">1ce0866a7ae7b033ad35bb1c32a52628</property>
+  <property name="force_reload">0</property>
+  <property name="meta.media.width">2866</property>
+  <property name="meta.media.height">1440</property>
+  <property name="kdenlive:monitorPosition">32</property>
+ </producer>
+ <producer id="producer0" in="00:00:00.000" out="00:10:01.000">
   <property name="length">2147483647</property>
   <property name="eof">continue</property>
   <property name="resource">black</property>
@@ -159,13 +245,324 @@
    <property name="disable">1</property>
   </filter>
  </tractor>
+ <chain id="chain2" out="00:04:46.261">
+  <property name="length">6585</property>
+  <property name="eof">pause</property>
+  <property name="resource">/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="mlt_service">avformat-novalidate</property>
+  <property name="seekable">1</property>
+  <property name="format">3</property>
+  <property name="audio_index">1</property>
+  <property name="video_index">0</property>
+  <property name="vstream">0</property>
+  <property name="astream">0</property>
+  <property name="kdenlive:folderid">-1</property>
+  <property name="kdenlive:id">8</property>
+  <property name="kdenlive:control_uuid">{1ba99794-cc3b-4469-9fb8-11b2c9f83a8c}</property>
+  <property name="mute_on_pause">0</property>
+  <property name="kdenlive:clip_type">0</property>
+  <property name="kdenlive:file_size">55543204</property>
+  <property name="kdenlive:file_hash">76c0782817a5c28b62e54865373a0dce</property>
+  <property name="kdenlive:kextractor">1</property>
+  <property name="kdenlive:meta.extractor.Bitrate:">1552 kb/s</property>
+  <property name="kdenlive:meta.extractor.Comment:">Made with Remotion 4.0.256</property>
+  <property name="meta.media.nb_streams">2</property>
+  <property name="meta.media.0.stream.type">video</property>
+  <property name="meta.media.0.stream.frame_rate">60</property>
+  <property name="meta.media.0.stream.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.width">1664</property>
+  <property name="meta.media.0.codec.height">1080</property>
+  <property name="meta.media.0.codec.rotate">0</property>
+  <property name="meta.media.0.codec.pix_fmt">yuv420p</property>
+  <property name="meta.media.0.codec.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.colorspace">709</property>
+  <property name="meta.media.0.codec.color_trc">13</property>
+  <property name="meta.media.0.codec.name">h264</property>
+  <property name="meta.media.0.codec.long_name">H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10</property>
+  <property name="meta.media.0.codec.bit_rate">1222338</property>
+  <property name="meta.attr.0.stream.handler_name.markup">VideoHandler</property>
+  <property name="meta.media.1.stream.type">audio</property>
+  <property name="meta.media.1.codec.sample_fmt">fltp</property>
+  <property name="meta.media.1.codec.sample_rate">48000</property>
+  <property name="meta.media.1.codec.channels">2</property>
+  <property name="meta.media.1.codec.layout">stereo</property>
+  <property name="meta.media.1.codec.name">aac</property>
+  <property name="meta.media.1.codec.long_name">AAC (Advanced Audio Coding)</property>
+  <property name="meta.media.1.codec.bit_rate">317373</property>
+  <property name="meta.attr.1.stream.handler_name.markup">SoundHandler</property>
+  <property name="meta.attr.major_brand.markup">isom</property>
+  <property name="meta.attr.minor_version.markup">512</property>
+  <property name="meta.attr.compatible_brands.markup">isomiso2avc1mp41</property>
+  <property name="meta.attr.encoder.markup">Lavf61.7.100</property>
+  <property name="meta.attr.comment.markup">Made with Remotion 4.0.256</property>
+  <property name="meta.media.sample_aspect_num">1</property>
+  <property name="meta.media.sample_aspect_den">1</property>
+  <property name="meta.media.frame_rate_num">60</property>
+  <property name="meta.media.frame_rate_den">1</property>
+  <property name="meta.media.colorspace">709</property>
+  <property name="meta.media.color_trc">13</property>
+  <property name="meta.media.has_b_frames">2</property>
+  <property name="meta.media.width">1664</property>
+  <property name="meta.media.height">1080</property>
+  <property name="meta.media.aspect_ratio">1</property>
+  <property name="meta.media.color_range">mpeg</property>
+  <property name="xml">was here</property>
+  <property name="meta.media.top_field_first">0</property>
+  <property name="meta.media.progressive">1</property>
+  <property name="set.test_audio">0</property>
+  <property name="set.test_image">1</property>
+ </chain>
+ <producer id="producer1" in="00:00:00.000" out="00:02:23.087">
+  <property name="length">3293</property>
+  <property name="eof">pause</property>
+  <property name="resource">2:/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="aspect_ratio">1</property>
+  <property name="meta.media.nb_streams">2</property>
+  <property name="meta.media.0.stream.type">video</property>
+  <property name="meta.media.0.stream.frame_rate">60</property>
+  <property name="meta.media.0.stream.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.width">1664</property>
+  <property name="meta.media.0.codec.height">1080</property>
+  <property name="meta.media.0.codec.rotate">0</property>
+  <property name="meta.media.0.codec.pix_fmt">yuv420p</property>
+  <property name="meta.media.0.codec.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.colorspace">709</property>
+  <property name="meta.media.0.codec.color_trc">13</property>
+  <property name="meta.media.0.codec.name">h264</property>
+  <property name="meta.media.0.codec.long_name">H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10</property>
+  <property name="meta.media.0.codec.bit_rate">1222338</property>
+  <property name="meta.attr.0.stream.handler_name.markup">VideoHandler</property>
+  <property name="meta.media.1.stream.type">audio</property>
+  <property name="meta.media.1.codec.sample_fmt">fltp</property>
+  <property name="meta.media.1.codec.sample_rate">48000</property>
+  <property name="meta.media.1.codec.channels">2</property>
+  <property name="meta.media.1.codec.layout">stereo</property>
+  <property name="meta.media.1.codec.name">aac</property>
+  <property name="meta.media.1.codec.long_name">AAC (Advanced Audio Coding)</property>
+  <property name="meta.media.1.codec.bit_rate">317373</property>
+  <property name="meta.attr.1.stream.handler_name.markup">SoundHandler</property>
+  <property name="meta.attr.major_brand.markup">isom</property>
+  <property name="meta.attr.minor_version.markup">512</property>
+  <property name="meta.attr.compatible_brands.markup">isomiso2avc1mp41</property>
+  <property name="meta.attr.encoder.markup">Lavf61.7.100</property>
+  <property name="meta.attr.comment.markup">Made with Remotion 4.0.256</property>
+  <property name="seekable">1</property>
+  <property name="meta.media.sample_aspect_num">1</property>
+  <property name="meta.media.sample_aspect_den">1</property>
+  <property name="format">3</property>
+  <property name="audio_index">1</property>
+  <property name="video_index">0</property>
+  <property name="warp_speed">2</property>
+  <property name="warp_resource">/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="mlt_service">timewarp</property>
+  <property name="kdenlive:control_uuid">{1ba99794-cc3b-4469-9fb8-11b2c9f83a8c}</property>
+  <property name="vstream">0</property>
+  <property name="astream">0</property>
+  <property name="set.test_audio">0</property>
+  <property name="set.test_image">1</property>
+  <property name="kdenlive:id">8</property>
+  <property name="warp_pitch">0</property>
+  <property name="meta.media.frame_rate_num">60</property>
+  <property name="meta.media.frame_rate_den">1</property>
+  <property name="meta.media.colorspace">709</property>
+  <property name="meta.media.color_trc">13</property>
+  <property name="meta.media.has_b_frames">2</property>
+  <property name="meta.media.width">1664</property>
+  <property name="meta.media.height">1080</property>
+  <property name="meta.media.aspect_ratio">1</property>
+  <property name="meta.media.color_range">mpeg</property>
+ </producer>
+ <producer id="producer2" in="00:00:00.000" out="00:02:23.087">
+  <property name="length">3293</property>
+  <property name="eof">pause</property>
+  <property name="resource">2:/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="aspect_ratio">1</property>
+  <property name="meta.media.nb_streams">2</property>
+  <property name="meta.media.0.stream.type">video</property>
+  <property name="meta.media.0.stream.frame_rate">60</property>
+  <property name="meta.media.0.stream.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.width">1664</property>
+  <property name="meta.media.0.codec.height">1080</property>
+  <property name="meta.media.0.codec.rotate">0</property>
+  <property name="meta.media.0.codec.pix_fmt">yuv420p</property>
+  <property name="meta.media.0.codec.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.colorspace">709</property>
+  <property name="meta.media.0.codec.color_trc">13</property>
+  <property name="meta.media.0.codec.name">h264</property>
+  <property name="meta.media.0.codec.long_name">H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10</property>
+  <property name="meta.media.0.codec.bit_rate">1222338</property>
+  <property name="meta.attr.0.stream.handler_name.markup">VideoHandler</property>
+  <property name="meta.media.1.stream.type">audio</property>
+  <property name="meta.media.1.codec.sample_fmt">fltp</property>
+  <property name="meta.media.1.codec.sample_rate">48000</property>
+  <property name="meta.media.1.codec.channels">2</property>
+  <property name="meta.media.1.codec.layout">stereo</property>
+  <property name="meta.media.1.codec.name">aac</property>
+  <property name="meta.media.1.codec.long_name">AAC (Advanced Audio Coding)</property>
+  <property name="meta.media.1.codec.bit_rate">317373</property>
+  <property name="meta.attr.1.stream.handler_name.markup">SoundHandler</property>
+  <property name="meta.attr.major_brand.markup">isom</property>
+  <property name="meta.attr.minor_version.markup">512</property>
+  <property name="meta.attr.compatible_brands.markup">isomiso2avc1mp41</property>
+  <property name="meta.attr.encoder.markup">Lavf61.7.100</property>
+  <property name="meta.attr.comment.markup">Made with Remotion 4.0.256</property>
+  <property name="seekable">1</property>
+  <property name="meta.media.sample_aspect_num">1</property>
+  <property name="meta.media.sample_aspect_den">1</property>
+  <property name="format">3</property>
+  <property name="audio_index">1</property>
+  <property name="video_index">0</property>
+  <property name="warp_speed">2</property>
+  <property name="warp_resource">/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="mlt_service">timewarp</property>
+  <property name="kdenlive:control_uuid">{1ba99794-cc3b-4469-9fb8-11b2c9f83a8c}</property>
+  <property name="vstream">0</property>
+  <property name="astream">0</property>
+  <property name="set.test_audio">0</property>
+  <property name="set.test_image">1</property>
+  <property name="kdenlive:id">8</property>
+  <property name="warp_pitch">0</property>
+ </producer>
+ <producer id="producer5" in="00:00:00.000" out="00:02:23.087">
+  <property name="length">3293</property>
+  <property name="eof">pause</property>
+  <property name="resource">2:/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="aspect_ratio">1</property>
+  <property name="meta.media.nb_streams">2</property>
+  <property name="meta.media.0.stream.type">video</property>
+  <property name="meta.media.0.stream.frame_rate">60</property>
+  <property name="meta.media.0.stream.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.width">1664</property>
+  <property name="meta.media.0.codec.height">1080</property>
+  <property name="meta.media.0.codec.rotate">0</property>
+  <property name="meta.media.0.codec.pix_fmt">yuv420p</property>
+  <property name="meta.media.0.codec.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.colorspace">709</property>
+  <property name="meta.media.0.codec.color_trc">13</property>
+  <property name="meta.media.0.codec.name">h264</property>
+  <property name="meta.media.0.codec.long_name">H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10</property>
+  <property name="meta.media.0.codec.bit_rate">1222338</property>
+  <property name="meta.attr.0.stream.handler_name.markup">VideoHandler</property>
+  <property name="meta.media.1.stream.type">audio</property>
+  <property name="meta.media.1.codec.sample_fmt">fltp</property>
+  <property name="meta.media.1.codec.sample_rate">48000</property>
+  <property name="meta.media.1.codec.channels">2</property>
+  <property name="meta.media.1.codec.layout">stereo</property>
+  <property name="meta.media.1.codec.name">aac</property>
+  <property name="meta.media.1.codec.long_name">AAC (Advanced Audio Coding)</property>
+  <property name="meta.media.1.codec.bit_rate">317373</property>
+  <property name="meta.attr.1.stream.handler_name.markup">SoundHandler</property>
+  <property name="meta.attr.major_brand.markup">isom</property>
+  <property name="meta.attr.minor_version.markup">512</property>
+  <property name="meta.attr.compatible_brands.markup">isomiso2avc1mp41</property>
+  <property name="meta.attr.encoder.markup">Lavf61.7.100</property>
+  <property name="meta.attr.comment.markup">Made with Remotion 4.0.256</property>
+  <property name="seekable">1</property>
+  <property name="meta.media.sample_aspect_num">1</property>
+  <property name="meta.media.sample_aspect_den">1</property>
+  <property name="format">3</property>
+  <property name="audio_index">1</property>
+  <property name="video_index">0</property>
+  <property name="warp_speed">2</property>
+  <property name="warp_resource">/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="mlt_service">timewarp</property>
+  <property name="kdenlive:control_uuid">{1ba99794-cc3b-4469-9fb8-11b2c9f83a8c}</property>
+  <property name="vstream">0</property>
+  <property name="astream">0</property>
+  <property name="set.test_audio">0</property>
+  <property name="set.test_image">1</property>
+  <property name="kdenlive:id">8</property>
+  <property name="warp_pitch">0</property>
+  <property name="meta.media.frame_rate_num">60</property>
+  <property name="meta.media.frame_rate_den">1</property>
+  <property name="meta.media.colorspace">709</property>
+  <property name="meta.media.color_trc">13</property>
+  <property name="meta.media.has_b_frames">2</property>
+  <property name="meta.media.width">1664</property>
+  <property name="meta.media.height">1080</property>
+  <property name="meta.media.aspect_ratio">1</property>
+  <property name="meta.media.color_range">mpeg</property>
+ </producer>
+ <producer id="producer6" in="00:00:00.000" out="00:02:23.087">
+  <property name="length">3293</property>
+  <property name="eof">pause</property>
+  <property name="resource">2:/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="aspect_ratio">1</property>
+  <property name="meta.media.nb_streams">2</property>
+  <property name="meta.media.0.stream.type">video</property>
+  <property name="meta.media.0.stream.frame_rate">60</property>
+  <property name="meta.media.0.stream.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.width">1664</property>
+  <property name="meta.media.0.codec.height">1080</property>
+  <property name="meta.media.0.codec.rotate">0</property>
+  <property name="meta.media.0.codec.pix_fmt">yuv420p</property>
+  <property name="meta.media.0.codec.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.colorspace">709</property>
+  <property name="meta.media.0.codec.color_trc">13</property>
+  <property name="meta.media.0.codec.name">h264</property>
+  <property name="meta.media.0.codec.long_name">H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10</property>
+  <property name="meta.media.0.codec.bit_rate">1222338</property>
+  <property name="meta.attr.0.stream.handler_name.markup">VideoHandler</property>
+  <property name="meta.media.1.stream.type">audio</property>
+  <property name="meta.media.1.codec.sample_fmt">fltp</property>
+  <property name="meta.media.1.codec.sample_rate">48000</property>
+  <property name="meta.media.1.codec.channels">2</property>
+  <property name="meta.media.1.codec.layout">stereo</property>
+  <property name="meta.media.1.codec.name">aac</property>
+  <property name="meta.media.1.codec.long_name">AAC (Advanced Audio Coding)</property>
+  <property name="meta.media.1.codec.bit_rate">317373</property>
+  <property name="meta.attr.1.stream.handler_name.markup">SoundHandler</property>
+  <property name="meta.attr.major_brand.markup">isom</property>
+  <property name="meta.attr.minor_version.markup">512</property>
+  <property name="meta.attr.compatible_brands.markup">isomiso2avc1mp41</property>
+  <property name="meta.attr.encoder.markup">Lavf61.7.100</property>
+  <property name="meta.attr.comment.markup">Made with Remotion 4.0.256</property>
+  <property name="seekable">1</property>
+  <property name="meta.media.sample_aspect_num">1</property>
+  <property name="meta.media.sample_aspect_den">1</property>
+  <property name="format">3</property>
+  <property name="audio_index">1</property>
+  <property name="video_index">0</property>
+  <property name="warp_speed">2</property>
+  <property name="warp_resource">/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="mlt_service">timewarp</property>
+  <property name="kdenlive:control_uuid">{1ba99794-cc3b-4469-9fb8-11b2c9f83a8c}</property>
+  <property name="vstream">0</property>
+  <property name="astream">0</property>
+  <property name="set.test_audio">0</property>
+  <property name="set.test_image">1</property>
+  <property name="kdenlive:id">8</property>
+  <property name="warp_pitch">0</property>
+ </producer>
  <playlist id="playlist2">
   <property name="kdenlive:audio_track">1</property>
+  <blank length="00:00:58.348"/>
+  <entry in="00:00:00.000" out="00:00:49.826" producer="chain2">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:00:24.957" out="00:00:35.913" producer="producer1">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:00:35.957" out="00:00:39.565" producer="producer2">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:01:19.130" out="00:02:55.304" producer="chain2">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:01:27.696" out="00:01:55.000" producer="producer5">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:01:55.043" out="00:01:56.739" producer="producer6">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:03:53.478" out="00:04:46.261" producer="chain2">
+   <property name="kdenlive:id">8</property>
+  </entry>
  </playlist>
  <playlist id="playlist3">
   <property name="kdenlive:audio_track">1</property>
  </playlist>
- <tractor id="tractor1" in="00:00:00.000">
+ <tractor id="tractor1" in="00:00:00.000" out="00:05:00.957">
   <property name="kdenlive:audio_track">1</property>
   <property name="kdenlive:trackheight">67</property>
   <property name="kdenlive:timeline_active">1</property>
@@ -197,7 +594,7 @@
    <property name="disable">1</property>
   </filter>
  </tractor>
- <producer id="producer1" in="00:00:00.000" out="00:00:47.609">
+ <producer id="producer7" in="00:00:00.000" out="00:00:47.609">
   <property name="length">1096</property>
   <property name="eof">pause</property>
   <property name="resource">2:/home/konsti/Videos/Screencasts/Screencast From 2026-06-13 11-01-29-23fps.mp4</property>
@@ -251,7 +648,7 @@
   <property name="meta.media.top_field_first">0</property>
   <property name="meta.media.progressive">1</property>
  </producer>
- <producer id="producer2" in="00:00:00.000" out="00:00:37.000">
+ <producer id="producer8" in="00:00:00.000" out="00:00:37.000">
   <property name="length">853</property>
   <property name="eof">pause</property>
   <property name="resource">2:/home/konsti/Videos/Screencasts/Screencast From 2026-06-13 11-03-31-16fps.mp4</property>
@@ -305,16 +702,330 @@
   <property name="meta.media.top_field_first">0</property>
   <property name="meta.media.progressive">1</property>
  </producer>
+ <chain id="chain3" out="00:04:46.261">
+  <property name="length">6585</property>
+  <property name="eof">pause</property>
+  <property name="resource">/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="mlt_service">avformat-novalidate</property>
+  <property name="seekable">1</property>
+  <property name="format">3</property>
+  <property name="audio_index">1</property>
+  <property name="video_index">0</property>
+  <property name="vstream">0</property>
+  <property name="astream">0</property>
+  <property name="kdenlive:folderid">-1</property>
+  <property name="kdenlive:id">8</property>
+  <property name="kdenlive:control_uuid">{1ba99794-cc3b-4469-9fb8-11b2c9f83a8c}</property>
+  <property name="mute_on_pause">0</property>
+  <property name="kdenlive:clip_type">0</property>
+  <property name="kdenlive:file_size">55543204</property>
+  <property name="kdenlive:file_hash">76c0782817a5c28b62e54865373a0dce</property>
+  <property name="kdenlive:kextractor">1</property>
+  <property name="kdenlive:meta.extractor.Bitrate:">1552 kb/s</property>
+  <property name="kdenlive:meta.extractor.Comment:">Made with Remotion 4.0.256</property>
+  <property name="meta.media.nb_streams">2</property>
+  <property name="meta.media.0.stream.type">video</property>
+  <property name="meta.media.0.stream.frame_rate">60</property>
+  <property name="meta.media.0.stream.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.width">1664</property>
+  <property name="meta.media.0.codec.height">1080</property>
+  <property name="meta.media.0.codec.rotate">0</property>
+  <property name="meta.media.0.codec.pix_fmt">yuv420p</property>
+  <property name="meta.media.0.codec.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.colorspace">709</property>
+  <property name="meta.media.0.codec.color_trc">13</property>
+  <property name="meta.media.0.codec.name">h264</property>
+  <property name="meta.media.0.codec.long_name">H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10</property>
+  <property name="meta.media.0.codec.bit_rate">1222338</property>
+  <property name="meta.attr.0.stream.handler_name.markup">VideoHandler</property>
+  <property name="meta.media.1.stream.type">audio</property>
+  <property name="meta.media.1.codec.sample_fmt">fltp</property>
+  <property name="meta.media.1.codec.sample_rate">48000</property>
+  <property name="meta.media.1.codec.channels">2</property>
+  <property name="meta.media.1.codec.layout">stereo</property>
+  <property name="meta.media.1.codec.name">aac</property>
+  <property name="meta.media.1.codec.long_name">AAC (Advanced Audio Coding)</property>
+  <property name="meta.media.1.codec.bit_rate">317373</property>
+  <property name="meta.attr.1.stream.handler_name.markup">SoundHandler</property>
+  <property name="meta.attr.major_brand.markup">isom</property>
+  <property name="meta.attr.minor_version.markup">512</property>
+  <property name="meta.attr.compatible_brands.markup">isomiso2avc1mp41</property>
+  <property name="meta.attr.encoder.markup">Lavf61.7.100</property>
+  <property name="meta.attr.comment.markup">Made with Remotion 4.0.256</property>
+  <property name="meta.media.sample_aspect_num">1</property>
+  <property name="meta.media.sample_aspect_den">1</property>
+  <property name="meta.media.frame_rate_num">60</property>
+  <property name="meta.media.frame_rate_den">1</property>
+  <property name="meta.media.colorspace">709</property>
+  <property name="meta.media.color_trc">13</property>
+  <property name="meta.media.has_b_frames">2</property>
+  <property name="meta.media.width">1664</property>
+  <property name="meta.media.height">1080</property>
+  <property name="meta.media.aspect_ratio">1</property>
+  <property name="meta.media.color_range">mpeg</property>
+  <property name="xml">was here</property>
+  <property name="meta.media.top_field_first">0</property>
+  <property name="meta.media.progressive">1</property>
+  <property name="set.test_audio">1</property>
+  <property name="set.test_image">0</property>
+ </chain>
+ <producer id="producer9" in="00:00:00.000" out="00:02:23.087">
+  <property name="length">3293</property>
+  <property name="eof">pause</property>
+  <property name="resource">2:/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="aspect_ratio">1</property>
+  <property name="meta.media.nb_streams">2</property>
+  <property name="meta.media.0.stream.type">video</property>
+  <property name="meta.media.0.stream.frame_rate">60</property>
+  <property name="meta.media.0.stream.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.width">1664</property>
+  <property name="meta.media.0.codec.height">1080</property>
+  <property name="meta.media.0.codec.rotate">0</property>
+  <property name="meta.media.0.codec.pix_fmt">yuv420p</property>
+  <property name="meta.media.0.codec.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.colorspace">709</property>
+  <property name="meta.media.0.codec.color_trc">13</property>
+  <property name="meta.media.0.codec.name">h264</property>
+  <property name="meta.media.0.codec.long_name">H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10</property>
+  <property name="meta.media.0.codec.bit_rate">1222338</property>
+  <property name="meta.attr.0.stream.handler_name.markup">VideoHandler</property>
+  <property name="meta.media.1.stream.type">audio</property>
+  <property name="meta.media.1.codec.sample_fmt">fltp</property>
+  <property name="meta.media.1.codec.sample_rate">48000</property>
+  <property name="meta.media.1.codec.channels">2</property>
+  <property name="meta.media.1.codec.layout">stereo</property>
+  <property name="meta.media.1.codec.name">aac</property>
+  <property name="meta.media.1.codec.long_name">AAC (Advanced Audio Coding)</property>
+  <property name="meta.media.1.codec.bit_rate">317373</property>
+  <property name="meta.attr.1.stream.handler_name.markup">SoundHandler</property>
+  <property name="meta.attr.major_brand.markup">isom</property>
+  <property name="meta.attr.minor_version.markup">512</property>
+  <property name="meta.attr.compatible_brands.markup">isomiso2avc1mp41</property>
+  <property name="meta.attr.encoder.markup">Lavf61.7.100</property>
+  <property name="meta.attr.comment.markup">Made with Remotion 4.0.256</property>
+  <property name="seekable">1</property>
+  <property name="meta.media.sample_aspect_num">1</property>
+  <property name="meta.media.sample_aspect_den">1</property>
+  <property name="format">3</property>
+  <property name="audio_index">1</property>
+  <property name="video_index">0</property>
+  <property name="warp_speed">2</property>
+  <property name="warp_resource">/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="mlt_service">timewarp</property>
+  <property name="kdenlive:control_uuid">{1ba99794-cc3b-4469-9fb8-11b2c9f83a8c}</property>
+  <property name="vstream">0</property>
+  <property name="astream">0</property>
+  <property name="set.test_audio">1</property>
+  <property name="set.test_image">0</property>
+  <property name="kdenlive:id">8</property>
+  <property name="warp_pitch">0</property>
+  <property name="meta.media.frame_rate_num">60</property>
+  <property name="meta.media.frame_rate_den">1</property>
+  <property name="meta.media.colorspace">709</property>
+  <property name="meta.media.color_trc">13</property>
+  <property name="meta.media.has_b_frames">2</property>
+  <property name="meta.media.width">1664</property>
+  <property name="meta.media.height">1080</property>
+  <property name="meta.media.aspect_ratio">1</property>
+  <property name="meta.media.color_range">mpeg</property>
+  <property name="meta.media.top_field_first">0</property>
+  <property name="meta.media.progressive">1</property>
+ </producer>
+ <producer id="producer10" in="00:00:00.000" out="00:02:23.087">
+  <property name="length">3293</property>
+  <property name="eof">pause</property>
+  <property name="resource">2:/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="aspect_ratio">1</property>
+  <property name="meta.media.nb_streams">2</property>
+  <property name="meta.media.0.stream.type">video</property>
+  <property name="meta.media.0.stream.frame_rate">60</property>
+  <property name="meta.media.0.stream.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.width">1664</property>
+  <property name="meta.media.0.codec.height">1080</property>
+  <property name="meta.media.0.codec.rotate">0</property>
+  <property name="meta.media.0.codec.pix_fmt">yuv420p</property>
+  <property name="meta.media.0.codec.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.colorspace">709</property>
+  <property name="meta.media.0.codec.color_trc">13</property>
+  <property name="meta.media.0.codec.name">h264</property>
+  <property name="meta.media.0.codec.long_name">H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10</property>
+  <property name="meta.media.0.codec.bit_rate">1222338</property>
+  <property name="meta.attr.0.stream.handler_name.markup">VideoHandler</property>
+  <property name="meta.media.1.stream.type">audio</property>
+  <property name="meta.media.1.codec.sample_fmt">fltp</property>
+  <property name="meta.media.1.codec.sample_rate">48000</property>
+  <property name="meta.media.1.codec.channels">2</property>
+  <property name="meta.media.1.codec.layout">stereo</property>
+  <property name="meta.media.1.codec.name">aac</property>
+  <property name="meta.media.1.codec.long_name">AAC (Advanced Audio Coding)</property>
+  <property name="meta.media.1.codec.bit_rate">317373</property>
+  <property name="meta.attr.1.stream.handler_name.markup">SoundHandler</property>
+  <property name="meta.attr.major_brand.markup">isom</property>
+  <property name="meta.attr.minor_version.markup">512</property>
+  <property name="meta.attr.compatible_brands.markup">isomiso2avc1mp41</property>
+  <property name="meta.attr.encoder.markup">Lavf61.7.100</property>
+  <property name="meta.attr.comment.markup">Made with Remotion 4.0.256</property>
+  <property name="seekable">1</property>
+  <property name="meta.media.sample_aspect_num">1</property>
+  <property name="meta.media.sample_aspect_den">1</property>
+  <property name="format">3</property>
+  <property name="audio_index">1</property>
+  <property name="video_index">0</property>
+  <property name="warp_speed">2</property>
+  <property name="warp_resource">/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="mlt_service">timewarp</property>
+  <property name="kdenlive:control_uuid">{1ba99794-cc3b-4469-9fb8-11b2c9f83a8c}</property>
+  <property name="vstream">0</property>
+  <property name="astream">0</property>
+  <property name="set.test_audio">1</property>
+  <property name="set.test_image">0</property>
+  <property name="kdenlive:id">8</property>
+  <property name="warp_pitch">0</property>
+ </producer>
+ <producer id="producer11" in="00:00:00.000" out="00:02:23.087">
+  <property name="length">3293</property>
+  <property name="eof">pause</property>
+  <property name="resource">2:/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="aspect_ratio">1</property>
+  <property name="meta.media.nb_streams">2</property>
+  <property name="meta.media.0.stream.type">video</property>
+  <property name="meta.media.0.stream.frame_rate">60</property>
+  <property name="meta.media.0.stream.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.width">1664</property>
+  <property name="meta.media.0.codec.height">1080</property>
+  <property name="meta.media.0.codec.rotate">0</property>
+  <property name="meta.media.0.codec.pix_fmt">yuv420p</property>
+  <property name="meta.media.0.codec.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.colorspace">709</property>
+  <property name="meta.media.0.codec.color_trc">13</property>
+  <property name="meta.media.0.codec.name">h264</property>
+  <property name="meta.media.0.codec.long_name">H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10</property>
+  <property name="meta.media.0.codec.bit_rate">1222338</property>
+  <property name="meta.attr.0.stream.handler_name.markup">VideoHandler</property>
+  <property name="meta.media.1.stream.type">audio</property>
+  <property name="meta.media.1.codec.sample_fmt">fltp</property>
+  <property name="meta.media.1.codec.sample_rate">48000</property>
+  <property name="meta.media.1.codec.channels">2</property>
+  <property name="meta.media.1.codec.layout">stereo</property>
+  <property name="meta.media.1.codec.name">aac</property>
+  <property name="meta.media.1.codec.long_name">AAC (Advanced Audio Coding)</property>
+  <property name="meta.media.1.codec.bit_rate">317373</property>
+  <property name="meta.attr.1.stream.handler_name.markup">SoundHandler</property>
+  <property name="meta.attr.major_brand.markup">isom</property>
+  <property name="meta.attr.minor_version.markup">512</property>
+  <property name="meta.attr.compatible_brands.markup">isomiso2avc1mp41</property>
+  <property name="meta.attr.encoder.markup">Lavf61.7.100</property>
+  <property name="meta.attr.comment.markup">Made with Remotion 4.0.256</property>
+  <property name="seekable">1</property>
+  <property name="meta.media.sample_aspect_num">1</property>
+  <property name="meta.media.sample_aspect_den">1</property>
+  <property name="format">3</property>
+  <property name="audio_index">1</property>
+  <property name="video_index">0</property>
+  <property name="warp_speed">2</property>
+  <property name="warp_resource">/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="mlt_service">timewarp</property>
+  <property name="kdenlive:control_uuid">{1ba99794-cc3b-4469-9fb8-11b2c9f83a8c}</property>
+  <property name="vstream">0</property>
+  <property name="astream">0</property>
+  <property name="set.test_audio">1</property>
+  <property name="set.test_image">0</property>
+  <property name="kdenlive:id">8</property>
+  <property name="warp_pitch">0</property>
+  <property name="meta.media.frame_rate_num">60</property>
+  <property name="meta.media.frame_rate_den">1</property>
+  <property name="meta.media.colorspace">709</property>
+  <property name="meta.media.color_trc">13</property>
+  <property name="meta.media.has_b_frames">2</property>
+  <property name="meta.media.width">1664</property>
+  <property name="meta.media.height">1080</property>
+  <property name="meta.media.aspect_ratio">1</property>
+  <property name="meta.media.color_range">mpeg</property>
+  <property name="meta.media.top_field_first">0</property>
+  <property name="meta.media.progressive">1</property>
+ </producer>
+ <producer id="producer12" in="00:00:00.000" out="00:02:23.087">
+  <property name="length">3293</property>
+  <property name="eof">pause</property>
+  <property name="resource">2:/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="aspect_ratio">1</property>
+  <property name="meta.media.nb_streams">2</property>
+  <property name="meta.media.0.stream.type">video</property>
+  <property name="meta.media.0.stream.frame_rate">60</property>
+  <property name="meta.media.0.stream.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.width">1664</property>
+  <property name="meta.media.0.codec.height">1080</property>
+  <property name="meta.media.0.codec.rotate">0</property>
+  <property name="meta.media.0.codec.pix_fmt">yuv420p</property>
+  <property name="meta.media.0.codec.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.colorspace">709</property>
+  <property name="meta.media.0.codec.color_trc">13</property>
+  <property name="meta.media.0.codec.name">h264</property>
+  <property name="meta.media.0.codec.long_name">H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10</property>
+  <property name="meta.media.0.codec.bit_rate">1222338</property>
+  <property name="meta.attr.0.stream.handler_name.markup">VideoHandler</property>
+  <property name="meta.media.1.stream.type">audio</property>
+  <property name="meta.media.1.codec.sample_fmt">fltp</property>
+  <property name="meta.media.1.codec.sample_rate">48000</property>
+  <property name="meta.media.1.codec.channels">2</property>
+  <property name="meta.media.1.codec.layout">stereo</property>
+  <property name="meta.media.1.codec.name">aac</property>
+  <property name="meta.media.1.codec.long_name">AAC (Advanced Audio Coding)</property>
+  <property name="meta.media.1.codec.bit_rate">317373</property>
+  <property name="meta.attr.1.stream.handler_name.markup">SoundHandler</property>
+  <property name="meta.attr.major_brand.markup">isom</property>
+  <property name="meta.attr.minor_version.markup">512</property>
+  <property name="meta.attr.compatible_brands.markup">isomiso2avc1mp41</property>
+  <property name="meta.attr.encoder.markup">Lavf61.7.100</property>
+  <property name="meta.attr.comment.markup">Made with Remotion 4.0.256</property>
+  <property name="seekable">1</property>
+  <property name="meta.media.sample_aspect_num">1</property>
+  <property name="meta.media.sample_aspect_den">1</property>
+  <property name="format">3</property>
+  <property name="audio_index">1</property>
+  <property name="video_index">0</property>
+  <property name="warp_speed">2</property>
+  <property name="warp_resource">/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="mlt_service">timewarp</property>
+  <property name="kdenlive:control_uuid">{1ba99794-cc3b-4469-9fb8-11b2c9f83a8c}</property>
+  <property name="vstream">0</property>
+  <property name="astream">0</property>
+  <property name="set.test_audio">1</property>
+  <property name="set.test_image">0</property>
+  <property name="kdenlive:id">8</property>
+  <property name="warp_pitch">0</property>
+ </producer>
  <playlist id="playlist4">
-  <entry in="00:00:00.000" out="00:00:46.217" producer="producer1">
+  <entry in="00:00:00.000" out="00:00:46.217" producer="producer7">
    <property name="kdenlive:id">4</property>
   </entry>
-  <entry in="00:00:00.000" out="00:00:12.043" producer="producer2">
+  <entry in="00:00:00.000" out="00:00:12.043" producer="producer8">
    <property name="kdenlive:id">5</property>
+  </entry>
+  <entry in="00:00:00.000" out="00:00:49.826" producer="chain3">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:00:24.957" out="00:00:35.913" producer="producer9">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:00:35.957" out="00:00:39.565" producer="producer10">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:01:19.130" out="00:02:55.304" producer="chain3">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:01:27.696" out="00:01:55.000" producer="producer11">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:01:55.043" out="00:01:56.739" producer="producer12">
+   <property name="kdenlive:id">8</property>
+  </entry>
+  <entry in="00:03:53.478" out="00:04:46.261" producer="chain3">
+   <property name="kdenlive:id">8</property>
   </entry>
  </playlist>
  <playlist id="playlist5"/>
- <tractor id="tractor2" in="00:00:00.000" out="00:00:58.304">
+ <tractor id="tractor2" in="00:00:00.000" out="00:05:00.957">
   <property name="kdenlive:trackheight">67</property>
   <property name="kdenlive:timeline_active">1</property>
   <property name="kdenlive:collapsed">0</property>
@@ -323,100 +1034,14 @@
   <track hide="audio" producer="playlist4"/>
   <track hide="audio" producer="playlist5"/>
  </tractor>
- <producer id="producer3" in="00:00:00.000" out="00:00:08.130">
-  <property name="length">188</property>
-  <property name="eof">pause</property>
-  <property name="resource"/>
-  <property name="meta.media.progressive">1</property>
-  <property name="aspect_ratio">1</property>
-  <property name="seekable">1</property>
-  <property name="mlt_service">kdenlivetitle</property>
-  <property name="kdenlive:duration">00:00:05:00</property>
-  <property name="kdenlive:clipname">Press This b...</property>
-  <property name="xmldata">&lt;kdenlivetitle LC_NUMERIC="C" duration="115" height="1440" out="114" width="2866">
- &lt;item type="QGraphicsTextItem" z-index="5">
-  &lt;position x="1038" y="156">
-   &lt;transform>1,0,0,0,1,0,0,0,1&lt;/transform>
-  &lt;/position>
-  &lt;content alignment="0" box-height="99" box-width="1149.14" font="Noto Sans" font-color="255,255,255,255" font-italic="0" font-pixel-size="72" font-underline="0" font-weight="400" letter-spacing="0" shadow="0;#64000000;3;3;3" tab-width="80" typewriter="0;2;1;0;0">Press This button to run the setup&lt;/content>
- &lt;/item>
- &lt;item type="QGraphicsEllipseItem" z-index="4">
-  &lt;position x="653" y="197">
-   &lt;transform zoom="100">1,0,0,0,1,0,0,0,1&lt;/transform>
-  &lt;/position>
-  &lt;content brushcolor="191,64,64,0" pencolor="237,51,59,255" penwidth="11" rect="0,0,125.087,123"/>
- &lt;/item>
- &lt;item type="QGraphicsRectItem" z-index="3">
-  &lt;position x="1029" y="169">
-   &lt;transform zoom="100">1,0,0,0,1,0,0,0,1&lt;/transform>
-  &lt;/position>
-  &lt;content brushcolor="191,64,64,0" pencolor="192,28,40,255" penwidth="8" rect="0,0,1256.22,82"/>
- &lt;/item>
- &lt;startviewport rect="0,0,2866,1440"/>
- &lt;endviewport rect="0,0,2866,1440"/>
- &lt;background color="0,0,0,0"/>
-&lt;/kdenlivetitle>
-</property>
-  <property name="xml">was here</property>
-  <property name="kdenlive:folderid">-1</property>
-  <property name="kdenlive:id">7</property>
-  <property name="kdenlive:control_uuid">{004beb8b-23ad-4641-97c0-e48b2839fb7d}</property>
-  <property name="kdenlive:clip_type">2</property>
-  <property name="kdenlive:uniqueId">{2d4b2a18-4de9-4a21-a98e-736a0d4ea7c0}</property>
-  <property name="kdenlive:file_hash">e23cc82c87bccb236254be6b811311bc</property>
-  <property name="force_reload">0</property>
-  <property name="meta.media.width">2866</property>
-  <property name="meta.media.height">1440</property>
-  <property name="kdenlive:monitorPosition">114</property>
- </producer>
- <producer id="producer4" in="00:00:00.000" out="00:00:12.391">
-  <property name="length">286</property>
-  <property name="eof">pause</property>
-  <property name="resource"/>
-  <property name="meta.media.progressive">1</property>
-  <property name="aspect_ratio">1</property>
-  <property name="seekable">1</property>
-  <property name="mlt_service">kdenlivetitle</property>
-  <property name="kdenlive:duration">00:00:05:00</property>
-  <property name="kdenlive:clipname">Add your own...</property>
-  <property name="xmldata">&lt;kdenlivetitle LC_NUMERIC="C" duration="115" height="1440" out="114" width="2866">
- &lt;item type="QGraphicsRectItem" z-index="1">
-  &lt;position x="1400" y="359">
-   &lt;transform zoom="100">1,0,0,0,1,0,0,0,1&lt;/transform>
-  &lt;/position>
-  &lt;content brushcolor="191,64,64,0" pencolor="192,28,40,255" penwidth="8" rect="0,0,1185.55,136.182"/>
- &lt;/item>
- &lt;item type="QGraphicsTextItem" z-index="0">
-  &lt;position x="1440" y="382">
-   &lt;transform>1,0,0,0,1,0,0,0,1&lt;/transform>
-  &lt;/position>
-  &lt;content alignment="0" box-height="99" box-width="1133.95" font="Noto Sans" font-color="255,255,255,255" font-italic="0" font-pixel-size="72" font-underline="0" font-weight="400" letter-spacing="0" shadow="0;#64000000;3;3;3" tab-width="80" typewriter="0;2;1;0;0">Add your own Vertex AI Project Id&lt;/content>
- &lt;/item>
- &lt;startviewport rect="0,0,2866,1440"/>
- &lt;endviewport rect="0,0,2866,1440"/>
- &lt;background color="0,0,0,0"/>
-&lt;/kdenlivetitle>
-</property>
-  <property name="xml">was here</property>
-  <property name="kdenlive:folderid">-1</property>
-  <property name="kdenlive:id">8</property>
-  <property name="kdenlive:control_uuid">{24a90b56-dd34-4fba-af0b-581b858c12d8}</property>
-  <property name="kdenlive:clip_type">2</property>
-  <property name="kdenlive:uniqueId">{823ce4d6-fdcb-4f70-ad01-3fadbbaa36eb}</property>
-  <property name="kdenlive:file_hash">1ce0866a7ae7b033ad35bb1c32a52628</property>
-  <property name="force_reload">0</property>
-  <property name="meta.media.width">2866</property>
-  <property name="meta.media.height">1440</property>
-  <property name="kdenlive:monitorPosition">32</property>
- </producer>
  <playlist id="playlist6">
   <blank length="00:00:13.696"/>
   <entry in="00:00:00.000" out="00:00:08.130" producer="producer3">
-   <property name="kdenlive:id">7</property>
+   <property name="kdenlive:id">6</property>
   </entry>
   <blank length="00:00:17.261"/>
   <entry in="00:00:00.000" out="00:00:12.391" producer="producer4">
-   <property name="kdenlive:id">8</property>
+   <property name="kdenlive:id">7</property>
   </entry>
  </playlist>
  <playlist id="playlist7"/>
@@ -429,9 +1054,9 @@
   <track hide="audio" producer="playlist6"/>
   <track hide="audio" producer="playlist7"/>
  </tractor>
- <tractor id="tractor4" in="00:00:00.000" out="00:00:58.304">
-  <property name="kdenlive:duration">00:00:58.348</property>
-  <property name="kdenlive:maxduration">1342</property>
+ <tractor id="tractor4" in="00:00:00.000" out="00:05:00.957">
+  <property name="kdenlive:duration">00:05:01.000</property>
+  <property name="kdenlive:maxduration">6923</property>
   <property name="kdenlive:clipname">Sequence 1</property>
   <property name="kdenlive:description"/>
   <property name="kdenlive:uuid">{5fb3c976-4a22-42d6-b412-d44dca6eb079}</property>
@@ -441,13 +1066,13 @@
   <property name="kdenlive:clip_type">0</property>
   <property name="kdenlive:file_hash">dacad2217d726fa9517fce5ff1430a68</property>
   <property name="kdenlive:folderid">2</property>
-  <property name="kdenlive:sequenceproperties.activeTrack">3</property>
+  <property name="kdenlive:sequenceproperties.activeTrack">2</property>
   <property name="kdenlive:sequenceproperties.audioTarget">1</property>
   <property name="kdenlive:sequenceproperties.disablepreview">0</property>
   <property name="kdenlive:sequenceproperties.documentuuid">{5fb3c976-4a22-42d6-b412-d44dca6eb079}</property>
   <property name="kdenlive:sequenceproperties.hasAudio">1</property>
   <property name="kdenlive:sequenceproperties.hasVideo">1</property>
-  <property name="kdenlive:sequenceproperties.position">1417</property>
+  <property name="kdenlive:sequenceproperties.position">1727</property>
   <property name="kdenlive:sequenceproperties.scrollPos">0</property>
   <property name="kdenlive:sequenceproperties.tracks">4</property>
   <property name="kdenlive:sequenceproperties.tracksCount">4</property>
@@ -457,6 +1082,111 @@
   <property name="kdenlive:sequenceproperties.zoneout">75</property>
   <property name="kdenlive:sequenceproperties.zoom">8</property>
   <property name="kdenlive:sequenceproperties.groups">[
+    {
+        "children": [
+            {
+                "data": "2:5708:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            },
+            {
+                "data": "1:5708:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            }
+        ],
+        "type": "AVSplit"
+    },
+    {
+        "children": [
+            {
+                "data": "2:2826:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            },
+            {
+                "data": "1:2826:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            }
+        ],
+        "type": "AVSplit"
+    },
+    {
+        "children": [
+            {
+                "data": "2:5039:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            },
+            {
+                "data": "1:5039:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            }
+        ],
+        "type": "AVSplit"
+    },
+    {
+        "children": [
+            {
+                "data": "2:1342:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            },
+            {
+                "data": "1:1342:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            }
+        ],
+        "type": "AVSplit"
+    },
+    {
+        "children": [
+            {
+                "data": "1:2489:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            },
+            {
+                "data": "2:2489:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            }
+        ],
+        "type": "AVSplit"
+    },
+    {
+        "children": [
+            {
+                "data": "2:2742:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            },
+            {
+                "data": "1:2742:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            }
+        ],
+        "type": "AVSplit"
+    },
+    {
+        "children": [
+            {
+                "data": "1:5668:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            },
+            {
+                "data": "2:5668:-1",
+                "leaf": "clip",
+                "type": "Leaf"
+            }
+        ],
+        "type": "AVSplit"
+    }
 ]
 </property>
   <property name="kdenlive:sequenceproperties.guides">[
@@ -525,6 +1255,70 @@
    <property name="disable">1</property>
   </filter>
  </tractor>
+ <chain id="chain4" out="00:04:46.261">
+  <property name="length">6585</property>
+  <property name="eof">pause</property>
+  <property name="resource">/home/konsti/Downloads/2026-06-13, 10_56_43 a.m.-Extract_and_Analyze_Legal_Contracts_with_AI.mp4</property>
+  <property name="mlt_service">avformat-novalidate</property>
+  <property name="meta.media.nb_streams">2</property>
+  <property name="meta.media.0.stream.type">video</property>
+  <property name="meta.media.0.stream.frame_rate">60</property>
+  <property name="meta.media.0.stream.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.width">1664</property>
+  <property name="meta.media.0.codec.height">1080</property>
+  <property name="meta.media.0.codec.rotate">0</property>
+  <property name="meta.media.0.codec.pix_fmt">yuv420p</property>
+  <property name="meta.media.0.codec.sample_aspect_ratio">0</property>
+  <property name="meta.media.0.codec.colorspace">709</property>
+  <property name="meta.media.0.codec.color_trc">13</property>
+  <property name="meta.media.0.codec.name">h264</property>
+  <property name="meta.media.0.codec.long_name">H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10</property>
+  <property name="meta.media.0.codec.bit_rate">1222338</property>
+  <property name="meta.attr.0.stream.handler_name.markup">VideoHandler</property>
+  <property name="meta.media.1.stream.type">audio</property>
+  <property name="meta.media.1.codec.sample_fmt">fltp</property>
+  <property name="meta.media.1.codec.sample_rate">48000</property>
+  <property name="meta.media.1.codec.channels">2</property>
+  <property name="meta.media.1.codec.layout">stereo</property>
+  <property name="meta.media.1.codec.name">aac</property>
+  <property name="meta.media.1.codec.long_name">AAC (Advanced Audio Coding)</property>
+  <property name="meta.media.1.codec.bit_rate">317373</property>
+  <property name="meta.attr.1.stream.handler_name.markup">SoundHandler</property>
+  <property name="meta.attr.major_brand.markup">isom</property>
+  <property name="meta.attr.minor_version.markup">512</property>
+  <property name="meta.attr.compatible_brands.markup">isomiso2avc1mp41</property>
+  <property name="meta.attr.encoder.markup">Lavf61.7.100</property>
+  <property name="meta.attr.comment.markup">Made with Remotion 4.0.256</property>
+  <property name="seekable">1</property>
+  <property name="meta.media.sample_aspect_num">1</property>
+  <property name="meta.media.sample_aspect_den">1</property>
+  <property name="format">3</property>
+  <property name="audio_index">1</property>
+  <property name="video_index">0</property>
+  <property name="vstream">0</property>
+  <property name="meta.media.frame_rate_num">60</property>
+  <property name="meta.media.frame_rate_den">1</property>
+  <property name="meta.media.colorspace">709</property>
+  <property name="meta.media.color_trc">13</property>
+  <property name="meta.media.has_b_frames">2</property>
+  <property name="meta.media.width">1664</property>
+  <property name="meta.media.height">1080</property>
+  <property name="meta.media.aspect_ratio">1</property>
+  <property name="meta.media.color_range">mpeg</property>
+  <property name="astream">0</property>
+  <property name="meta.media.top_field_first">0</property>
+  <property name="meta.media.progressive">1</property>
+  <property name="kdenlive:folderid">-1</property>
+  <property name="kdenlive:id">8</property>
+  <property name="kdenlive:control_uuid">{1ba99794-cc3b-4469-9fb8-11b2c9f83a8c}</property>
+  <property name="mute_on_pause">0</property>
+  <property name="kdenlive:clip_type">0</property>
+  <property name="kdenlive:file_size">55543204</property>
+  <property name="kdenlive:file_hash">76c0782817a5c28b62e54865373a0dce</property>
+  <property name="kdenlive:kextractor">1</property>
+  <property name="kdenlive:meta.extractor.Bitrate:">1552 kb/s</property>
+  <property name="kdenlive:meta.extractor.Comment:">Made with Remotion 4.0.256</property>
+ </chain>
  <playlist id="main_bin">
   <property name="kdenlive:folder.-1.2">Sequences</property>
   <property name="kdenlive:sequenceFolder">2</property>
@@ -598,9 +1392,27 @@
   <property name="kdenlive:docproperties.proxyminsize">1000</property>
   <property name="kdenlive:docproperties.proxyparams"/>
   <property name="kdenlive:docproperties.proxyresize">640</property>
+  <property name="kdenlive:docproperties.rendercategory">generic</property>
+  <property name="kdenlive:docproperties.rendercustomquality">-1</property>
+  <property name="kdenlive:docproperties.renderendguide">-1</property>
+  <property name="kdenlive:docproperties.renderexportaudio">0</property>
+  <property name="kdenlive:docproperties.renderfullcolorrange">0</property>
+  <property name="kdenlive:docproperties.rendermode">0</property>
+  <property name="kdenlive:docproperties.renderplay">0</property>
+  <property name="kdenlive:docproperties.renderpreview">0</property>
+  <property name="kdenlive:docproperties.renderprofile">MP4-H264/AAC</property>
+  <property name="kdenlive:docproperties.renderrescale">0</property>
+  <property name="kdenlive:docproperties.renderrescaleheight">722</property>
+  <property name="kdenlive:docproperties.renderrescalewidth">1434</property>
+  <property name="kdenlive:docproperties.renderspeed">6</property>
+  <property name="kdenlive:docproperties.renderstartguide">-1</property>
+  <property name="kdenlive:docproperties.renderstemaudio">0</property>
+  <property name="kdenlive:docproperties.rendertcoverlay">0</property>
+  <property name="kdenlive:docproperties.rendertctype">-1</property>
+  <property name="kdenlive:docproperties.rendertwopass">0</property>
   <property name="kdenlive:docproperties.renderurl">/home/konsti/Videos/test.mp4</property>
   <property name="kdenlive:docproperties.seekOffset">30000</property>
-  <property name="kdenlive:docproperties.sessionid">{171a4cd7-59fc-4e4b-861d-2ea9af591061}</property>
+  <property name="kdenlive:docproperties.sessionid">{857c56c5-848e-455e-bebf-26f3ffdcdbaa}</property>
   <property name="kdenlive:docproperties.uuid">{5fb3c976-4a22-42d6-b412-d44dca6eb079}</property>
   <property name="kdenlive:docproperties.version">1.1</property>
   <property name="kdenlive:expandedFolders"/>
@@ -1173,24 +1985,64 @@
             "isVisible": true,
             "multiSplitterLayout": {
                 "frames": {
-                    "3998": {
+                    "6874": {
                         "currentTabIndex": 0,
                         "dockWidgets": [
-                            "timeline"
+                            "clipmonitor",
+                            "library"
+                        ],
+                        "geometry": {
+                            "height": 656,
+                            "width": 1844,
+                            "x": 1104,
+                            "y": 0
+                        },
+                        "id": "6874",
+                        "isNull": false,
+                        "mainWindowUniqueName": "KdenliveKDDock",
+                        "objectName": "clipmonitor",
+                        "options": 0
+                    },
+                    "6938": {
+                        "currentTabIndex": 1,
+                        "dockWidgets": [
+                            "mixer",
+                            "effect_stack",
+                            "timeremap",
+                            "subtitles"
                         ],
                         "geometry": {
                             "height": 653,
-                            "width": 4068,
-                            "x": 0,
+                            "width": 1050,
+                            "x": 4068,
                             "y": 656
                         },
-                        "id": "3998",
+                        "id": "6938",
                         "isNull": false,
                         "mainWindowUniqueName": "KdenliveKDDock",
-                        "objectName": "timeline",
+                        "objectName": "effect_stack",
                         "options": 0
                     },
-                    "4029": {
+                    "7076": {
+                        "currentTabIndex": 0,
+                        "dockWidgets": [
+                            "projectmonitor",
+                            "textedit",
+                            "notes_widget"
+                        ],
+                        "geometry": {
+                            "height": 656,
+                            "width": 2170,
+                            "x": 2948,
+                            "y": 0
+                        },
+                        "id": "7076",
+                        "isNull": false,
+                        "mainWindowUniqueName": "KdenliveKDDock",
+                        "objectName": "projectmonitor",
+                        "options": 0
+                    },
+                    "7175": {
                         "currentTabIndex": 0,
                         "dockWidgets": [
                             "project_bin",
@@ -1205,67 +2057,27 @@
                             "x": 0,
                             "y": 0
                         },
-                        "id": "4029",
+                        "id": "7175",
                         "isNull": false,
                         "mainWindowUniqueName": "KdenliveKDDock",
                         "objectName": "project_bin",
                         "options": 0
                     },
-                    "4208": {
+                    "7356": {
                         "currentTabIndex": 0,
                         "dockWidgets": [
-                            "projectmonitor",
-                            "textedit",
-                            "notes_widget"
-                        ],
-                        "geometry": {
-                            "height": 656,
-                            "width": 2170,
-                            "x": 2948,
-                            "y": 0
-                        },
-                        "id": "4208",
-                        "isNull": false,
-                        "mainWindowUniqueName": "KdenliveKDDock",
-                        "objectName": "projectmonitor",
-                        "options": 0
-                    },
-                    "4305": {
-                        "currentTabIndex": 1,
-                        "dockWidgets": [
-                            "mixer",
-                            "effect_stack",
-                            "timeremap",
-                            "subtitles"
+                            "timeline"
                         ],
                         "geometry": {
                             "height": 653,
-                            "width": 1050,
-                            "x": 4068,
+                            "width": 4068,
+                            "x": 0,
                             "y": 656
                         },
-                        "id": "4305",
+                        "id": "7356",
                         "isNull": false,
                         "mainWindowUniqueName": "KdenliveKDDock",
-                        "objectName": "effect_stack",
-                        "options": 0
-                    },
-                    "4441": {
-                        "currentTabIndex": 0,
-                        "dockWidgets": [
-                            "clipmonitor",
-                            "library"
-                        ],
-                        "geometry": {
-                            "height": 656,
-                            "width": 1844,
-                            "x": 1104,
-                            "y": 0
-                        },
-                        "id": "4441",
-                        "isNull": false,
-                        "mainWindowUniqueName": "KdenliveKDDock",
-                        "objectName": "clipmonitor",
+                        "objectName": "timeline",
                         "options": 0
                     }
                 },
@@ -1318,7 +2130,7 @@
                                             }
                                         },
                                         {
-                                            "guestId": "4029",
+                                            "guestId": "7175",
                                             "isContainer": false,
                                             "isVisible": true,
                                             "sizingInfo": {
@@ -1340,7 +2152,7 @@
                                             }
                                         },
                                         {
-                                            "guestId": "4441",
+                                            "guestId": "6874",
                                             "isContainer": false,
                                             "isVisible": true,
                                             "sizingInfo": {
@@ -1362,7 +2174,7 @@
                                             }
                                         },
                                         {
-                                            "guestId": "4208",
+                                            "guestId": "7076",
                                             "isContainer": false,
                                             "isVisible": true,
                                             "sizingInfo": {
@@ -1534,7 +2346,7 @@
                                 {
                                     "children": [
                                         {
-                                            "guestId": "3998",
+                                            "guestId": "7356",
                                             "isContainer": false,
                                             "isVisible": true,
                                             "sizingInfo": {
@@ -1556,7 +2368,7 @@
                                             }
                                         },
                                         {
-                                            "guestId": "4305",
+                                            "guestId": "6938",
                                             "isContainer": false,
                                             "isVisible": true,
                                             "sizingInfo": {
@@ -1593,7 +2405,7 @@
                                             "width": 1048621
                                         },
                                         "minSize": {
-                                            "height": 119,
+                                            "height": 128,
                                             "width": 207
                                         },
                                         "percentageWithinParent": 0.4988540870893812
@@ -1615,7 +2427,7 @@
                                     "width": 1048621
                                 },
                                 "minSize": {
-                                    "height": 475,
+                                    "height": 484,
                                     "width": 961
                                 },
                                 "percentageWithinParent": 1.0
@@ -1675,33 +2487,16 @@
     ],
     "serializationVersion": 3
 }</property>
-  <property name="kdenlive:docproperties.rendercategory">generic</property>
-  <property name="kdenlive:docproperties.rendercustomquality">-1</property>
-  <property name="kdenlive:docproperties.renderendguide">-1</property>
-  <property name="kdenlive:docproperties.renderexportaudio">0</property>
-  <property name="kdenlive:docproperties.renderfullcolorrange">0</property>
-  <property name="kdenlive:docproperties.rendermode">0</property>
-  <property name="kdenlive:docproperties.renderplay">0</property>
-  <property name="kdenlive:docproperties.renderpreview">0</property>
-  <property name="kdenlive:docproperties.renderprofile">MP4-H264/AAC</property>
-  <property name="kdenlive:docproperties.renderrescale">0</property>
-  <property name="kdenlive:docproperties.renderrescaleheight">722</property>
-  <property name="kdenlive:docproperties.renderrescalewidth">1434</property>
-  <property name="kdenlive:docproperties.renderspeed">6</property>
-  <property name="kdenlive:docproperties.renderstartguide">-1</property>
-  <property name="kdenlive:docproperties.renderstemaudio">0</property>
-  <property name="kdenlive:docproperties.rendertcoverlay">0</property>
-  <property name="kdenlive:docproperties.rendertctype">-1</property>
-  <property name="kdenlive:docproperties.rendertwopass">0</property>
   <property name="xml_retain">1</property>
   <entry in="00:00:00.000" out="00:01:35.217" producer="chain0"/>
   <entry in="00:00:00.000" out="00:01:14.087" producer="chain1"/>
+  <entry in="00:00:00.000" out="00:00:08.130" producer="producer3"/>
+  <entry in="00:00:00.000" out="00:00:12.391" producer="producer4"/>
   <entry in="00:00:00.000" out="00:00:58.304" producer="tractor4"/>
-  <entry in="00:00:00.000" out="00:00:04.957" producer="producer3"/>
-  <entry in="00:00:00.000" out="00:00:04.957" producer="producer4"/>
+  <entry in="00:00:00.000" out="00:04:46.261" producer="chain4"/>
  </playlist>
- <tractor id="tractor5" in="00:00:00.000" out="00:00:58.304">
+ <tractor id="tractor5" in="00:00:00.000" out="00:05:00.957">
   <property name="kdenlive:projectTractor">1</property>
-  <track in="00:00:00.000" out="00:00:58.304" producer="tractor4"/>
+  <track in="00:00:00.000" out="00:05:00.957" producer="tractor4"/>
  </tractor>
 </mlt>
