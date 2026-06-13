@@ -1,5 +1,7 @@
 # CHANGES.md
 
+This document provides an overview of the key reviewer feedback during presentation and the resulting improvements and design decisions.
+
 ## Feedback Summary
 
 Overall feedback was very positive. Reviewers appreciated:
@@ -11,7 +13,7 @@ Overall feedback was very positive. Reviewers appreciated:
 - The emphasis on reducing hallucinations and increasing reliability.
 
 ## Main Improvement Suggestions
-The following sections address the most frequently recurring feedback points raised by reviewers during presentation.
+The following sections address the most frequently recurring improvement suggestions raised by reviewers during presentation.
 
 ### Evaluation, Metrics & Testing
 Reviewers encouraged additional testing with larger document collections and more challenging legal scenarios.
