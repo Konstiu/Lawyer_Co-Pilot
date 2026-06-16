@@ -69,4 +69,9 @@ Some reviewers suggested:
 - Better use of whitespace and layout balance
 
 **Changes made:**  
-_[Describe poster improvements here.]_
+- Increased text size to improve readability from a distance.
+- Reduced and condensed text content to lower visual complexity.
+- Reformulated key design decisions to communicate project goals and architectural choices more clearly.
+- Added an explicit list of evaluation metrics to improve transparency of the evaluation methodology.
+- Introduced a visual user workflow illustrating the complete process from document upload to extraction, rule review, and question answering.
+- Improved whitespace usage and overall layout balance to create a cleaner and more structured poster design.
