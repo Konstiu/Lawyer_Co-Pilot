@@ -3,6 +3,10 @@
 A small-scale Harvey/Legora — upload contracts, extract structured data,
 run playbook reviews, and ask questions with exact source citations.
 
+## DEMO
+https://github.com/user-attachments/assets/e31f4f33-c511-4ec9-9d5a-46f5374b6d44
+
+
 ## Additional Documents
 
 - [CHANGES.md](./CHANGES.md)
